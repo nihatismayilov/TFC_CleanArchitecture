@@ -7,6 +7,15 @@
 
 import UIKit
 
+extension String? {
+    var orEmpty: String {
+        self ?? ""
+    }
+    var isNilOrEmpty: Bool {
+        self == nil || self == ""
+    }
+}
+
 extension String {
     func format(with mask: String) -> String {
         let numbers = replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
