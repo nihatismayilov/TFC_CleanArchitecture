@@ -31,6 +31,11 @@
 		B80BDAD72C4E6D7B00DA8BB6 /* CoreDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDAD62C4E6D7B00DA8BB6 /* CoreDataClient.swift */; };
 		B80BDADA2C4E6D9300DA8BB6 /* RemoteToLocalMappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDAD92C4E6D9300DA8BB6 /* RemoteToLocalMappers.swift */; };
 		B80BDADC2C4E6D9D00DA8BB6 /* LocalToDomainMappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDADB2C4E6D9D00DA8BB6 /* LocalToDomainMappers.swift */; };
+		B846F7A42C526128008E8407 /* RegisterRemoteDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A32C526128008E8407 /* RegisterRemoteDataSourceProtocol.swift */; };
+		B846F7A62C526160008E8407 /* RegisterRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A52C526160008E8407 /* RegisterRemoteDataSource.swift */; };
+		B846F7A82C52642D008E8407 /* RegisterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A72C52642D008E8407 /* RegisterAPI.swift */; };
+		B846F7AA2C5267E6008E8407 /* RegisterRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A92C5267E6008E8407 /* RegisterRepo.swift */; };
+		B846F7B12C52722A008E8407 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7B02C52722A008E8407 /* RegisterRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,6 +76,11 @@
 		B80BDAD62C4E6D7B00DA8BB6 /* CoreDataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataClient.swift; sourceTree = "<group>"; };
 		B80BDAD92C4E6D9300DA8BB6 /* RemoteToLocalMappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteToLocalMappers.swift; sourceTree = "<group>"; };
 		B80BDADB2C4E6D9D00DA8BB6 /* LocalToDomainMappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalToDomainMappers.swift; sourceTree = "<group>"; };
+		B846F7A32C526128008E8407 /* RegisterRemoteDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRemoteDataSourceProtocol.swift; sourceTree = "<group>"; };
+		B846F7A52C526160008E8407 /* RegisterRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRemoteDataSource.swift; sourceTree = "<group>"; };
+		B846F7A72C52642D008E8407 /* RegisterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAPI.swift; sourceTree = "<group>"; };
+		B846F7A92C5267E6008E8407 /* RegisterRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRepo.swift; sourceTree = "<group>"; };
+		B846F7B02C52722A008E8407 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				B80BDAAE2C4E44D200DA8BB6 /* TestRepo.swift */,
+				B846F7A92C5267E6008E8407 /* RegisterRepo.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -149,6 +160,7 @@
 		B80BDAB02C4E451F00DA8BB6 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
+				B846F7A22C526107008E8407 /* Register */,
 				B80BDAB12C4E452C00DA8BB6 /* Test */,
 			);
 			path = Remote;
@@ -194,6 +206,7 @@
 		B80BDAC82C4E6AB200DA8BB6 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				B846F7AF2C52721C008E8407 /* Register */,
 				B80BDAC92C4E6AB700DA8BB6 /* Test */,
 				B80BDACA2C4E6AC000DA8BB6 /* ErrorResponse.swift */,
 				B80BDACC2C4E6ACE00DA8BB6 /* EmptyParams.swift */,
@@ -233,6 +246,24 @@
 				B80BDADB2C4E6D9D00DA8BB6 /* LocalToDomainMappers.swift */,
 			);
 			path = Mapper;
+			sourceTree = "<group>";
+		};
+		B846F7A22C526107008E8407 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				B846F7A32C526128008E8407 /* RegisterRemoteDataSourceProtocol.swift */,
+				B846F7A52C526160008E8407 /* RegisterRemoteDataSource.swift */,
+				B846F7A72C52642D008E8407 /* RegisterAPI.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		B846F7AF2C52721C008E8407 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				B846F7B02C52722A008E8407 /* RegisterRequest.swift */,
+			);
+			path = Register;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,14 +353,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B846F7AA2C5267E6008E8407 /* RegisterRepo.swift in Sources */,
 				B80BDACF2C4E6AE200DA8BB6 /* TestLocalDTO.swift in Sources */,
 				B80BDAD12C4E6AED00DA8BB6 /* TestRemoteDTO.swift in Sources */,
+				B846F7A82C52642D008E8407 /* RegisterAPI.swift in Sources */,
 				B80BDABC2C4E69B100DA8BB6 /* TestLocalDataSource.swift in Sources */,
+				B846F7B12C52722A008E8407 /* RegisterRequest.swift in Sources */,
 				B80BDADC2C4E6D9D00DA8BB6 /* LocalToDomainMappers.swift in Sources */,
 				B80BDAB72C4E457700DA8BB6 /* TestAPI.swift in Sources */,
 				B80BDAA62C4E425800DA8BB6 /* NetworkLogger.swift in Sources */,
 				B80BDADA2C4E6D9300DA8BB6 /* RemoteToLocalMappers.swift in Sources */,
+				B846F7A42C526128008E8407 /* RegisterRemoteDataSourceProtocol.swift in Sources */,
 				B80BDAC22C4E6A2700DA8BB6 /* NetworkDispatcher.swift in Sources */,
+				B846F7A62C526160008E8407 /* RegisterRemoteDataSource.swift in Sources */,
 				B80BDABA2C4E69A200DA8BB6 /* TestLocalDataSourceProtocol.swift in Sources */,
 				B80BDAD72C4E6D7B00DA8BB6 /* CoreDataClient.swift in Sources */,
 				B80BDAA22C4E424700DA8BB6 /* Logger.swift in Sources */,

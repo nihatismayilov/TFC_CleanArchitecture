@@ -36,6 +36,7 @@
 		B88CFDC72C4FC6E60079EECF /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CFDC62C4FC6E60079EECF /* UILabel+Extensions.swift */; };
 		B88CFDC92C4FD5910079EECF /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CFDC82C4FD5910079EECF /* UIButton+Extensions.swift */; };
 		B88CFDCB2C4FD7650079EECF /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CFDCA2C4FD7650079EECF /* BaseButton.swift */; };
+		B8CD2A7B2C537B2A006E6C91 /* PersonalInformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD2A7A2C537B2A006E6C91 /* PersonalInformationVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,6 +85,7 @@
 		B88CFDC62C4FC6E60079EECF /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		B88CFDC82C4FD5910079EECF /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		B88CFDCA2C4FD7650079EECF /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		B8CD2A7A2C537B2A006E6C91 /* PersonalInformationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,10 +159,11 @@
 		B80BDAE12C4E77B300DA8BB6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				B86B509F2C5135460083A038 /* OTP */,
-				B86B50962C512B930083A038 /* Register */,
-				B88CFDB12C4F89DD0079EECF /* ForceUpdate */,
 				B80BDAF62C4E846600DA8BB6 /* Tabbar */,
+				B88CFDB12C4F89DD0079EECF /* ForceUpdate */,
+				B86B50962C512B930083A038 /* Register */,
+				B86B509F2C5135460083A038 /* OTP */,
+				B8CD2A772C537AF4006E6C91 /* PersonalInformation */,
 				B80BDADD2C4E772800DA8BB6 /* Test */,
 			);
 			path = Screens;
@@ -325,6 +328,30 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		B8CD2A772C537AF4006E6C91 /* PersonalInformation */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD2A792C537B1C006E6C91 /* View */,
+				B8CD2A782C537B18006E6C91 /* ViewModel */,
+			);
+			path = PersonalInformation;
+			sourceTree = "<group>";
+		};
+		B8CD2A782C537B18006E6C91 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B8CD2A792C537B1C006E6C91 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD2A7A2C537B2A006E6C91 /* PersonalInformationVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -412,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B88CFDB42C4F89EB0079EECF /* ForceUpdateVC.swift in Sources */,
+				B8CD2A7B2C537B2A006E6C91 /* PersonalInformationVC.swift in Sources */,
 				B86B509E2C512FF30083A038 /* String+Extensions.swift in Sources */,
 				B88CFDC32C4FC3220079EECF /* UITableView+Extensions.swift in Sources */,
 				B88CFDBD2C4FC2A30079EECF /* UIStackView+Extensions.swift in Sources */,

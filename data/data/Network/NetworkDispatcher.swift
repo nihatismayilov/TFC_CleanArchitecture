@@ -17,7 +17,8 @@ protocol Dispatcher {
         headers: HTTPHeaders,
         params: I?,
         encoder: ParameterEncoder
-    ) async throws -> O
+//        encoding: ParameterEncoding
+    ) async throws -> O?
 }
 
 class NetworkDispatcher: Dispatcher {
@@ -58,18 +59,24 @@ class NetworkDispatcher: Dispatcher {
         method: HTTPMethod,
         headers: HTTPHeaders,
         params: I?,
+//        encoding: ParameterEncoding
         encoder: ParameterEncoder
-    ) async throws -> O {
+    ) async throws -> O? {
         let response = await self.session.request(
-            "\(baseUrl)\(endpoint)",
+            "\(baseUrl.rawValue)\(endpoint)",
             method: method,
             parameters: params,
-            encoder: encoder,
+//            encoder: JSONEncoding.default,
+//            encoding: encoding,
             headers: headers
         ).serializingDecodable(O.self).response
 
         guard response.response?.statusCode != 401 else {
             throw UnauthorizedError()
+        }
+        
+        guard response.response?.statusCode != 204 else {
+            return true as? O
         }
 
         return try response.result.mapError { afError in

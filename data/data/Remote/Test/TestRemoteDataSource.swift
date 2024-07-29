@@ -24,6 +24,6 @@ class TestRemoteDataSource: TestRemoteDataSourceProtocol {
             headers: .default,
             params: EmptyParams(),
             encoder: URLEncodedFormParameterEncoder.default
-        )
+        )!
     }
 }

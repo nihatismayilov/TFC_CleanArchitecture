@@ -15,6 +15,7 @@ class BaseInterceptor: RequestInterceptor {
         let baseHeader: HTTPHeader = HTTPHeader(name: "Accept", value: "application/json")
         
         urlRequest.headers.add(baseHeader)
+        urlRequest.headers.add(HTTPHeader(name: "x-requestid", value: UUID().uuidString))
 
         completion(.success(urlRequest))
     }

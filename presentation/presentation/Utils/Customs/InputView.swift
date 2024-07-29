@@ -44,6 +44,8 @@ extension InputViewDelegate {
 class InputView: UIView {
     // MARK: - Variables
     weak var delegate: InputViewDelegate?
+    var isActive: Bool = false
+    var hasError: Bool = false
     private var _hasRightIcon: Bool = false
     var isDropdownShown = false
     var rightImage: UIImage = UIImage(systemName: "chevron.down")! {
@@ -224,7 +226,7 @@ class InputView: UIView {
             textStackView.leadingAnchor.constraint(equalTo: textFieldBack.leadingAnchor, constant: 12),
             textStackView.trailingAnchor.constraint(equalTo: textFieldBack.trailingAnchor, constant: -12),
             
-            rightButton.heightAnchor.constraint(equalToConstant: 20),
+            rightButton.heightAnchor.constraint(equalToConstant: 24),
             rightButton.widthAnchor.constraint(equalToConstant: 24),
             textField.rightAnchor.constraint(equalTo: rightButton.leftAnchor, constant: -20),
             
@@ -241,7 +243,8 @@ class InputView: UIView {
         delegate?.didTapTextField(textField: self)
     }
     
-    func showError(text: String){
+    func showError(text: String) {
+        hasError = true
         errorLabel.text = text
         errorView.isHidden = text.isEmpty
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
@@ -251,7 +254,8 @@ class InputView: UIView {
             titleLabel.textColor = .red600
         }
     }
-    func hideError(){
+    func hideError() {
+        hasError = false
         errorView.isHidden = true
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
             guard let self else {return}
@@ -261,7 +265,8 @@ class InputView: UIView {
         }
     }
     
-    private func becomeActive(){
+    private func becomeActive() {
+        isActive = true
         UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
             guard let self else {return}
             let colorProvider = UIColor { [unowned self] trait in
@@ -272,7 +277,8 @@ class InputView: UIView {
             tintColor = colorProvider
         }
     }
-    private func becomeDeactive(){
+    private func becomeDeactive() {
+        isActive = false
         UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
             guard let self else {return}
             let colorProvider = UIColor { trait in
@@ -281,6 +287,23 @@ class InputView: UIView {
                 return trColor
             }
             tintColor = colorProvider
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard hasError == false else { return }
+        if traitCollection.userInterfaceStyle == .dark {
+            if isActive {
+                textFieldBack.borderColor = .neutral1
+            } else {
+                textFieldBack.borderColor = .secondaryBorder
+            }
+        } else {
+            if isActive {
+                textFieldBack.borderColor = .neutral900
+            } else {
+                textFieldBack.borderColor = .secondaryBorder
+            }
         }
     }
     
@@ -327,7 +350,7 @@ class InputView: UIView {
     }
 }
 
-extension InputView: UITextFieldDelegate{
+extension InputView: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return delegate?.textFieldShouldBeginEditing(self) ?? true
     }

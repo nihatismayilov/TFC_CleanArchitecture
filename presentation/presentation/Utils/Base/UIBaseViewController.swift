@@ -30,7 +30,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     // MARK: - Controller delegates
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .background
+        setupBase()
         
         self.setText()
         setBindings()
@@ -77,6 +77,13 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
     
     // MARK: - Initializations
+    private func setupBase() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnView))
+        gesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(gesture)
+        view.backgroundColor = .background
+    }
+    
     func setText() { }
     
     func setBindings() { }
@@ -87,6 +94,9 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     func initViews() { }
     
     // MARK: - Subscriptions
+    @objc fileprivate func didTapOnView(_ sender: UITapGestureRecognizer){
+        view.endEditing(true)
+    }
     
 //    func observe(effect: Effect) { }
 //

@@ -42,9 +42,12 @@ public struct DomainDIConfigurator {
         container.register(SyncTestDataUseCase.self) {
             SyncTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
         }
-        
         container.register(ObserveTestDataUseCase.self) {
             ObserveTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
+        }
+        
+        container.register(RegisterUseCase.self) {
+            RegisterUseCase(repo: container.resolve(RegisterRepoProtocol.self)!)
         }
     }
 }

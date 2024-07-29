@@ -122,7 +122,9 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
         case closeButton:
             dismiss(animated: true)
         case sendButton:
-            navigationController?.pushViewController(Router.getOtpVC(), animated: true)
+            print("nt testing",  viewModel.registerSuccess)
+            viewModel.register(by: "994993334696")
+//            navigationController?.pushViewController(Router.getOtpVC(), animated: true)
 //            pushNavigation(Router.getOtpVC())
         default: break
         }

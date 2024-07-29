@@ -14,21 +14,25 @@ public struct PresentationDIConfigurator {
         container.register(TabbarController.self) {
             TabbarController()
         }
-        container.register(TestVC.self) {
-            TestVC()
+        container.register(ForceUpdateVC.self) {
+            ForceUpdateVC(vm: container.resolve(BaseViewModel.self)!)
         }
         container.register(RegisterVC.self) {
-            RegisterVC(vm: container.resolve(BaseViewModel.self)!)
+            RegisterVC(vm: container.resolve(RegisterVM.self)!)
         }
         container.register(OtpVC.self) {
             OtpVC(vm: container.resolve(BaseViewModel.self)!)
         }
-        container.register(ForceUpdateVC.self) {
-            ForceUpdateVC(vm: container.resolve(BaseViewModel.self)!)
+        container.register(PersonalInformationVC.self) {
+            PersonalInformationVC(vm: container.resolve(BaseViewModel.self)!)
         }
         // MARK: - View Models
         container.register(BaseViewModel.self) {
             BaseViewModel()
+        }
+        
+        container.register(RegisterVM.self) {
+            return RegisterVM(registerUseCase: container.resolve(RegisterUseCase.self)!)
         }
     }
 }

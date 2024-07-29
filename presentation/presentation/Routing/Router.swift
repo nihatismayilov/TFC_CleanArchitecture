@@ -11,8 +11,8 @@ import domain
 class Router {
     private init() {}
     
-    static func getTestVC() -> TestVC {
-        return DIContainer.shared.resolve(TestVC.self)!
+    static func getForceUpdateVC() -> ForceUpdateVC {
+        return DIContainer.shared.resolve(ForceUpdateVC.self)!
     }
     static func getRegisterVC() -> RegisterVC {
         return DIContainer.shared.resolve(RegisterVC.self)!
@@ -20,7 +20,7 @@ class Router {
     static func getOtpVC() -> OtpVC {
         return DIContainer.shared.resolve(OtpVC.self)!
     }
-    static func getForceUpdateVC() -> ForceUpdateVC {
-        return DIContainer.shared.resolve(ForceUpdateVC.self)!
+    static func getPersonalInformationVC() -> PersonalInformationVC {
+        return DIContainer.shared.resolve(PersonalInformationVC.self)!
     }
 }
