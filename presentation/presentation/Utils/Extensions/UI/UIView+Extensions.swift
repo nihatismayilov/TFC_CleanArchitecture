@@ -9,6 +9,16 @@ import UIKit
 
 extension UIView {
     
+    convenience init(backgroundColor: UIColor = .clear, cornerRadius: CGFloat = 0) {
+        self.init()
+        
+        self.backgroundColor = backgroundColor
+        
+        self.cornerRadius = cornerRadius
+        
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     var cornerRadius: CGFloat {
         get {
             layer.cornerRadius

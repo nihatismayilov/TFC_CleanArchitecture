@@ -7,181 +7,170 @@
 
 import UIKit
 
-//public class TabbarController: UITabBarController {
-//    private var backViews: [UIView] = []
-//    
-//    public override func viewDidLoad() {
-//        super.viewDidLoad()
-//        setupView()
-//        setupTabbarItems()
-//    }
-//    
-//    private func setupView() {
-//        UITabBar.appearance().barTintColor = .neutral800
-//        view.backgroundColor = .neutral800
-//        
-//        tabBar.barStyle = .default
-//        tabBar.tintColor = .white
-//        tabBar.unselectedItemTintColor = .lightGray
-//        tabBar.isTranslucent = false
-//        
-//        tabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
-//        tabBar.layer.shadowRadius = 5
-//        tabBar.layer.shadowColor = UIColor.black.cgColor
-//        tabBar.layer.shadowOpacity = 0.1
-//    }
-//    
-//    private func setupTabbarItems() {
-//        let homeNav = UINavigationController(
-//            rootViewController: Router.getPersonalInformationVC()
-//        )
-//        let liveNav = UINavigationController(
-//            rootViewController: Router.getForceUpdateVC()
-//        )
-//        let sportNav = UINavigationController(
-//            rootViewController: Router.getForceUpdateVC()
-//        )
-//        let couponNav = UINavigationController(
-//            rootViewController: Router.getForceUpdateVC()
-//        )
-//        let menuNav = UINavigationController(
-//            rootViewController: Router.getForceUpdateVC()
-//        )
-//        
-//        homeNav.tabBarItem = UITabBarItem(title: "Home",
-//                                          image: .icHome,
-//                                          selectedImage: .icHome)
-//        
-//        liveNav.tabBarItem = UITabBarItem(title: "Live",
-//                                          image: .icLive,
-//                                          selectedImage: .icLive)
-//        
-//        sportNav.tabBarItem = UITabBarItem(title: "Sports",
-//                                           image: .icSport,
-//                                           selectedImage: .icSport)
-//        
-//        couponNav.tabBarItem = UITabBarItem(title: "Coupons",
-//                                            image: .icCoupon,
-//                                            selectedImage: .icCoupon)
-//        
-//        menuNav.tabBarItem = UITabBarItem(title: "Menu",
-//                                          image: .icMenu,
-//                                          selectedImage: .icMenu)
-//        
-//        setViewControllers(
-//            [homeNav, liveNav, sportNav, couponNav, menuNav],
-//            animated: false
-//        )
-//    }
-//}
-
 public class TabbarController: UITabBarController {
-    let tabbarItemBackgroundView = UIView()
-    var centerConstraint: NSLayoutConstraint?
-    var buttons : [UIButton] = []
+    var tabbarViews : [TabbarView] = []
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        setupTabbar()
         generateControllers()
     }
     
-    private func setupView() {
-        view.addSubview(tabbarItemBackgroundView)
-        tabbarItemBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupTabbar() {
+        UITabBar.appearance().barTintColor = .neutral800
+        view.backgroundColor = .neutral800
         
-        for x in 0..<buttons.count {
-            view.addSubview(buttons[x])
-            buttons[x].translatesAutoresizingMaskIntoConstraints = false
-            buttons[x].tag = x
+        tabBar.barStyle = .default
+        tabBar.tintColor = .white
+        tabBar.unselectedItemTintColor = .lightGray
+        tabBar.isTranslucent = false
+        
+        tabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
+        tabBar.layer.shadowRadius = 5
+        tabBar.layer.shadowColor = UIColor.black.cgColor
+        tabBar.layer.shadowOpacity = 0.1
+    }
+    
+    private func setupView() {
+        for x in 0..<tabbarViews.count {
+            view.addSubview(tabbarViews[x])
+            tabbarViews[x].translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                buttons[x].centerYAnchor.constraint(equalTo: tabBar.centerYAnchor),
-                buttons[x].widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/CGFloat(buttons.count)),
-                buttons[x].heightAnchor.constraint(equalTo: tabBar.heightAnchor),
+                tabbarViews[x].centerYAnchor.constraint(equalTo: tabBar.centerYAnchor),
+                tabbarViews[x].widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/CGFloat(tabbarViews.count)),
+                tabbarViews[x].heightAnchor.constraint(equalTo: tabBar.heightAnchor),
             ])
             if x == 0 {
-                buttons[x].leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+                tabbarViews[x].leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
             } else {
-                buttons[x].leftAnchor.constraint(equalTo: buttons[x-1].rightAnchor).isActive = true
+                tabbarViews[x].leftAnchor.constraint(equalTo: tabbarViews[x-1].rightAnchor).isActive = true
             }
-            buttons[x].addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+            tabbarViews[x].addGestureRecognizer(gesture)
         }
-        
-        centerConstraint = tabbarItemBackgroundView.centerXAnchor.constraint(equalTo: buttons[0].centerXAnchor)
-        centerConstraint?.isActive = true
-        
-        
-        tabbarItemBackgroundView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/CGFloat(buttons.count), constant: -10).isActive = true
-        tabbarItemBackgroundView.heightAnchor.constraint(equalTo: tabBar.heightAnchor, constant: -10).isActive = true
-        tabbarItemBackgroundView.centerYAnchor.constraint(equalTo: tabBar.centerYAnchor).isActive = true
-        tabbarItemBackgroundView.layer.cornerRadius = 25
-        tabbarItemBackgroundView.backgroundColor = .orange
     }
     
     private func generateControllers(){
-        let home = generateViewControllers(image: UIImage(systemName: "house.fill")!, vc: Router.getPersonalInformationVC())
-        let profile = generateViewControllers(image: UIImage(systemName: "person.fill")!, vc: Router.getPersonalInformationVC())
-        let setting = generateViewControllers(image: UIImage(systemName: "gearshape.fill")!, vc: Router.getPersonalInformationVC())
-        let bookmark = generateViewControllers(image: UIImage(systemName: "bookmark.fill")!, vc: Router.getPersonalInformationVC())
-        let bookmark2 = generateViewControllers(image: UIImage(systemName: "heart.fill")!, vc: Router.getPersonalInformationVC())
-        viewControllers = [home, profile, setting, bookmark, bookmark2]
+        let home = generateViewControllers(image: .icHome, title: "Ana səhifə", isSelected: true, vc: Router.getForceUpdateVC())
+        let live = generateViewControllers(image: .icLive, title: "Canlı", isSelected: false, vc: Router.getPersonalInformationVC())
+        let sport = generateViewControllers(image: .icSport, title: "İdman", isSelected: false, vc: Router.getRegisterVC())
+        let coupon = generateViewControllers(image: .icCoupon, title: "Kuponlarım", isSelected: false, vc: Router.getOtpVC())
+        let menu = generateViewControllers(image: .icMenu, title: "Menyu", isSelected: false, vc: Router.getOtpVC())
+        viewControllers = [home, live, sport, coupon, menu]
         
         setupView()
     }
     
-    private func generateViewControllers(image: UIImage, vc: UIViewController) -> UIViewController {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .orange
-        let image = image
-        button.setImage(image, for: .normal)
-        buttons.append(button)
+    private func generateViewControllers(image: UIImage, title: String, isSelected: Bool, vc: UIViewController) -> UIViewController {
+        let tabbarView = TabbarView(image: image, title: title, isSelected: isSelected)
+        tabbarView.translatesAutoresizingMaskIntoConstraints = false
+        tabbarView.isSelected = isSelected
+        tabbarViews.append(tabbarView)
         return vc
     }
     
-    @objc private func buttonTapped(sender: UIButton) {
-        selectedIndex = sender.tag
-        
-        for button in buttons {
-            button.tintColor = .orange
+    @objc private func viewTapped(sender: UITapGestureRecognizer) {
+        tabbarViews.enumerated().forEach { index, view in
+            tabbarViews[index].isSelected = false
+            if view == sender.view {
+                selectedIndex = index
+                tabbarViews[index].isSelected = true
+            }
         }
-        
-        self.centerConstraint?.isActive = false
-        self.centerConstraint = self.tabbarItemBackgroundView.centerXAnchor.constraint(equalTo: self.buttons[sender.tag].centerXAnchor)
-        self.centerConstraint?.isActive = true
-        self.buttons[sender.tag].tintColor = .black
-        self.view.layoutIfNeeded()
     }
 }
 
-//class TabbarView: UIView {
-//    var image: UIImage? {
-//        get {
-//            imageView.image
-//        } set {
-//            imageView.image = newValue
-//        }
-//    }
-//    private lazy var stackView = UIStackView(
-//        axis: .vertical,
-//        alignment: .fill,
-//        distribution: .equalSpacing,
-//        spacing: 4
-//    )
-//    
-//    private lazy var imageView: UIImageView = {
-//        let imageView = UIImageView()
-//        
-//        return imageView
-//    }()
-//    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        setup()
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//        setup()
-//    }
-//}
+class TabbarView: UIView {
+    // MARK: - Variables
+    var isSelected: Bool = false {
+        didSet {
+            updateSelectionUI(isSelected)
+        }
+    }
+    var image: UIImage? {
+        get {
+            imageView.image
+        } set {
+            imageView.image = newValue
+        }
+    }
+    var title: String? {
+        get {
+            titleLabel.text
+        } set {
+            titleLabel.text = newValue
+        }
+    }
+    
+    // MARK: - UI Components
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .neutral300
+        
+        return imageView
+    }()
+    
+    private lazy var titleView = UIView(backgroundColor: .clear, cornerRadius: 8)
+    
+    private lazy var titleLabel = UILabel(
+        textColor: .neutral900,
+        textAlignment: .center,
+        numberOfLines: 1,
+        font: .systemFont(ofSize: 10, weight: .medium)
+    )
+    
+    // MARK: - Initializations
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
+    
+    init(image: UIImage, title: String, isSelected: Bool) {
+        super.init(frame: .zero)
+        setup()
+        self.image = image
+        self.title = title
+        self.isSelected = isSelected
+    }
+    
+    // MARK: - Functions
+    private func setup() {
+        addSubviews(imageView, titleView)
+        titleView.addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 24),
+            imageView.heightAnchor.constraint(equalToConstant: 24),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            titleView.heightAnchor.constraint(equalToConstant: 16),
+            titleView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            titleView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 6),
+            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -6),
+            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+        ])
+    }
+    
+    private func updateSelectionUI(_ isSelected: Bool) {
+        if isSelected == true {
+            titleView.backgroundColor = .white
+            titleLabel.textColor = .neutral900
+            imageView.tintColor = .neutral1
+        } else {
+            titleView.backgroundColor = .clear
+            titleLabel.textColor = .neutral300
+            imageView.tintColor = .neutral300
+        }
+    }
+}
