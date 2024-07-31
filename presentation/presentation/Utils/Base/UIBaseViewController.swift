@@ -12,9 +12,9 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     // MARK: - Variables
     private var cancellables: Set<AnyCancellable> = .init()
     
-    var isPageInitialized = false
+    //var isPageInitialized = false
     
-//    private var progressView = ProgressView()
+    private var loadingView = LoadingView()
     
     internal let viewModel: VM
     
@@ -32,42 +32,40 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         super.viewDidLoad()
         setupBase()
         
-        self.setText()
+        setText()
         setBindings()
-        self.initViews()
-        self.initVars()
-        self.isPageInitialized = true
+        initViews()
+        initVars()
+        //self.isPageInitialized = true
+        
+        let loadingSubscription = viewModel.observeLoading().sink { [weak self] isLoading in
+            guard let self else { return }
+            if isLoading {
+                startAnimating()
+            } else {
+                stopAnimating()
+            }
+        }
+        
+        let baseEffectSubscription = self.viewModel.observeBaseEffect().sink { [weak self] effect in
+            guard let self else { return }
+            observe(baseEffect: effect)
+        }
+        
+//        let errorSubscription = viewModel.observeError().sink { [weak self] message in
+//            guard let self else { return }
+//            promptAlert(title: "", content: message, actionTitle: "OK") {
+//                self.dismiss(animated: true)
+//            }
+//        }
+        self.addCancellable(loadingSubscription)
+        self.addCancellable(baseEffectSubscription)
+//        self.addCancellable(errorSubscription)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.setText()
-
-//        let baseEffectSubscription = self.viewModel.observeBaseEffect().sink { effect in
-//            self.observe(baseEffect: effect)
-//        }
-        
-//        let effectSubscription = self.viewModel.observeEffect().sink { effect in
-//            self.observe(effect: effect)
-//        }
-
-//        let stateSubscription = self.viewModel.observeState().sink { state in
-//            self.observe(state: state)
-//        }
-
-        let loadingSubscription = self.viewModel.observeLoading().sink { isLoading in
-            if isLoading {
-//                self.startAnimating()
-            } else {
-//                self.stopAnimating()
-            }
-        }
-
-//        self.addCancellable(baseEffectSubscription)
-//        self.addCancellable(effectSubscription)
-//        self.addCancellable(stateSubscription)
-//        self.addCancellable(loadingSubscription)
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
@@ -100,18 +98,17 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
 //    func observe(effect: Effect) { }
 //
-//    func observe(baseEffect: BaseEffect) {
-//        switch baseEffect {
-//        case .error(let error):
-//            let uiError = error as? UIError ?? UIError(type: .unknown)
-//
-//            self.promptAlert(title: uiError.getTitle(),
-//                             content: uiError.getText(),
-//                             actionTitle: uiError.getActionBtn()) {
-//
-//            }
-//        }
-//    }
+    func observe(baseEffect: BaseEffect) {
+        switch baseEffect {
+        case .error(let title, let message):
+
+            self.promptAlert(title: title,
+                             content: message,
+                             actionTitle: "OK") {
+                self.dismiss(animated: true)
+            }
+        }
+    }
 
 //    func observe(state: State) { }
     
@@ -121,17 +118,14 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
         
     func startAnimating() {
-//        self.progressView = ProgressView()
-//        addChild(self.progressView)
-//        self.progressView.view.frame = view.frame
-//        view.addSubview(self.progressView.view)
-//        self.progressView.didMove(toParent: self)
+        loadingView = LoadingView()
+        loadingView.frame = view.frame
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
     }
 
     func stopAnimating() {
-//        self.progressView.willMove(toParent: nil)
-//        self.progressView.view.removeFromSuperview()
-//        self.progressView.removeFromParent()
+        loadingView.removeFromSuperview()
     }
     
     func promptAlert(title: String,
@@ -144,7 +138,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         let actionBtn = UIAlertAction(title: actionTitle, style: .default, handler: { action in
             onAction()
         })
-//        actionBtn.setValue(ColorName.mountainMeadow.color, forKey: "titleTextColor")
+        actionBtn.setValue(UIColor.red600, forKey: "titleTextColor")
 
         alert.addAction(actionBtn)
         self.present(alert, animated: true)
@@ -162,14 +156,14 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         let actionPositiveBtn = UIAlertAction(title: positiveActionTitle, style: .default, handler: { action in
             onPositiveAction()
         })
-//        actionPositiveBtn.setValue(ColorName.mountainMeadow.color, forKey: "titleTextColor")
+        actionPositiveBtn.setValue(UIColor.red600, forKey: "titleTextColor")
 
         alert.addAction(actionPositiveBtn)
         
         let actionNegativeBtn = UIAlertAction(title: negativeActionTitle, style: .cancel, handler: { action in
             onNegativeAction()
         })
-//        actionNegativeBtn.setValue(ColorName.mountainMeadow.color, forKey: "titleTextColor")
+        actionNegativeBtn.setValue(UIColor.red600, forKey: "titleTextColor")
 
         alert.addAction(actionNegativeBtn)
         

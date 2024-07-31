@@ -14,11 +14,13 @@ class Router {
     static func getForceUpdateVC() -> ForceUpdateVC {
         return DIContainer.shared.resolve(ForceUpdateVC.self)!
     }
-    static func getRegisterVC() -> RegisterVC {
-        return DIContainer.shared.resolve(RegisterVC.self)!
+    static func getRegisterVC() -> RegisterViewController {
+        return DIContainer.shared.resolve(RegisterViewController.self)!
     }
-    static func getOtpVC() -> OtpVC {
-        return DIContainer.shared.resolve(OtpVC.self)!
+    static func getOtpVC(phoneNumber: String) -> OtpViewController {
+        let vc = DIContainer.shared.resolve(OtpViewController.self)!
+        vc.viewModel.phoneNumber = phoneNumber
+        return vc
     }
     static func getPersonalInformationVC() -> PersonalInformationVC {
         return DIContainer.shared.resolve(PersonalInformationVC.self)!

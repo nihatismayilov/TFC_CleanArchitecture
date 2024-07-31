@@ -7,13 +7,13 @@
 
 import Foundation
 
-extension TestRemoteDTO {
-    func toLocal() -> TestLocalDTO {
-        let data = TestLocalDTO()
-        data.setData(
-            id: self.id,
-            test: self.test
-        )
-        return data
-    }
-}
+//extension TestRemoteDTO {
+//    func toLocal() -> TestLocalDTO {
+//        let data = TestLocalDTO()
+//        data.setData(
+//            id: self.id,
+//            test: self.test
+//        )
+//        return data
+//    }
+//}

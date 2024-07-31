@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import Combine
 
 class RegisterRemoteDataSource: RegisterRemoteDataSourceProtocol {
     private let dispatcher: Dispatcher
@@ -15,14 +16,15 @@ class RegisterRemoteDataSource: RegisterRemoteDataSourceProtocol {
         self.dispatcher = dispatcher
     }
     
-    func register(by phoneNumber: String) async throws -> Bool {
-        try await dispatcher.request(
-            baseUrl: .b2cBaseURL,
-            endpoint: RegisterAPI.register.endpoint,
-            method: .post,
-            headers: .default,
-            params: RegisterRequestModel(phoneNumber: phoneNumber),
-            encoder: URLEncodedFormParameterEncoder.default
-        )!
+    func register(by phoneNumber: String) -> AnyPublisher<Bool, Error> {
+        let request = RegisterRequest.register(params: ["phoneNumber": phoneNumber])
+        return dispatcher.execute(for: request)
+    }
+    
+    func token(by phoneNumber: String, otp: String) -> AnyPublisher<TokenRemoteDTO, Error> {
+        let parameters = ["phoneNumber": phoneNumber, "otp": otp]
+        let request = RegisterRequest.token(params: parameters)
+        
+        return dispatcher.execute(for: request)
     }
 }

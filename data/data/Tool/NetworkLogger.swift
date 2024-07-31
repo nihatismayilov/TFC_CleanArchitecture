@@ -16,19 +16,19 @@ final class NetworkLogger: EventMonitor {
     }
     
     func requestDidResume(_ request: Request) {
-        let allHeaders = request.request.flatMap { $0.allHTTPHeaderFields.map { $0.description } } ?? "None"
-        let headers = """
-        >>> Request Started: \(request)
-        >>> Headers: \(allHeaders)
-        """
-        self.logger.logDebug(headers)
-        
-        let body = request.request.flatMap { $0.httpBody.map { String(decoding: $0, as: UTF8.self) } } ?? "None"
-        let message = """
-        <<< Request Started: \(request)
-        <<< Body Data: \(body)
-        """
-        self.logger.logDebug(message)
+//        let allHeaders = request.request.flatMap { $0.allHTTPHeaderFields.map { $0.description } } ?? "None"
+//        let headers = """
+//        >>> Request Started: \(request)
+//        >>> Headers: \(allHeaders)
+//        """
+//        self.logger.logDebug(headers)
+//        
+//        let body = request.request.flatMap { $0.httpBody.map { String(decoding: $0, as: UTF8.self) } } ?? "None"
+//        let message = """
+//        <<< Request Started: \(request)
+//        <<< Body Data: \(body)
+//        """
+//        self.logger.logDebug(message)
     }
     
     func request<Value>(_ request: DataRequest, didParseResponse response: AFDataResponse<Value>) {

@@ -8,11 +8,19 @@
 import Foundation
 import domain
 
-extension TestLocalDTO {
-    func toDomain() -> Test {
-        return Test(
-            id: self.id,
-            test: self.test
-        )
+//extension TestLocalDTO {
+//    func toDomain() -> Test {
+//        return Test(
+//            id: self.id,
+//            test: self.test
+//        )
+//    }
+//}
+
+extension TokenRemoteDTO {
+    func toDomain() -> Bool {
+        return !refreshToken.isEmpty &&
+                !token.isEmpty &&
+                !checkToken.isEmpty
     }
 }

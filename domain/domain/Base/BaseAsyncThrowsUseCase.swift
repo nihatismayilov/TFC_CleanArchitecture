@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import Combine
 
 protocol BaseAsyncThrowsUseCase {
     associatedtype InputType
 
     associatedtype OutputType
 
-    func execute(input: InputType) async throws -> OutputType
+    func execute(input: InputType) -> AnyPublisher<OutputType, any Error>
 }

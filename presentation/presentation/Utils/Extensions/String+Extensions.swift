@@ -32,6 +32,10 @@ extension String {
         return result
     }
     
+    func trim() -> String {
+        return replacingOccurrences(of: " ", with: "")
+    }
+    
     func colorAttributedString(strings: [String], color: UIColor) -> NSAttributedString {
         // Create a mutable attributed string
         let attributedString = NSMutableAttributedString(string: self)

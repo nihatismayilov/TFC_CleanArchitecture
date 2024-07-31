@@ -13,9 +13,6 @@
 		B80BDA8E2C4E40F100DA8BB6 /* BaseObservableUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA8D2C4E40F100DA8BB6 /* BaseObservableUseCase.swift */; };
 		B80BDA912C4E411700DA8BB6 /* UnauthorizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA902C4E411700DA8BB6 /* UnauthorizedError.swift */; };
 		B80BDA932C4E411F00DA8BB6 /* UIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA922C4E411F00DA8BB6 /* UIError.swift */; };
-		B80BDA962C4E416000DA8BB6 /* TestRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA952C4E416000DA8BB6 /* TestRepoProtocol.swift */; };
-		B80BDA992C4E418F00DA8BB6 /* SyncTestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA982C4E418F00DA8BB6 /* SyncTestUseCase.swift */; };
-		B80BDA9B2C4E419900DA8BB6 /* ObserveTestUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA9A2C4E419900DA8BB6 /* ObserveTestUseCase.swift */; };
 		B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA9E2C4E41E200DA8BB6 /* Test.swift */; };
 		B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */; };
 		B846F7AE2C5269B3008E8407 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */; };
@@ -29,9 +26,6 @@
 		B80BDA8D2C4E40F100DA8BB6 /* BaseObservableUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseObservableUseCase.swift; sourceTree = "<group>"; };
 		B80BDA902C4E411700DA8BB6 /* UnauthorizedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnauthorizedError.swift; sourceTree = "<group>"; };
 		B80BDA922C4E411F00DA8BB6 /* UIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIError.swift; sourceTree = "<group>"; };
-		B80BDA952C4E416000DA8BB6 /* TestRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRepoProtocol.swift; sourceTree = "<group>"; };
-		B80BDA982C4E418F00DA8BB6 /* SyncTestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTestUseCase.swift; sourceTree = "<group>"; };
-		B80BDA9A2C4E419900DA8BB6 /* ObserveTestUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveTestUseCase.swift; sourceTree = "<group>"; };
 		B80BDA9E2C4E41E200DA8BB6 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRepoProtocol.swift; sourceTree = "<group>"; };
 		B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUseCase.swift; sourceTree = "<group>"; };
@@ -107,7 +101,6 @@
 		B80BDA942C4E414B00DA8BB6 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				B80BDA952C4E416000DA8BB6 /* TestRepoProtocol.swift */,
 				B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */,
 			);
 			path = Repository;
@@ -116,8 +109,6 @@
 		B80BDA972C4E417B00DA8BB6 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
-				B80BDA982C4E418F00DA8BB6 /* SyncTestUseCase.swift */,
-				B80BDA9A2C4E419900DA8BB6 /* ObserveTestUseCase.swift */,
 				B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */,
 			);
 			path = UseCase;
@@ -211,12 +202,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B80BDA992C4E418F00DA8BB6 /* SyncTestUseCase.swift in Sources */,
 				B80BDA8E2C4E40F100DA8BB6 /* BaseObservableUseCase.swift in Sources */,
 				B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */,
 				B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */,
-				B80BDA9B2C4E419900DA8BB6 /* ObserveTestUseCase.swift in Sources */,
-				B80BDA962C4E416000DA8BB6 /* TestRepoProtocol.swift in Sources */,
 				B80BDA8C2C4E40E700DA8BB6 /* BaseAsyncThrowsUseCase.swift in Sources */,
 				B80BDA932C4E411F00DA8BB6 /* UIError.swift in Sources */,
 				B846F7AE2C5269B3008E8407 /* RegisterUseCase.swift in Sources */,

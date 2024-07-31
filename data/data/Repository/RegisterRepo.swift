@@ -18,7 +18,16 @@ class RegisterRepo: RegisterRepoProtocol {
         self.remoteDataSourceProtocol = remoteDataSourceProtocol
     }
     
-    func register(by phoneNumber: String) async throws -> Bool {
-        try await remoteDataSourceProtocol.register(by: phoneNumber)
+    func register(by phoneNumber: String) -> AnyPublisher<Bool, any Error> {
+        return remoteDataSourceProtocol.register(by: phoneNumber)
+    }
+    
+    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Bool, any Error> {
+        return remoteDataSourceProtocol.token(by: phoneNumber, otp: otp)
+            .receive(on: DispatchQueue.main)
+            .map { data in
+                return data.toDomain()
+            }
+            .eraseToAnyPublisher()
     }
 }

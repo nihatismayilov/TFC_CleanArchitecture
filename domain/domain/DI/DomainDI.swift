@@ -39,12 +39,12 @@ public class DIContainer: DIContainerProtocol {
 
 public struct DomainDIConfigurator {
     public static func configure(container: DIContainer) {
-        container.register(SyncTestDataUseCase.self) {
-            SyncTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
-        }
-        container.register(ObserveTestDataUseCase.self) {
-            ObserveTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
-        }
+//        container.register(SyncTestDataUseCase.self) {
+//            SyncTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
+//        }
+//        container.register(ObserveTestDataUseCase.self) {
+//            ObserveTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
+//        }
         
         container.register(RegisterUseCase.self) {
             RegisterUseCase(repo: container.resolve(RegisterRepoProtocol.self)!)

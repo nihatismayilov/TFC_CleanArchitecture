@@ -17,11 +17,11 @@ public struct PresentationDIConfigurator {
         container.register(ForceUpdateVC.self) {
             ForceUpdateVC(vm: container.resolve(BaseViewModel.self)!)
         }
-        container.register(RegisterVC.self) {
-            RegisterVC(vm: container.resolve(RegisterVM.self)!)
+        container.register(RegisterViewController.self) {
+            RegisterViewController(vm: container.resolve(RegisterViewModel.self)!)
         }
-        container.register(OtpVC.self) {
-            OtpVC(vm: container.resolve(BaseViewModel.self)!)
+        container.register(OtpViewController.self) {
+            OtpViewController(vm: container.resolve(OtpViewModel.self)!)
         }
         container.register(PersonalInformationVC.self) {
             PersonalInformationVC(vm: container.resolve(BaseViewModel.self)!)
@@ -31,8 +31,11 @@ public struct PresentationDIConfigurator {
             BaseViewModel()
         }
         
-        container.register(RegisterVM.self) {
-            return RegisterVM(registerUseCase: container.resolve(RegisterUseCase.self)!)
+        container.register(RegisterViewModel.self) {
+            return RegisterViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
+        }
+        container.register(OtpViewModel.self) {
+            return OtpViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
         }
     }
 }

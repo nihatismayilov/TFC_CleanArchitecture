@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterVC: UIBaseViewController<RegisterVM> {
+public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
     // MARK: - UI Components
     private lazy var closeButton = BaseButton(
         image: UIImage(systemName: "xmark"),
@@ -46,6 +46,12 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
         font: .systemFont(ofSize: 20, weight: .medium),
         adjustsFontSize: false
     )
+    private lazy var errorLabel = UILabel(
+        text: "Daxil edilen indeks yanlisdir",
+        textColor: .red600,
+        textAlignment: .left,
+        font: .systemFont(ofSize: 12, weight: .medium)
+    )
     
     private lazy var termsConditionsLabel = UILabel(
         text: "Qeydiyyatdan keçdikdə siz Şərtlər və Qaydaları və Gizlilik Siyasətini qəbul edirsiniz.",
@@ -59,15 +65,16 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
         title: "SMS göndər",
         tintColor: .white,
         backgroundColor: .red600,
-        cornerRadius: 8
+        cornerRadius: 8,
+        isEnabled: false
     )
     
     // MARK: - Controller Delegates
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
@@ -78,6 +85,7 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
             closeButton,
             labelStackView,
             phoneNumberStackView,
+            errorLabel,
             termsConditionsLabel,
             sendButton
         )
@@ -96,6 +104,10 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
             phoneNumberStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             phoneNumberStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -12),
             
+            errorLabel.topAnchor.constraint(equalTo: phoneNumberStackView.bottomAnchor, constant: 8),
+            errorLabel.leadingAnchor.constraint(equalTo: phoneNumberStackView.leadingAnchor),
+            errorLabel.trailingAnchor.constraint(equalTo: phoneNumberStackView.trailingAnchor),
+            
             termsConditionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             termsConditionsLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 24),
             termsConditionsLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -24),
@@ -107,7 +119,8 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
             sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
         ])
         
-        
+        phoneTextField.keyboardType = .numberPad
+        errorLabel.isHidden = true
         phoneTextField.delegate = self
         closeButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
@@ -117,22 +130,35 @@ class RegisterVC: UIBaseViewController<RegisterVM> {
         termsConditionsLabel.attributedText = "Qeydiyyatdan keçdikdə siz Şərtlər və Qaydaları və Gizlilik Siyasətini qəbul edirsiniz.".colorAttributedString(strings: ["Şərtlər və Qaydaları", "Gizlilik Siyasətini"], color: .red600)
     }
     
+    override func setBindings() {
+        let registerSubscription = viewModel.observeRegister()
+            .sink { [weak self] isSuccess in
+                guard let self else { return }
+                if isSuccess {
+                    pushNavigation(Router.getOtpVC(phoneNumber: "994\(phoneTextField.text.orEmpty)".trim()))
+                }
+            }
+        addCancellable(registerSubscription)
+    }
+    
     @objc func didTap(_ sender: UIButton) {
         switch sender {
         case closeButton:
             dismiss(animated: true)
         case sendButton:
-            print("nt testing",  viewModel.registerSuccess)
-            viewModel.register(by: "994993334696")
+            viewModel.register(by: phoneTextField.text)
 //            navigationController?.pushViewController(Router.getOtpVC(), animated: true)
-//            pushNavigation(Router.getOtpVC())
         default: break
         }
     }
 }
 
-extension RegisterVC: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+extension RegisterViewController: UITextFieldDelegate {
+    public func textFieldDidChangeSelection(_ textField: UITextField) {
         phoneTextField.text = textField.text?.format(with: "XX XXX XX XX")
+        
+        let prefix = phoneTextField.text?.prefix(2) ?? ""
+        errorLabel.isHidden = viewModel.checkIndex(prefix: String(prefix))
+        sendButton.isEnabled = viewModel.checkIndex(prefix: String(prefix)) && phoneTextField.text?.trim().count == 9
     }
 }

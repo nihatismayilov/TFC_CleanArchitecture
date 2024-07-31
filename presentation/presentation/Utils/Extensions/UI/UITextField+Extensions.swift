@@ -27,6 +27,8 @@ extension UITextField {
         
         self.placeholder = placeholder
         
+        tintColor = .red600
+        
         if let placeholderColor {
             self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: placeholderColor])
         }

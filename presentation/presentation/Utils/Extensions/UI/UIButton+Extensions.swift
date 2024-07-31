@@ -13,7 +13,9 @@ extension UIButton {
         title: String = "",
         tintColor: UIColor,
         backgroundColor: UIColor = .clear,
-        cornerRadius: CGFloat = 0
+        cornerRadius: CGFloat = 0,
+        font: UIFont? = nil,
+        isEnabled: Bool = true
     ) {
         self.init()
         
@@ -28,6 +30,12 @@ extension UIButton {
         self.backgroundColor = backgroundColor
         
         self.cornerRadius = cornerRadius
+        
+        if let font {
+            self.titleLabel?.font = font
+        }
+        
+        self.isEnabled = isEnabled
         
         translatesAutoresizingMaskIntoConstraints = false
     }

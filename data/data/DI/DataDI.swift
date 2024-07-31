@@ -11,7 +11,7 @@ import domain
 public struct DataDIConfigurator {
     public static func configure(container: DIContainer) {
         // MARK: - Logger
-        container.register(ConsoleLogHandler.self) {
+        container.register(ConsoleLogHandler.self, isSingleton: true) {
             ConsoleLogHandler()
         }
         
@@ -19,12 +19,16 @@ public struct DataDIConfigurator {
             Logger(handlers: [container.resolve(ConsoleLogHandler.self)!])
         }
         
-        container.register(NetworkLogger.self) {
+        container.register(NetworkLogger.self, isSingleton: true) {
             NetworkLogger(logger: container.resolve(Logger.self)!)
         }
         
         // MARK: - Network
-        container.register(Dispatcher.self) {
+        container.register(BaseInterceptor.self, isSingleton: true) {
+            BaseInterceptor()
+        }
+        
+        container.register(Dispatcher.self, isSingleton: true) {
             NetworkDispatcher(
                 requestAdapter: [
                     container.resolve(BaseInterceptor.self)!,
@@ -35,10 +39,6 @@ public struct DataDIConfigurator {
             )
         }
         
-        container.register(BaseInterceptor.self) {
-            BaseInterceptor()
-        }
-        
         // TODO: - CoreDataClient
 //        container.register(RealmClientProtocol.self) {
 //            runBlocking {
@@ -47,25 +47,25 @@ public struct DataDIConfigurator {
 //        }
         
         // MARK: - DataSource
-        container.register(TestLocalDataSourceProtocol.self) {
-            TestLocalDataSource(
-//                realmClient: container.resolve(RealmClientProtocol.self)!
-            )
-        }
-        container.register(TestRemoteDataSourceProtocol.self) {
-            TestRemoteDataSource(networkClient: container.resolve(Dispatcher.self)!)
-        }
+//        container.register(TestLocalDataSourceProtocol.self) {
+//            TestLocalDataSource(
+////                realmClient: container.resolve(RealmClientProtocol.self)!
+//            )
+//        }
+//        container.register(TestRemoteDataSourceProtocol.self) {
+//            TestRemoteDataSource(networkClient: container.resolve(Dispatcher.self)!)
+//        }
         container.register(RegisterRemoteDataSourceProtocol.self) {
             RegisterRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
         }
         
         // MARK: - Repo
-        container.register(TestRepoProtocol.self) {
-            TestRepo(
-                localDataSource: container.resolve(TestLocalDataSourceProtocol.self)!,
-                remoteDataSource: container.resolve(TestRemoteDataSourceProtocol.self)!
-            )
-        }
+//        container.register(TestRepoProtocol.self) {
+//            TestRepo(
+//                localDataSource: container.resolve(TestLocalDataSourceProtocol.self)!,
+//                remoteDataSource: container.resolve(TestRemoteDataSourceProtocol.self)!
+//            )
+//        }
         container.register(RegisterRepoProtocol.self) {
             RegisterRepo(remoteDataSourceProtocol: container.resolve(RegisterRemoteDataSourceProtocol.self)!)
         }

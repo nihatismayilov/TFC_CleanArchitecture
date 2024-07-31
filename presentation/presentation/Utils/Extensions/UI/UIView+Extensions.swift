@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 extension UIView {
     
@@ -57,5 +58,32 @@ extension UIView {
         layer.shadowRadius = 1
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+    
+    func embedSwiftUIView(_ swiftUIView: some View, padding: UIEdgeInsets = .zero){
+        guard let view = UIHostingController(rootView: swiftUIView).view else {return}
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        addSubview(view)
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding.left),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding.right),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom),
+            view.topAnchor.constraint(equalTo: topAnchor, constant: padding.top),
+        ])
+    }
+    
+    func getSwiftUIView(_ swiftUIView: some View, padding: UIEdgeInsets = .zero) -> UIView? {
+        guard let view = UIHostingController(rootView: swiftUIView).view else {return nil}
+        return view
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = .clear
+//        addSubview(view)
+//        NSLayoutConstraint.activate([
+//            view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding.left),
+//            view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding.right),
+//            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom),
+//            view.topAnchor.constraint(equalTo: topAnchor, constant: padding.top),
+//        ])
     }
 }

@@ -55,8 +55,8 @@ public class TabbarController: UITabBarController {
         let home = generateViewControllers(image: .icHome, title: "Ana səhifə", isSelected: true, vc: Router.getForceUpdateVC())
         let live = generateViewControllers(image: .icLive, title: "Canlı", isSelected: false, vc: Router.getPersonalInformationVC())
         let sport = generateViewControllers(image: .icSport, title: "İdman", isSelected: false, vc: Router.getRegisterVC())
-        let coupon = generateViewControllers(image: .icCoupon, title: "Kuponlarım", isSelected: false, vc: Router.getOtpVC())
-        let menu = generateViewControllers(image: .icMenu, title: "Menyu", isSelected: false, vc: Router.getOtpVC())
+        let coupon = generateViewControllers(image: .icCoupon, title: "Kuponlarım", isSelected: false, vc: Router.getRegisterVC())
+        let menu = generateViewControllers(image: .icMenu, title: "Menyu", isSelected: false, vc: Router.getRegisterVC())
         viewControllers = [home, live, sport, coupon, menu]
         
         setupView()
