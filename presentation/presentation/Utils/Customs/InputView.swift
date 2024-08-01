@@ -13,6 +13,7 @@ enum InputViewType {
     case birthday
     case dropdown
     case amount
+    case search
     case number
 }
 
@@ -153,11 +154,22 @@ class InputView: UIView {
         tf.placeholder = "Placeholder"
         return tf
     }()
+    private lazy var leftIcon  : UIImageView = {
+        let imageView = UIImageView(image: UIImage.icSearch,
+                                    tintColor: .secondaryText)
+        imageView.isHidden = true
+        return imageView
+    
+    }()
     private lazy var rightButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isUserInteractionEnabled = false
         button.tintColor = .secondaryText
+//        button.contentVerticalAlignment = .center
+//        button.contentHorizontalAlignment = .center
+//        button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         return button
     }()
     private lazy var phoneTitleLabel: UILabel = {
@@ -209,7 +221,7 @@ class InputView: UIView {
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubviews(titleView, textFieldBack, errorView)
-        textStackView.addArrangedSubviews(phoneTitleLabel, textField, rightButton)
+        textStackView.addArrangedSubviews(phoneTitleLabel, leftIcon,textField, rightButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -220,6 +232,10 @@ class InputView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
             titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+            
+            leftIcon.widthAnchor.constraint(equalToConstant: 20),
+            leftIcon.heightAnchor.constraint(equalToConstant: 20),
+            textField.leadingAnchor.constraint(equalTo: leftIcon.trailingAnchor,constant: 8),
             
             textFieldBack.heightAnchor.constraint(equalToConstant: 48),
             textStackView.centerYAnchor.constraint(equalTo: textFieldBack.centerYAnchor),
@@ -334,6 +350,12 @@ class InputView: UIView {
             textField.keyboardType = .numberPad
             rightButton.setImage(UIImage(systemName: "manatsign"), for: .normal)
             phoneTitleLabel.isHidden = true
+        case .search:
+            textField.isEnabled = true
+            textField.keyboardType = .default
+            leftIcon.isHidden = false
+            phoneTitleLabel.isHidden = true
+            rightButton.isHidden = true
         case .number:
             textField.isEnabled = true
             textField.keyboardType = .numberPad

@@ -25,4 +25,10 @@ class Router {
     static func getPersonalInformationVC() -> PersonalInformationVC {
         return DIContainer.shared.resolve(PersonalInformationVC.self)!
     }
+    static func getCitySelectionVC() -> CitySelectionViewController {
+        return CitySelectionViewController(vm: CitySelectionViewModel())
+    }
+    static func getDistrictSelectionVC() -> DistrictSelectionViewController {
+        return DistrictSelectionViewController(vm: DistrictSelectionViewModel())
+    }
 }

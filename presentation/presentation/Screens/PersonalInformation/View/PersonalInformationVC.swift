@@ -6,15 +6,28 @@
 //
 
 import UIKit
+protocol UpdateCityTextField: AnyObject{
+    func updateCityTextField(selectedCity : String)
+}
+protocol UpdateDistrictTextField: AnyObject{
+    func updateDistrictTextField(selectedDistrict : String)
+}
 
-public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
+public class PersonalInformationVC: UIBaseViewController<BaseViewModel>, UpdateCityTextField,UpdateDistrictTextField {
+    func updateDistrictTextField(selectedDistrict: String) {
+        districtInputView.text = selectedDistrict
+    }
+    
+    func updateCityTextField(selectedCity: String) {
+        cityInputView.text = selectedCity
+    }
+    
     // MARK: - UI Components
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
-        
         return view
     }()
     
@@ -157,5 +170,19 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
 }
 
 extension PersonalInformationVC: InputViewDelegate {
-    
+    func didTapTextField(textField: InputView) {
+        if textField == cityInputView {
+            let vc = Router.getCitySelectionVC()
+            vc.delegate = self
+            vc.selectedCity = textField.text
+            self.present(vc, animated: true, completion: nil)
+        }
+        else if textField == districtInputView {
+            
+            let vc = Router.getDistrictSelectionVC()
+            vc.delegate = self
+            vc.selectedCity = textField.text
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
 }

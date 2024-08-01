@@ -68,4 +68,9 @@ extension String {
         
         return ranges
     }
+    func getTextWidth(with font : UIFont) -> CGFloat {
+        let attribute = [NSAttributedString.Key.font : font]
+        let width = self.size(withAttributes: attribute).width
+        return width
+    }
 }
