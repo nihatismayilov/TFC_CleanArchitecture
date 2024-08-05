@@ -13,6 +13,7 @@ enum InputViewType {
     case birthday
     case dropdown
     case amount
+    case search
     case number
 }
 
@@ -27,6 +28,7 @@ protocol InputViewDelegate: NSObject {
     func textFieldShouldClear(_ textField: InputView) -> Bool
     func textFieldShouldReturn(_ textField: InputView) -> Bool
     func didTapTextField(textField: InputView)
+    func didTapRightIcon()
 }
 
 extension InputViewDelegate {
@@ -40,6 +42,7 @@ extension InputViewDelegate {
     func textFieldShouldClear(_ textField: InputView) -> Bool {true}
     func textFieldShouldReturn(_ textField: InputView) -> Bool {true}
     func didTapTextField(textField: InputView) {}
+    func didTapRightIcon() {}
 }
 class InputView: UIView {
     // MARK: - Variables
@@ -153,11 +156,22 @@ class InputView: UIView {
         tf.placeholder = "Placeholder"
         return tf
     }()
+    private lazy var leftIcon  : UIImageView = {
+        let imageView = UIImageView(image: UIImage.icSearch,
+                                    tintColor: .secondaryText)
+        imageView.isHidden = true
+        return imageView
+    
+    }()
     private lazy var rightButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isUserInteractionEnabled = false
+//        button.isUserInteractionEnabled = false
         button.tintColor = .secondaryText
+//        button.contentVerticalAlignment = .center
+//        button.contentHorizontalAlignment = .center
+//        button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFit
         return button
     }()
     private lazy var phoneTitleLabel: UILabel = {
@@ -172,7 +186,6 @@ class InputView: UIView {
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .wheels
         picker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        
         return picker
     }()
     
@@ -209,7 +222,7 @@ class InputView: UIView {
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
         mainStackView.addArrangedSubviews(titleView, textFieldBack, errorView)
-        textStackView.addArrangedSubviews(phoneTitleLabel, textField, rightButton)
+        textStackView.addArrangedSubviews(phoneTitleLabel, leftIcon,textField, rightButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -220,6 +233,10 @@ class InputView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
             titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+            
+            leftIcon.widthAnchor.constraint(equalToConstant: 20),
+            leftIcon.heightAnchor.constraint(equalToConstant: 20),
+            textField.leadingAnchor.constraint(equalTo: leftIcon.trailingAnchor,constant: 8),
             
             textFieldBack.heightAnchor.constraint(equalToConstant: 48),
             textStackView.centerYAnchor.constraint(equalTo: textFieldBack.centerYAnchor),
@@ -241,6 +258,9 @@ class InputView: UIView {
     
     @objc func viewTapped(_ sender: UITapGestureRecognizer) {
         delegate?.didTapTextField(textField: self)
+    }
+    @objc func rightIconTapped(_ sender : UIButton) {
+        delegate?.didTapRightIcon()
     }
     
     func showError(text: String) {
@@ -321,19 +341,36 @@ class InputView: UIView {
             phoneTitleLabel.isHidden = false
         case .birthday:
             textField.isEnabled = true
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
+                    
+            // Create Done button
+            let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            toolbar.setItems([flexSpace, doneButton], animated: true)
+            // Assign toolbar to textField
+            textField.inputAccessoryView = toolbar
             textField.inputView = datePicker
             phoneTitleLabel.isHidden = true
+            rightButton.addTarget(self, action: #selector(rightIconTapped(_ :)), for: .touchUpInside)
         case .dropdown:
             let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
             textFieldBack.addGestureRecognizer(tap)
             textField.isEnabled = false
             rightButton.setImage(UIImage(systemName: "chevron.down")!, for: .normal)
             phoneTitleLabel.isHidden = true
+            rightButton.isEnabled = false
         case .amount:
             textField.isEnabled = true
             textField.keyboardType = .numberPad
             rightButton.setImage(UIImage(systemName: "manatsign"), for: .normal)
             phoneTitleLabel.isHidden = true
+        case .search:
+            textField.isEnabled = true
+            textField.keyboardType = .default
+            leftIcon.isHidden = false
+            phoneTitleLabel.isHidden = true
+            rightButton.isHidden = true
         case .number:
             textField.isEnabled = true
             textField.keyboardType = .numberPad
@@ -346,7 +383,10 @@ class InputView: UIView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/YYYY"
         textField.text = dateFormatter.string(from: sender.date)
-        delegate?.textFieldDidChangeSelection(self, string: textField.text!)
+//        delegate?.textFieldDidChangeSelection(self, string: textField.text!)
+    }
+    @objc func donePressed() {
+        endEditing(true)
     }
 }
 
@@ -361,7 +401,7 @@ extension InputView: UITextFieldDelegate {
             delegate?.didTapTextField(textField: self)
             return
         }
-        hideError()
+//        hideError()
         delegate?.textFieldDidBeginEditing(self)
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {

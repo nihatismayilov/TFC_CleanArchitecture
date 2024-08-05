@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E214FF72C5FF94700CDED85 /* BottomSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */; };
+		1E214FF92C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */; };
+		1E214FFD2C5FFA0B00CDED85 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E214FFC2C5FFA0B00CDED85 /* BottomSheetViewController.swift */; };
+		1E70685B2C5B664500366360 /* DistrictSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E70685A2C5B664500366360 /* DistrictSelectionViewController.swift */; };
+		1E70685D2C5B668500366360 /* DistrictSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E70685C2C5B668500366360 /* DistrictSelectionViewModel.swift */; };
+		1EA44F1E2C5A22B900BDA94C /* CitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA44F1D2C5A22B900BDA94C /* CitySelectionViewController.swift */; };
+		1EA44F202C5A2FA100BDA94C /* CitySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA44F1F2C5A2FA100BDA94C /* CitySelectionViewModel.swift */; };
+		1EA44F232C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA44F222C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift */; };
+		1ECBFA6A2C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */; };
 		B80BDA0D2C4E3E5B00DA8BB6 /* presentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B80BDA0C2C4E3E5B00DA8BB6 /* presentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B80BDA6E2C4E3EE600DA8BB6 /* domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80BDA6D2C4E3EE600DA8BB6 /* domain.framework */; };
 		B80BDA6F2C4E3EE600DA8BB6 /* domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B80BDA6D2C4E3EE600DA8BB6 /* domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -59,6 +68,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentationController.swift; sourceTree = "<group>"; };
+		1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitioningDelegate.swift; sourceTree = "<group>"; };
+		1E214FFC2C5FFA0B00CDED85 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		1E70685A2C5B664500366360 /* DistrictSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictSelectionViewController.swift; sourceTree = "<group>"; };
+		1E70685C2C5B668500366360 /* DistrictSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictSelectionViewModel.swift; sourceTree = "<group>"; };
+		1EA44F1D2C5A22B900BDA94C /* CitySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectionViewController.swift; sourceTree = "<group>"; };
+		1EA44F1F2C5A2FA100BDA94C /* CitySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CitySelectionViewModel.swift; path = presentation/Screens/CitySelection/ViewModel/CitySelectionViewModel.swift; sourceTree = SOURCE_ROOT; };
+		1EA44F222C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityAndDistrictTableViewCell.swift; sourceTree = "<group>"; };
+		1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetAnimatedTransitioning.swift; sourceTree = "<group>"; };
 		B80BDA092C4E3E5B00DA8BB6 /* presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80BDA0C2C4E3E5B00DA8BB6 /* presentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = presentation.h; sourceTree = "<group>"; };
 		B80BDA6D2C4E3EE600DA8BB6 /* domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +128,75 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E7068572C5B660F00366360 /* DistrictSelection */ = {
+			isa = PBXGroup;
+			children = (
+				1E7068592C5B662200366360 /* ViewModel */,
+				1E7068582C5B661800366360 /* View */,
+			);
+			path = DistrictSelection;
+			sourceTree = "<group>";
+		};
+		1E7068582C5B661800366360 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1E70685A2C5B664500366360 /* DistrictSelectionViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1E7068592C5B662200366360 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1E70685C2C5B668500366360 /* DistrictSelectionViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1EA44F1A2C5A228400BDA94C /* CitySelection */ = {
+			isa = PBXGroup;
+			children = (
+				1EA44F1C2C5A229D00BDA94C /* View */,
+				1EA44F1B2C5A229900BDA94C /* ViewModel */,
+			);
+			path = CitySelection;
+			sourceTree = "<group>";
+		};
+		1EA44F1B2C5A229900BDA94C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1EA44F1F2C5A2FA100BDA94C /* CitySelectionViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		1EA44F1C2C5A229D00BDA94C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1EA44F1D2C5A22B900BDA94C /* CitySelectionViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1EA44F212C5A691700BDA94C /* CustomTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				1EA44F222C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift */,
+			);
+			path = CustomTableViewCells;
+			sourceTree = "<group>";
+		};
+		1ECBFA682C60973300C68A50 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				1E214FFC2C5FFA0B00CDED85 /* BottomSheetViewController.swift */,
+				1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */,
+				1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */,
+				1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */,
+			);
+			path = BottomSheet;
+			sourceTree = "<group>";
+		};
 		B80BD9FF2C4E3E5B00DA8BB6 = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +217,7 @@
 		B80BDA0B2C4E3E5B00DA8BB6 /* presentation */ = {
 			isa = PBXGroup;
 			children = (
+				1ECBFA682C60973300C68A50 /* BottomSheet */,
 				B80BDAF32C4E82CC00DA8BB6 /* DI */,
 				B80BDAE32C4E77F400DA8BB6 /* Utils */,
 				B80BDAE42C4E785100DA8BB6 /* Routing */,
@@ -169,6 +257,8 @@
 		B80BDAE12C4E77B300DA8BB6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				1E7068572C5B660F00366360 /* DistrictSelection */,
+				1EA44F1A2C5A228400BDA94C /* CitySelection */,
 				B80BDAF62C4E846600DA8BB6 /* Tabbar */,
 				B88CFDB12C4F89DD0079EECF /* ForceUpdate */,
 				B86B50962C512B930083A038 /* Register */,
@@ -210,6 +300,7 @@
 		B80BDAE62C4E795F00DA8BB6 /* Customs */ = {
 			isa = PBXGroup;
 			children = (
+				1EA44F212C5A691700BDA94C /* CustomTableViewCells */,
 				B85F8FAC2C57CF5C0078F164 /* LoadingView */,
 				B80BDAF12C4E7D5E00DA8BB6 /* InputView.swift */,
 			);
@@ -470,27 +561,36 @@
 			buildActionMask = 2147483647;
 			files = (
 				B88CFDB42C4F89EB0079EECF /* ForceUpdateVC.swift in Sources */,
+				1E70685B2C5B664500366360 /* DistrictSelectionViewController.swift in Sources */,
 				B8CD2A7B2C537B2A006E6C91 /* PersonalInformationVC.swift in Sources */,
 				B86B509E2C512FF30083A038 /* String+Extensions.swift in Sources */,
 				B88CFDC32C4FC3220079EECF /* UITableView+Extensions.swift in Sources */,
 				B88CFDBD2C4FC2A30079EECF /* UIStackView+Extensions.swift in Sources */,
 				B88CFDBA2C4FC1A60079EECF /* BaseViewModel.swift in Sources */,
 				B88CFDCB2C4FD7650079EECF /* BaseButton.swift in Sources */,
+				1E214FF72C5FF94700CDED85 /* BottomSheetPresentationController.swift in Sources */,
+				1E70685D2C5B668500366360 /* DistrictSelectionViewModel.swift in Sources */,
 				B8A9E6472C590E0A009D4B63 /* Double+Extensions.swift in Sources */,
 				B80BDAF52C4E82D600DA8BB6 /* PresentationDI.swift in Sources */,
 				B80BDAF22C4E7D5E00DA8BB6 /* InputView.swift in Sources */,
 				B80BDAF02C4E7BCB00DA8BB6 /* Localization+Extensions.swift in Sources */,
 				B88CFDC52C4FC3480079EECF /* UIViewController+Extensions.swift in Sources */,
 				B85F8FAE2C57CF720078F164 /* LoadingView.swift in Sources */,
+				1ECBFA6A2C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift in Sources */,
 				B88CFDBF2C4FC2BF0079EECF /* UIView+Extensions.swift in Sources */,
 				B86B50992C512BA20083A038 /* RegisterViewController.swift in Sources */,
+				1EA44F232C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift in Sources */,
 				B8A9E6452C59097C009D4B63 /* OtpView.swift in Sources */,
 				B88CFDB82C4FC1030079EECF /* UIBaseViewController.swift in Sources */,
 				B80BDAF82C4E84AB00DA8BB6 /* TabbarController.swift in Sources */,
+				1E214FF92C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift in Sources */,
 				B86B509B2C512E090083A038 /* UITextField+Extensions.swift in Sources */,
+				1E214FFD2C5FFA0B00CDED85 /* BottomSheetViewController.swift in Sources */,
+				1EA44F202C5A2FA100BDA94C /* CitySelectionViewModel.swift in Sources */,
 				B80BDB042C4E884D00DA8BB6 /* Router.swift in Sources */,
 				B86B50A22C5135680083A038 /* OtpViewController.swift in Sources */,
 				B85F8FAB2C57C6650078F164 /* LoadingViewUI.swift in Sources */,
+				1EA44F1E2C5A22B900BDA94C /* CitySelectionViewController.swift in Sources */,
 				B88CFDC72C4FC6E60079EECF /* UILabel+Extensions.swift in Sources */,
 				B8A9E6422C58C798009D4B63 /* OtpViewModel.swift in Sources */,
 				B88CFDC12C4FC2CE0079EECF /* UICollectionView+Extensions.swift in Sources */,
