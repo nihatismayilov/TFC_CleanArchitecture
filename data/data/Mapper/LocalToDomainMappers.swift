@@ -18,9 +18,13 @@ import domain
 //}
 
 extension TokenRemoteDTO {
-    func toDomain() -> Bool {
-        return !refreshToken.isEmpty &&
-                !token.isEmpty &&
-                !checkToken.isEmpty
+    func toDomain() -> Token {
+        let isSuccess = refreshToken?.isEmpty == false &&
+                        token?.isEmpty == false &&
+                        checkToken?.isEmpty == false
+        return Token(
+            isSuccess: isSuccess,
+            message: message.orEmpty
+        )
     }
 }

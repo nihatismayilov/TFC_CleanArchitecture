@@ -59,6 +59,10 @@ public struct DataDIConfigurator {
             RegisterRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
         }
         
+        container.register(CustomerRemoteDataSourceProtocol.self) {
+            CustomerRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
+        }
+        
         // MARK: - Repo
 //        container.register(TestRepoProtocol.self) {
 //            TestRepo(
@@ -68,6 +72,10 @@ public struct DataDIConfigurator {
 //        }
         container.register(RegisterRepoProtocol.self) {
             RegisterRepo(remoteDataSourceProtocol: container.resolve(RegisterRemoteDataSourceProtocol.self)!)
+        }
+        
+        container.register(CustomerRepoProtocol.self) {
+            CustomerRepo(remoteDataSourceProtocol: container.resolve(CustomerRemoteDataSourceProtocol.self)!)
         }
     }
     

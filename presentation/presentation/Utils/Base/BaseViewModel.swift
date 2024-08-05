@@ -38,10 +38,6 @@ open class BaseViewModel {
         return self.baseEffectSubject.eraseToAnyPublisher()
     }
     
-//    open func observeError() -> AnyPublisher<String, Never> {
-//        return errorSubject.eraseToAnyPublisher()
-//    }
-    
     func add(cancellable: AnyCancellable) {
         cancellable.store(in: &cancellables)
     }

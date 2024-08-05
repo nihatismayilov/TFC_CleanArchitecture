@@ -16,6 +16,9 @@
 		B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDA9E2C4E41E200DA8BB6 /* Test.swift */; };
 		B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */; };
 		B846F7AE2C5269B3008E8407 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */; };
+		B851CEE92C5A37A7007AD613 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEE82C5A37A7007AD613 /* Token.swift */; };
+		B851CEF72C5A4B94007AD613 /* CustomerRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */; };
+		B851CEF92C5A4C20007AD613 /* CustomerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		B80BDA9E2C4E41E200DA8BB6 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRepoProtocol.swift; sourceTree = "<group>"; };
 		B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUseCase.swift; sourceTree = "<group>"; };
+		B851CEE82C5A37A7007AD613 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRepoProtocol.swift; sourceTree = "<group>"; };
+		B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */,
+				B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -110,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */,
+				B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -118,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				B80BDA9E2C4E41E200DA8BB6 /* Test.swift */,
+				B851CEE82C5A37A7007AD613 /* Token.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -202,9 +211,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B851CEE92C5A37A7007AD613 /* Token.swift in Sources */,
 				B80BDA8E2C4E40F100DA8BB6 /* BaseObservableUseCase.swift in Sources */,
 				B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */,
 				B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */,
+				B851CEF72C5A4B94007AD613 /* CustomerRepoProtocol.swift in Sources */,
+				B851CEF92C5A4C20007AD613 /* CustomerUseCase.swift in Sources */,
 				B80BDA8C2C4E40E700DA8BB6 /* BaseAsyncThrowsUseCase.swift in Sources */,
 				B80BDA932C4E411F00DA8BB6 /* UIError.swift in Sources */,
 				B846F7AE2C5269B3008E8407 /* RegisterUseCase.swift in Sources */,

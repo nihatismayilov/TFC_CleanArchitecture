@@ -147,7 +147,6 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             dismiss(animated: true)
         case sendButton:
             viewModel.register(by: phoneTextField.text)
-//            navigationController?.pushViewController(Router.getOtpVC(), animated: true)
         default: break
         }
     }

@@ -9,7 +9,7 @@ import UIKit
 
 public class OtpViewController: UIBaseViewController<OtpViewModel> {
     // MARK: - Variables
-    let seconds: Double = 10
+    let seconds: Double = 120
     lazy var secondsLeft: Double = seconds
     var timer = Timer()
     
@@ -53,13 +53,6 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         return view
     }()
     
-    private lazy var warningLabel = UILabel(
-        text: "Daxil etdiyiniz kod yalnışdır",
-        textColor: .red600,
-        textAlignment: .center,
-        font: .systemFont(ofSize: 12, weight: .medium)
-    )
-    
     private lazy var termsConditionsLabel = UILabel(
         text: "Qeydiyyatdan keçdikdə siz Şərtlər və Qaydaları və Gizlilik Siyasətini qəbul edirsiniz.",
         textColor: .secondaryText,
@@ -82,6 +75,11 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         startTimer()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
     // MARK: - Initializations
     override func initViews() {
         setNavigationButton()
@@ -90,7 +88,6 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             labelStackView,
             resendStack,
             otpView,
-            warningLabel,
             termsConditionsLabel,
             confirmButton
         )
@@ -111,11 +108,6 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             otpView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16),
             otpView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16),
             
-            warningLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            warningLabel.topAnchor.constraint(equalTo: otpView.bottomAnchor, constant: 8),
-            warningLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16),
-            warningLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16),
-            
             termsConditionsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             termsConditionsLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 24),
             termsConditionsLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -24),
@@ -129,11 +121,10 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         
         resendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
-        warningLabel.isHidden = true
     }
     
     override func setText() {
-        descriptionLabel.text = "\(viewModel.phoneNumber) nömrəsinə SMS vasitəsilə göndərilmiş kodu daxil edin."
+        descriptionLabel.text = "+\(viewModel.phoneNumber.format(with: "XXX XX XXX XX XX")) nömrəsinə SMS vasitəsilə göndərilmiş kodu daxil edin."
         termsConditionsLabel.attributedText = "Qeydiyyatdan keçdikdə siz Şərtlər və Qaydaları və Gizlilik Siyasətini qəbul edirsiniz.".colorAttributedString(strings: ["Şərtlər və Qaydaları", "Gizlilik Siyasətini"], color: .red600)
     }
     
@@ -142,10 +133,22 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             .sink { [weak self] isSuccess in
                 guard let self else { return }
                 if isSuccess {
-                    pushNavigation(Router.getPersonalInformationVC())
+                    viewModel.getProfile()
+//                    pushNavigation(Router.getPersonalInformationVC())
+                } else {
+                    otpView.wrongOtp = true
                 }
             }
         addCancellable(tokenSubscription)
+        
+        let registerSubscription = viewModel.observeRegister()
+            .sink { [weak self] isSuccess in
+                guard let self else { return }
+                if isSuccess {
+                    startTimer()
+                }
+            }
+        addCancellable(registerSubscription)
     }
     
     private func setNavigationButton() {
@@ -187,7 +190,7 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         case navigationItem.leftBarButtonItem:
             navigationController?.popViewController(animated: true)
         case resendButton:
-            startTimer()
+            viewModel.register()
         case confirmButton:
             viewModel.token(otp: otpView.getOTPCode())
         default: break
@@ -201,9 +204,5 @@ extension OtpViewController: CheckOtp {
         confirmButton.alpha = (countOfOtp == 6) ? 1 : 0.5
 //        if countOfOtp == 6 { keyboardWillHide() }
         view.endEditing(true)
-    }
-    
-    func handleWarningLabel() {
-        warningLabel.isHidden = true
     }
 }

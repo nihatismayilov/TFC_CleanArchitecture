@@ -10,7 +10,7 @@ import Combine
 
 protocol RegisterUseCaseProtocol {
     func register(by phoneNumber: String) -> AnyPublisher<Bool, any Error>
-    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Bool, any Error>
+    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Token, any Error>
 }
 
 public class RegisterUseCase: /*BaseAsyncThrowsUseCase*/ RegisterUseCaseProtocol {
@@ -28,7 +28,7 @@ public class RegisterUseCase: /*BaseAsyncThrowsUseCase*/ RegisterUseCaseProtocol
         return repo.register(by: phoneNumber)
     }
     
-    public func token(by phoneNumber: String, otp: String) -> AnyPublisher<Bool, any Error> {
+    public func token(by phoneNumber: String, otp: String) -> AnyPublisher<Token, any Error> {
         return repo.token(by: phoneNumber, otp: otp)
     }
 }

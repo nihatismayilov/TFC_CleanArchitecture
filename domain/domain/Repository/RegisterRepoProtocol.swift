@@ -10,5 +10,5 @@ import Combine
 
 public protocol RegisterRepoProtocol {
     func register(by phoneNumber: String) -> AnyPublisher<Bool, any Error>
-    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Bool, any Error>
+    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Token, any Error>
 }

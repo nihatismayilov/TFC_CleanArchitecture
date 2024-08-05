@@ -22,7 +22,7 @@ class RegisterRepo: RegisterRepoProtocol {
         return remoteDataSourceProtocol.register(by: phoneNumber)
     }
     
-    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Bool, any Error> {
+    func token(by phoneNumber: String, otp: String) -> AnyPublisher<Token, any Error> {
         return remoteDataSourceProtocol.token(by: phoneNumber, otp: otp)
             .receive(on: DispatchQueue.main)
             .map { data in

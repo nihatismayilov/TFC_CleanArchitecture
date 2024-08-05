@@ -121,7 +121,7 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
     
     // MARK: - Initializations
     override func initViews() {
-        navigationController?.navigationBar.isHidden = true
+        setNavigationButton()
         view.addSubviews(scrollView, attentionLabel, confirmButton)
         scrollView.addSubview(scrollStackView)
         scrollStackView.addArrangedSubviews(labelStackView, fieldStackView)
@@ -153,6 +153,18 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
     
     override func setText() {
         attentionLabel.attributedText = "Diqqət: Daxil etdiyiniz məlumatlar sonradan yalnız Müştəri Xidmətləri ilə əlaqə saxlanılaraq dəyişdirilə bilər".colorAttributedString(strings: ["Diqqət:"], color: .red600)
+    }
+    
+    private func setNavigationButton() {
+        navigationController?.navigationBar.isHidden = true
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left")!,
+            style: .plain,
+            target: self,
+            action: nil
+        )
+        button.tintColor = .primaryText
+        navigationItem.leftBarButtonItems = [button]
     }
 }
 

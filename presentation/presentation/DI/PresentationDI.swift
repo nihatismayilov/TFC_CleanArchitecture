@@ -35,7 +35,10 @@ public struct PresentationDIConfigurator {
             return RegisterViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
         }
         container.register(OtpViewModel.self) {
-            return OtpViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
+            return OtpViewModel(
+                registerUseCase: container.resolve(RegisterUseCase.self)!,
+                customerUseCase: container.resolve(CustomerUseCase.self)!
+            )
         }
     }
 }
