@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImageView {
-    convenience init(image: UIImage, backgroundColor: UIColor? = nil, tintColor: UIColor? = nil) {
+    convenience init(image: UIImage?, backgroundColor: UIColor? = nil, tintColor: UIColor? = nil) {
         self.init()
         
         self.image = image

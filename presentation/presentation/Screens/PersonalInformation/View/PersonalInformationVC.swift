@@ -6,15 +6,34 @@
 //
 
 import UIKit
+protocol UpdateCityTextField: AnyObject{
+    func updateCityTextField(selectedCity : String)
+}
+protocol UpdateDistrictTextField: AnyObject{
+    func updateDistrictTextField(selectedDistrict : String)
+}
 
-public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
+public class PersonalInformationVC: UIBaseViewController<BaseViewModel>, UpdateCityTextField,UpdateDistrictTextField {
+    func updateDistrictTextField(selectedDistrict: String) {
+        districtInputView.text = selectedDistrict
+    }
+    
+    func updateCityTextField(selectedCity: String) {
+        cityInputView.text = selectedCity
+    }
+    
     // MARK: - UI Components
+    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
+
+    private lazy var containerView : UIView = {
+        let view = UIView(backgroundColor: .white, cornerRadius: 15)
+        return view
+    }()
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
-        
         return view
     }()
     
@@ -169,5 +188,46 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
 }
 
 extension PersonalInformationVC: InputViewDelegate {
-    
+    func didTapTextField(textField: InputView) {
+        if textField == cityInputView {
+            let vc = Router.getCitySelectionVC()
+            vc.delegate = self
+            vc.selectedCity = textField.text
+            self.present(vc, animated: true, completion: nil)
+        }
+        
+        else if textField == districtInputView {
+            let vc = Router.getDistrictSelectionVC()
+            vc.delegate = self
+            vc.selectedCity = textField.text
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    func textFieldDidChangeSelection(_ textField: InputView, string: String) {
+        if textField == nameInputView || textField == surnameInputView{
+            if textField.text.containsNumber(){
+                textField.showError(text: "Yalnız hərf daxil edilməlidir")
+            }
+            else if textField.text.count < 3 {
+                textField.showError(text: "Bu xana minimum 3 hərfdən ibarət olmalıdır")
+            }
+            else{
+                textField.hideError()
+            }
+        }
+        else if textField == nicknameInputView {
+            if textField.text.count < 2 {
+                textField.showError(text: "Bu xana minimum 2 hərf və ya rəqəmdən ibarət olmalıdır")
+            }
+            else{
+                textField.hideError()
+            }
+        }
+    }
+    func didTapRightIcon() {
+        let bottomSheetVC = Router.getBottomSheetVC()
+                bottomSheetVC.modalPresentationStyle = .custom
+                bottomSheetVC.transitioningDelegate = bottomSheetTransitioningDelegate
+                present(bottomSheetVC, animated: true, completion: nil)
+    }
 }

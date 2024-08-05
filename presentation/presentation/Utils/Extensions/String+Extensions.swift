@@ -17,6 +17,12 @@ extension String? {
 }
 
 extension String {
+    func containsNumber() -> Bool {
+            let numberRegex = ".*[0-9].*"
+            let containsNumberRegex = self.range(of: numberRegex, options: .regularExpression) != nil
+            return containsNumberRegex
+        }
+
     func format(with mask: String) -> String {
         let numbers = replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
         var result = ""
@@ -67,5 +73,10 @@ extension String {
         }
         
         return ranges
+    }
+    func getTextWidth(with font : UIFont) -> CGFloat {
+        let attribute = [NSAttributedString.Key.font : font]
+        let width = self.size(withAttributes: attribute).width
+        return width
     }
 }
