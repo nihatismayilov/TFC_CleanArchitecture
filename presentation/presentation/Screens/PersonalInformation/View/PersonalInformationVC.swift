@@ -23,6 +23,12 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel>, UpdateC
     }
     
     // MARK: - UI Components
+    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
+
+    private lazy var containerView : UIView = {
+        let view = UIView(backgroundColor: .white, cornerRadius: 15)
+        return view
+    }()
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -167,6 +173,7 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel>, UpdateC
     override func setText() {
         attentionLabel.attributedText = "Diqqət: Daxil etdiyiniz məlumatlar sonradan yalnız Müştəri Xidmətləri ilə əlaqə saxlanılaraq dəyişdirilə bilər".colorAttributedString(strings: ["Diqqət:"], color: .red600)
     }
+    
 }
 
 extension PersonalInformationVC: InputViewDelegate {
@@ -177,12 +184,39 @@ extension PersonalInformationVC: InputViewDelegate {
             vc.selectedCity = textField.text
             self.present(vc, animated: true, completion: nil)
         }
+        
         else if textField == districtInputView {
-            
             let vc = Router.getDistrictSelectionVC()
             vc.delegate = self
             vc.selectedCity = textField.text
             self.present(vc, animated: true, completion: nil)
         }
+    }
+    func textFieldDidChangeSelection(_ textField: InputView, string: String) {
+        if textField == nameInputView || textField == surnameInputView{
+            if textField.text.containsNumber(){
+                textField.showError(text: "Yalnız hərf daxil edilməlidir")
+            }
+            else if textField.text.count < 3 {
+                textField.showError(text: "Bu xana minimum 3 hərfdən ibarət olmalıdır")
+            }
+            else{
+                textField.hideError()
+            }
+        }
+        else if textField == nicknameInputView {
+            if textField.text.count < 2 {
+                textField.showError(text: "Bu xana minimum 2 hərf və ya rəqəmdən ibarət olmalıdır")
+            }
+            else{
+                textField.hideError()
+            }
+        }
+    }
+    func didTapRightIcon() {
+        let bottomSheetVC = Router.getBottomSheetVC()
+                bottomSheetVC.modalPresentationStyle = .custom
+                bottomSheetVC.transitioningDelegate = bottomSheetTransitioningDelegate
+                present(bottomSheetVC, animated: true, completion: nil)
     }
 }

@@ -12,16 +12,18 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
     private var dummyData : [String] = ["Yasamal","Sabuncu","Sebail","Buzovna","Goygol"]
     var selectedCity : String?
     weak var delegate : UpdateDistrictTextField?
-//    private var previousCell : IndexPath?
     private var isCitySelected : Bool = false
     private lazy var stackView  = UIStackView(axis: .vertical, alignment: .fill,distribution: .fill,spacing: 16)
+    
     private let topView : UIView = {
         let view = UIView(backgroundColor: .clear)
         return view
     }()
+    
     private lazy var sectionNameLabel  = UILabel(
         text: "Şəhər seçin", textColor: .primaryText, textAlignment: .center ,font: .systemFont(ofSize: 18,weight: .semibold)
     )
+    
     private lazy var dismissButton = UIButton(image: UIImage(systemName: "xmark"), tintColor: .black)
     private lazy var searchField : InputView = {
         let view =  InputView()
@@ -29,13 +31,12 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
         view.delegate = self
         return view
     }()
+    
     private lazy var citiesTableView : UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
         tableView.addCell(type: CustomCityAndDistrictTableViewCell.self)
         return tableView
-        
-        
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,12 +93,10 @@ extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataS
         cell.setupCell(cityName: dummyData[indexPath.row],selectedCity: selectedCity!)
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CustomCityAndDistrictTableViewCell
-        
-        cell.checkMark.image =  /*isCitySelected ?   nil :*/ UIImage(systemName: "checkmark")!
-//        isCitySelected.toggle()
-//        previousCell = indexPath
+        cell.checkMark.image =  UIImage(systemName: "checkmark")!
         delegate?.updateDistrictTextField(selectedDistrict: cell.cityLabel.text!)
         tableView.deselectRow(at: indexPath, animated: true)
         self.dismiss(animated: true)
@@ -109,15 +108,14 @@ extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataS
 
 extension DistrictSelectionViewController : InputViewDelegate {
     func textFieldDidChangeSelection(_ textField: InputView, string: String) {
+        print("i did")
         if string != ""{
             dummyData = dummyDataCopy.filter { $0.lowercased().contains(string.lowercased()) }
-        }
-        else{
+        }else{
             dummyData = dummyDataCopy
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             self.citiesTableView.reloadData()
         }
-        
     }
 }
