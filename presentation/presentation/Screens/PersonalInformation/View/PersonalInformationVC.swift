@@ -173,14 +173,7 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel>, UpdateC
     override func setText() {
         attentionLabel.attributedText = "Diqqət: Daxil etdiyiniz məlumatlar sonradan yalnız Müştəri Xidmətləri ilə əlaqə saxlanılaraq dəyişdirilə bilər".colorAttributedString(strings: ["Diqqət:"], color: .red600)
     }
-    @objc func didTapInfoButton(_ sender : UIButton) {
-//        let blurEffect = UIBlurEffect(style: .extraLight)
-//        let visualEffect = UIVisualEffectView(effect: blurEffect)
-//        visualEffect.frame = view.bounds
-//        view.addSubview(visualEffect)
-//        warningView.isHidden = false
-       
-    }
+    
 }
 
 extension PersonalInformationVC: InputViewDelegate {

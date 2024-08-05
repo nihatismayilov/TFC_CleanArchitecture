@@ -11,12 +11,13 @@ import UIKit
 class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
     var sheetHeight: CGFloat = 242
-
-        func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
             let presentationController = BottomSheetPresentationController(presentedViewController: presented, presenting: presenting)
             presentationController.sheetHeight = sheetHeight
             return presentationController
-        }
+    }
+    
     func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
         return nil
     }

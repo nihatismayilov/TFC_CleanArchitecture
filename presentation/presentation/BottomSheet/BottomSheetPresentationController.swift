@@ -24,14 +24,6 @@ class BottomSheetPresentationController: UIPresentationController {
            self.blurEffectView.addGestureRecognizer(tapGestureRecognizer)
        }
 
-//       override var frameOfPresentedViewInContainerView: CGRect {
-//           guard let containerView = containerView else { return .zero }
-//           return CGRect(x: 0,
-//                         y: containerView.frame.height - sheetHeight,
-//                         width: containerView.frame.width,
-//                         height: sheetHeight)
-//       }
-
        override func presentationTransitionWillBegin() {
            super.presentationTransitionWillBegin()
            print("beginning")
@@ -46,11 +38,8 @@ class BottomSheetPresentationController: UIPresentationController {
            
        }
     override func presentationTransitionDidEnd(_ completed: Bool) {
-        
         super.presentationTransitionDidEnd(completed)
-       
         print("finished")
-        guard let presentedView else {return}
 //        presentedView.frame = CGRect(x: 0, y: (containerView?.bounds.height)! - sheetHeight, width: (containerView?.bounds.width)!, height: sheetHeight)
     }
 
@@ -71,7 +60,6 @@ class BottomSheetPresentationController: UIPresentationController {
            super.containerViewDidLayoutSubviews()
            blurEffectView.frame = containerView!.bounds
            presentedView?.frame = CGRect(x: 0, y: (containerView?.bounds.height)! - sheetHeight, width: (containerView?.bounds.width)!, height: sheetHeight)
-
        }
 
        @objc func dismissController() {

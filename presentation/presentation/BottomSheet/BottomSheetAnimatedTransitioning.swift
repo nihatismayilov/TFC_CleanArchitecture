@@ -30,7 +30,6 @@ class BottomSheetAnimatedTransitioning : NSObject, UIViewControllerAnimatedTrans
                 presented.frame.origin.y = presenter.frame.origin.y + 5
             } completion: { _ in
                 presented.removeFromSuperview()
-                
                 transitionContext.completeTransition(true)
             }
         }

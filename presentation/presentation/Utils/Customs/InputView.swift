@@ -341,6 +341,15 @@ class InputView: UIView {
             phoneTitleLabel.isHidden = false
         case .birthday:
             textField.isEnabled = true
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
+                    
+            // Create Done button
+            let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            toolbar.setItems([flexSpace, doneButton], animated: true)
+            // Assign toolbar to textField
+            textField.inputAccessoryView = toolbar
             textField.inputView = datePicker
             phoneTitleLabel.isHidden = true
             rightButton.addTarget(self, action: #selector(rightIconTapped(_ :)), for: .touchUpInside)
@@ -374,7 +383,10 @@ class InputView: UIView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/YYYY"
         textField.text = dateFormatter.string(from: sender.date)
-        delegate?.textFieldDidChangeSelection(self, string: textField.text!)
+//        delegate?.textFieldDidChangeSelection(self, string: textField.text!)
+    }
+    @objc func donePressed() {
+        endEditing(true)
     }
 }
 
