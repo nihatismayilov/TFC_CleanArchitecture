@@ -16,7 +16,7 @@ class CustomerRemoteDataSource: CustomerRemoteDataSourceProtocol {
         self.dispatcher = dispatcher
     }
     
-    func getProfile() -> AnyPublisher<Bool, any Error> {
+    func getProfile() -> AnyPublisher<ProfileRemoteDTO, any Error> {
         let request = CustomerRequest.profile
         return dispatcher.execute(for: request)
     }

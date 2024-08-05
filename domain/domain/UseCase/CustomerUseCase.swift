@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol CustomerUseCaseProtocol {
-    func getProfile() -> AnyPublisher<Bool, Error>
+    func getProfile() -> AnyPublisher<Profile, Error>
 }
 
 public class CustomerUseCase: CustomerUseCaseProtocol {
@@ -19,7 +19,7 @@ public class CustomerUseCase: CustomerUseCaseProtocol {
         self.repo = repo
     }
     
-    public func getProfile() -> AnyPublisher<Bool, any Error> {
+    public func getProfile() -> AnyPublisher<Profile, any Error> {
         return repo.getProfile()
     }
 }

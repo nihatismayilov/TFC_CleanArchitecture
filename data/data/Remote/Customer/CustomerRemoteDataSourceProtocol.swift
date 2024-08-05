@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 protocol CustomerRemoteDataSourceProtocol {
-    func getProfile() -> AnyPublisher<Bool, Error>
+    func getProfile() -> AnyPublisher<ProfileRemoteDTO, Error>
 }

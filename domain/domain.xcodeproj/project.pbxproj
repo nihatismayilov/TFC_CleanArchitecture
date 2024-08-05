@@ -19,6 +19,7 @@
 		B851CEE92C5A37A7007AD613 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEE82C5A37A7007AD613 /* Token.swift */; };
 		B851CEF72C5A4B94007AD613 /* CustomerRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */; };
 		B851CEF92C5A4C20007AD613 /* CustomerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */; };
+		B851F2812C60B95500A27339 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2802C60B95500A27339 /* Profile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		B851CEE82C5A37A7007AD613 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRepoProtocol.swift; sourceTree = "<group>"; };
 		B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerUseCase.swift; sourceTree = "<group>"; };
+		B851F2802C60B95500A27339 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			children = (
 				B80BDA9E2C4E41E200DA8BB6 /* Test.swift */,
 				B851CEE82C5A37A7007AD613 /* Token.swift */,
+				B851F2802C60B95500A27339 /* Profile.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B851CEE92C5A37A7007AD613 /* Token.swift in Sources */,
+				B851F2812C60B95500A27339 /* Profile.swift in Sources */,
 				B80BDA8E2C4E40F100DA8BB6 /* BaseObservableUseCase.swift in Sources */,
 				B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */,
 				B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */,

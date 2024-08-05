@@ -14,7 +14,7 @@ public class OtpViewModel: BaseViewModel {
     private let customerUseCase: CustomerUseCase
     var tokenDataSubject: CurrentValueSubject<Bool?, Never> = .init(nil)
     var registerDataSubject: CurrentValueSubject<Bool?, Never> = .init(nil)
-    var profileDataSubject: CurrentValueSubject<Bool?, Never> = .init(nil)
+    var profileDataSubject: CurrentValueSubject<Profile?, Never> = .init(nil)
     var phoneNumber: String = "+994 XX XXX XX XX"
     
     public init(registerUseCase: RegisterUseCase, customerUseCase: CustomerUseCase) {
@@ -60,10 +60,10 @@ public class OtpViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] response in
                 guard let self else { return }
-                if response {
+                if response.isSuccess {
                     profileDataSubject.send(response)
                 } else {
-                    showError(message: "response.message")
+                    showError(message: response.message)
                 }
             }
             .store(in: &cancellables)
@@ -97,6 +97,11 @@ public class OtpViewModel: BaseViewModel {
     
     func observeToken() -> AnyPublisher<Bool, Never> {
         tokenDataSubject.compactMap {$0}
+            .eraseToAnyPublisher()
+    }
+    
+    func observeProfile() -> AnyPublisher<Profile, Never> {
+        profileDataSubject.compactMap {$0}
             .eraseToAnyPublisher()
     }
     

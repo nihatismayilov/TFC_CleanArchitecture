@@ -11,6 +11,10 @@ import domain
 class Router {
     private init() {}
     
+    static func getTabbarController() -> TabbarController {
+        return DIContainer.shared.resolve(TabbarController.self)!
+    }
+    
     static func getForceUpdateVC() -> ForceUpdateVC {
         return DIContainer.shared.resolve(ForceUpdateVC.self)!
     }

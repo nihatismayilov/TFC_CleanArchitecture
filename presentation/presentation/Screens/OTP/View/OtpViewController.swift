@@ -149,6 +149,21 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
                 }
             }
         addCancellable(registerSubscription)
+        
+        let profileSubscription = viewModel.observeProfile()
+            .sink { [weak self] profileData in
+                guard let self else { return }
+                if profileData.id == nil {
+                    pushNavigation(Router.getPersonalInformationVC())
+                } else {
+                    let vc = Router.getTabbarController()
+                    vc.modalTransitionStyle = .crossDissolve
+                    vc.modalPresentationStyle = .fullScreen
+                    present(vc, animated: true)
+                    clearStack()
+                }
+            }
+        addCancellable(profileSubscription)
     }
     
     private func setNavigationButton() {

@@ -18,7 +18,12 @@ class CustomerRepo: CustomerRepoProtocol {
         self.remoteDataSourceProtocol = remoteDataSourceProtocol
     }
     
-    func getProfile() -> AnyPublisher<Bool, any Error> {
+    func getProfile() -> AnyPublisher<Profile, any Error> {
         return remoteDataSourceProtocol.getProfile()
+            .receive(on: DispatchQueue.main)
+            .map { data in
+                return data.toDomain()
+            }
+            .eraseToAnyPublisher()
     }
 }

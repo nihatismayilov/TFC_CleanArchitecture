@@ -47,5 +47,6 @@ struct ProfileRemoteDTO: Decodable {
     let statusConfirmedIDCard: Int?
     let expDt: String?
     
+    // error
     let message: String?
 }

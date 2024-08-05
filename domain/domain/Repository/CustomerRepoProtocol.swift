@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 public protocol CustomerRepoProtocol {
-    func getProfile() -> AnyPublisher<Bool, any Error>
+    func getProfile() -> AnyPublisher<Profile, any Error>
 }

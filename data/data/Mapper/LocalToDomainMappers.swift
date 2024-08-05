@@ -28,3 +28,32 @@ extension TokenRemoteDTO {
         )
     }
 }
+
+extension ProfileRemoteDTO {
+    func toDomain() -> Profile {
+        return Profile(
+            id: id,
+            phoneNumber: phoneNumber,
+            name: name,
+            lastName: lastName,
+            nickName: nickName,
+            currentBalance: currentBalance,
+            cityId: cityId,
+            cityName: cityName,
+            regionId: regionId,
+            regionName: regionName,
+            fileUrl: fileUrl,
+            locked: locked,
+            birthDay: birthDay,
+            status: status,
+            fireBaseId: fireBaseId,
+            lotteryStatus: lotteryStatus,
+            email: email,
+            passportFin: passportFin,
+            passportNumber: passportNumber,
+            statusConfirmedIDCard: statusConfirmedIDCard,
+            isSuccess: message == nil,
+            message: message ?? "unknown error occured"
+        )
+    }
+}
