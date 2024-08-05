@@ -26,6 +26,15 @@ public struct PresentationDIConfigurator {
         container.register(PersonalInformationVC.self) {
             PersonalInformationVC(vm: container.resolve(BaseViewModel.self)!)
         }
+        container.register(CitySelectionViewController.self) {
+            CitySelectionViewController(vm: container.resolve(CitySelectionViewModel.self)!)
+        }
+        container.register(DistrictSelectionViewController.self) {
+            DistrictSelectionViewController(vm: container.resolve(DistrictSelectionViewModel.self)!)
+        }
+        container.register(BottomSheetViewController.self) {
+            BottomSheetViewController()
+        }
         // MARK: - View Models
         container.register(BaseViewModel.self) {
             BaseViewModel()
@@ -36,6 +45,12 @@ public struct PresentationDIConfigurator {
         }
         container.register(OtpViewModel.self) {
             return OtpViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
+        }
+        container.register(CitySelectionViewModel.self) {
+            return CitySelectionViewModel()
+        }
+        container.register(DistrictSelectionViewModel.self) {
+            return DistrictSelectionViewModel()
         }
     }
 }

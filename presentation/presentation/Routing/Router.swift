@@ -26,9 +26,12 @@ class Router {
         return DIContainer.shared.resolve(PersonalInformationVC.self)!
     }
     static func getCitySelectionVC() -> CitySelectionViewController {
-        return CitySelectionViewController(vm: CitySelectionViewModel())
+        return DIContainer.shared.resolve(CitySelectionViewController.self)!
     }
     static func getDistrictSelectionVC() -> DistrictSelectionViewController {
-        return DistrictSelectionViewController(vm: DistrictSelectionViewModel())
+        return DIContainer.shared.resolve(DistrictSelectionViewController.self)!
+    }
+    static func getBottomSheetVC() -> BottomSheetViewController {
+        return DIContainer.shared.resolve(BottomSheetViewController.self)!
     }
 }

@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataDIConfigurator.configure(container: DIContainer.shared)
         
 //        let startVC = DIContainer.shared.resolve(TabbarController.self)!
-//        let startVC = DIContainer.shared.resolve(PersonalInformationVC.self)!
+        let startVC = DIContainer.shared.resolve(PersonalInformationVC.self)!
 //        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
-        let startVC = DIContainer.shared.resolve(RegisterViewController.self)!
+//        let startVC = DIContainer.shared.resolve(RegisterViewController.self)!
         setupInitialPage(startVC)
         
         return true

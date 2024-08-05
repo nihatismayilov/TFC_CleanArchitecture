@@ -28,6 +28,7 @@ protocol InputViewDelegate: NSObject {
     func textFieldShouldClear(_ textField: InputView) -> Bool
     func textFieldShouldReturn(_ textField: InputView) -> Bool
     func didTapTextField(textField: InputView)
+    func didTapRightIcon()
 }
 
 extension InputViewDelegate {
@@ -41,6 +42,7 @@ extension InputViewDelegate {
     func textFieldShouldClear(_ textField: InputView) -> Bool {true}
     func textFieldShouldReturn(_ textField: InputView) -> Bool {true}
     func didTapTextField(textField: InputView) {}
+    func didTapRightIcon() {}
 }
 class InputView: UIView {
     // MARK: - Variables
@@ -164,7 +166,7 @@ class InputView: UIView {
     private lazy var rightButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isUserInteractionEnabled = false
+//        button.isUserInteractionEnabled = false
         button.tintColor = .secondaryText
 //        button.contentVerticalAlignment = .center
 //        button.contentHorizontalAlignment = .center
@@ -184,7 +186,6 @@ class InputView: UIView {
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .wheels
         picker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        
         return picker
     }()
     
@@ -257,6 +258,9 @@ class InputView: UIView {
     
     @objc func viewTapped(_ sender: UITapGestureRecognizer) {
         delegate?.didTapTextField(textField: self)
+    }
+    @objc func rightIconTapped(_ sender : UIButton) {
+        delegate?.didTapRightIcon()
     }
     
     func showError(text: String) {
@@ -339,12 +343,14 @@ class InputView: UIView {
             textField.isEnabled = true
             textField.inputView = datePicker
             phoneTitleLabel.isHidden = true
+            rightButton.addTarget(self, action: #selector(rightIconTapped(_ :)), for: .touchUpInside)
         case .dropdown:
             let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
             textFieldBack.addGestureRecognizer(tap)
             textField.isEnabled = false
             rightButton.setImage(UIImage(systemName: "chevron.down")!, for: .normal)
             phoneTitleLabel.isHidden = true
+            rightButton.isEnabled = false
         case .amount:
             textField.isEnabled = true
             textField.keyboardType = .numberPad
@@ -383,7 +389,7 @@ extension InputView: UITextFieldDelegate {
             delegate?.didTapTextField(textField: self)
             return
         }
-        hideError()
+//        hideError()
         delegate?.textFieldDidBeginEditing(self)
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {

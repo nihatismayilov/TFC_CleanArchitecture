@@ -109,6 +109,7 @@ extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataS
 
 extension DistrictSelectionViewController : InputViewDelegate {
     func textFieldDidChangeSelection(_ textField: InputView, string: String) {
+        print("i did")
         if string != ""{
             dummyData = dummyDataCopy.filter { $0.lowercased().contains(string.lowercased()) }
         }

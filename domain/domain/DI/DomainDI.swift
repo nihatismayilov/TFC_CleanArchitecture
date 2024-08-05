@@ -31,8 +31,8 @@ public class DIContainer: DIContainerProtocol {
     public func resolve<T>(_ type: T.Type) -> T? {
         let key = String(describing: type)
         if let singleton = singletons[key] as? T {
-            return singleton
-        }
+                    return singleton
+                }
         return registry[key]?() as? T
     }
 }
