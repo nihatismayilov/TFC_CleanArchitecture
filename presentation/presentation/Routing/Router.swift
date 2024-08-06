@@ -34,8 +34,10 @@ class Router {
         vc.viewModel.selectedID = selectedID
         return vc
     }
-    static func getDistrictSelectionVC() -> DistrictSelectionViewController {
-        return DIContainer.shared.resolve(DistrictSelectionViewController.self)!
+    static func getDistrictSelectionVC(selectedID : Int?) -> DistrictSelectionViewController {
+        let vc = DIContainer.shared.resolve(DistrictSelectionViewController.self)!
+        vc.viewModel.selectedID = selectedID
+        return vc
     }
     static func getHomeViewController() -> HomeViewController {
         return DIContainer.shared.resolve(HomeViewController.self)!

@@ -59,7 +59,7 @@ public struct PresentationDIConfigurator {
             return CitySelectionViewModel(cityUseCase: container.resolve(LocationUseCase.self)!)
         }
         container.register(DistrictSelectionViewModel.self) {
-            return DistrictSelectionViewModel()
+            return DistrictSelectionViewModel(regionUseCase: container.resolve(LocationUseCase.self)!)
         }
     }
 }

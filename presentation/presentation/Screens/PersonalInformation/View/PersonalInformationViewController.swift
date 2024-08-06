@@ -163,8 +163,10 @@ public class PersonalInformationViewController: UIBaseViewController<PersonalInf
     }
     
     // MARK: - Functions
-    func updateDistrictTextField(selectedDistrict: String) {
-        districtInputView.text = selectedDistrict
+    func updateDistrictTextField(selectedRegion: LocationData) {
+        viewModel.model.regionId = selectedRegion.id
+        viewModel.model.regionName = selectedRegion.name
+        districtInputView.text = viewModel.model.regionName ?? ""
     }
     
     func updateCityTextField(selectedCity: LocationData) {
@@ -183,9 +185,8 @@ extension PersonalInformationViewController: InputViewDelegate {
         }
         
         else if textField == districtInputView {
-            let vc = Router.getDistrictSelectionVC()
+            let vc = Router.getDistrictSelectionVC(selectedID: viewModel.model.regionId)
             vc.delegate = self
-            vc.selectedCity = textField.text
             self.present(vc, animated: true, completion: nil)
         }
     }

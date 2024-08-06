@@ -78,7 +78,6 @@ class BottomSheetPresentationController: UIPresentationController {
             initialTouch = yOffset
             initialYpoint = presentedView.frame.origin.y
         case .changed :
-            
                 presentedView.frame.origin.y = initialYpoint - difference
                 print("difference >>> \(yOffset)")
             

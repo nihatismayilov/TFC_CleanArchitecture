@@ -6,18 +6,15 @@
 //
 
 import UIKit
+import domain
 
 protocol UpdateDistrictTextField: AnyObject{
-    func updateDistrictTextField(selectedDistrict : String)
+    func updateDistrictTextField(selectedRegion : LocationData)
 }
 
-class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
-    private var dummyDataCopy : [String] = []
-    private var dummyData : [String] = ["Yasamal","Sabuncu","Sebail","Buzovna","Goygol"]
-    var selectedCity : String?
-    weak var delegate : UpdateDistrictTextField?
-    private var isCitySelected : Bool = false
+class DistrictSelectionViewController: UIBaseViewController<DistrictSelectionViewModel> {
     
+    weak var delegate : UpdateDistrictTextField?
     private lazy var stackView  = UIStackView(
         axis: .vertical,
         alignment: .fill,
@@ -48,7 +45,7 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
         return view
     }()
     
-    private lazy var citiesTableView : UITableView = {
+    private lazy var districtsTableView : UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
         tableView.addCell(type: CityAndDistrictTableViewCell.self)
@@ -56,15 +53,16 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getDistrict()
     }
     
     override func initViews() {
         view.addSubview(stackView)
         
-        stackView.addArrangedSubviews(topView,searchField,citiesTableView)
+        stackView.addArrangedSubviews(topView,searchField,districtsTableView)
         addSubviews()
-        citiesTableView.delegate = self
-        citiesTableView.dataSource = self
+        districtsTableView.delegate = self
+        districtsTableView.dataSource = self
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.topAnchor,constant: 12),
@@ -87,7 +85,15 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
         
     }
     override func initVars() {
-        dummyDataCopy = dummyData
+        
+    }
+    override func setBindings() {
+        let districtSubscription = viewModel.observeDistrict()
+            .sink { [weak self] cities in
+                guard let self else { return }
+                districtsTableView.reloadData()
+            }
+        addCancellable(districtSubscription)
     }
     private func addSubviews() {
         topView.addSubview(sectionNameLabel)
@@ -101,19 +107,23 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
 
 extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dummyData.count
+        return viewModel.filteredRegions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.getCell(type: CityAndDistrictTableViewCell.self)
-//        cell.setupCell(model: dummyData[indexPath.row], selectedID: 1)
+        
+        let data = viewModel.filteredRegions[indexPath.row]
+        
+        cell.setupCell(model: data, selectedID: viewModel.selectedID)        
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CityAndDistrictTableViewCell
         cell.checkMark.image =  UIImage(systemName: "checkmark")!
-        delegate?.updateDistrictTextField(selectedDistrict: cell.cityLabel.text!)
+        delegate?.updateDistrictTextField(selectedRegion: viewModel.filteredRegions[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
         self.dismiss(animated: true)
     }
@@ -124,14 +134,11 @@ extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataS
 
 extension DistrictSelectionViewController : InputViewDelegate {
     func textFieldDidChangeSelection(_ textField: InputView, string: String) {
-        print("i did")
-        if string != ""{
-            dummyData = dummyDataCopy.filter { $0.lowercased().contains(string.lowercased()) }
-        }else{
-            dummyData = dummyDataCopy
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-            self.citiesTableView.reloadData()
-        }
+        viewModel.filterDistricts(text: string)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            self.districtsTableView.reloadData()
+//        }
+        
     }
 }

@@ -10,6 +10,7 @@ import Combine
 
 protocol LocationUseCaseProtocol {
     func getCity() -> AnyPublisher<Location, Error>
+    func getRegion() -> AnyPublisher<Location, Error>
 }
 
 public class LocationUseCase: LocationUseCaseProtocol {
