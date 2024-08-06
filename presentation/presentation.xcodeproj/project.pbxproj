@@ -50,10 +50,10 @@
 		B88CFDC72C4FC6E60079EECF /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CFDC62C4FC6E60079EECF /* UILabel+Extensions.swift */; };
 		B88CFDC92C4FD5910079EECF /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CFDC82C4FD5910079EECF /* UIButton+Extensions.swift */; };
 		B88CFDCB2C4FD7650079EECF /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CFDCA2C4FD7650079EECF /* BaseButton.swift */; };
+		B8A6AC132C624ED8009B29FF /* PersonalInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A6AC122C624ED8009B29FF /* PersonalInformationViewController.swift */; };
 		B8A9E6422C58C798009D4B63 /* OtpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9E6412C58C798009D4B63 /* OtpViewModel.swift */; };
 		B8A9E6452C59097C009D4B63 /* OtpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9E6442C59097C009D4B63 /* OtpView.swift */; };
 		B8A9E6472C590E0A009D4B63 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9E6462C590E0A009D4B63 /* Double+Extensions.swift */; };
-		B8CD2A7B2C537B2A006E6C91 /* PersonalInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD2A7A2C537B2A006E6C91 /* PersonalInformationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,10 +116,10 @@
 		B88CFDC62C4FC6E60079EECF /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		B88CFDC82C4FD5910079EECF /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		B88CFDCA2C4FD7650079EECF /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		B8A6AC122C624ED8009B29FF /* PersonalInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationViewController.swift; sourceTree = "<group>"; };
 		B8A9E6412C58C798009D4B63 /* OtpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpViewModel.swift; sourceTree = "<group>"; };
 		B8A9E6442C59097C009D4B63 /* OtpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpView.swift; sourceTree = "<group>"; };
 		B8A9E6462C590E0A009D4B63 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
-		B8CD2A7A2C537B2A006E6C91 /* PersonalInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInformationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -502,7 +502,7 @@
 		B8CD2A792C537B1C006E6C91 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B8CD2A7A2C537B2A006E6C91 /* PersonalInformationViewController.swift */,
+				B8A6AC122C624ED8009B29FF /* PersonalInformationViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -595,10 +595,10 @@
 			files = (
 				B88CFDB42C4F89EB0079EECF /* ForceUpdateVC.swift in Sources */,
 				1E70685B2C5B664500366360 /* DistrictSelectionViewController.swift in Sources */,
-				B8CD2A7B2C537B2A006E6C91 /* PersonalInformationViewController.swift in Sources */,
 				B86B509E2C512FF30083A038 /* String+Extensions.swift in Sources */,
 				B88CFDC32C4FC3220079EECF /* UITableView+Extensions.swift in Sources */,
 				B88CFDBD2C4FC2A30079EECF /* UIStackView+Extensions.swift in Sources */,
+				B8A6AC132C624ED8009B29FF /* PersonalInformationViewController.swift in Sources */,
 				B88CFDBA2C4FC1A60079EECF /* BaseViewModel.swift in Sources */,
 				B841363C2C6238110001E1D9 /* PersonalInformationViewModel.swift in Sources */,
 				B88CFDCB2C4FD7650079EECF /* BaseButton.swift in Sources */,

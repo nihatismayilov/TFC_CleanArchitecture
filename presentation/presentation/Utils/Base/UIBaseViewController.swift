@@ -46,14 +46,6 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-<<<<<<< HEAD
-=======
-    }
-    
-    deinit {
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
->>>>>>> sub-main
     }
     
     deinit {
