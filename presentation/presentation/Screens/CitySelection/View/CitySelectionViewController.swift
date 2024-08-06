@@ -5,51 +5,65 @@
 //  Created by Rufat Akbar  on 31.07.24.
 //
 
-import Foundation
 import UIKit
+import domain
 
+protocol CitySelectionProtocol: AnyObject{
+    func updateCityTextField(selectedCity: LocationData)
+}
 
-class CitySelectionViewController : UIBaseViewController<BaseViewModel> {
-    private var dummyDataCopy : [String] = []
-    private var dummyData : [String] = ["Sabirabad","Baku","Agstafa","Yardimli","Goygol"]
-    var selectedCity : String?
-    weak var delegate : UpdateCityTextField?
-//    private var previousCell : IndexPath?
-    private var isCitySelected : Bool = false
-    private lazy var stackView  = UIStackView(axis: .vertical, alignment: .fill,distribution: .fill,spacing: 16)
-    private let topView : UIView = {
-        let view = UIView(backgroundColor: .clear)
-        return view
-    }()
-    private lazy var sectionNameLabel  = UILabel(
-        text: "Şəhər seçin", textColor: .primaryText, textAlignment: .center ,font: .systemFont(ofSize: 18,weight: .semibold)
+class CitySelectionViewController : UIBaseViewController<CitySelectionViewModel> {
+    // MARK: - Variables
+    weak var delegate : CitySelectionProtocol?
+    
+    // MARK: - UI Components
+    private let stackView  = UIStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 16
     )
-    private lazy var dismissButton = UIButton(image: UIImage(systemName: "xmark"), tintColor: .black)
-    private lazy var searchField : InputView = {
+    private let topView = UIView(backgroundColor: .clear)
+    private lazy var sectionNameLabel = UILabel(
+        text: "Şəhər seçin",
+        textColor: .primaryText,
+        textAlignment: .center ,
+        font: .systemFont(ofSize: 18,weight: .semibold)
+    )
+    private lazy var dismissButton = UIButton(
+        image: UIImage(systemName: "xmark"),
+        tintColor: .black
+    )
+    private lazy var searchField: InputView = {
         let view =  InputView()
         view.type = .search
         view.delegate = self
+        view.placeHolder = "Axtar"
         return view
     }()
-    private lazy var citiesTableView : UITableView = {
+    private lazy var citiesTableView: UITableView = {
         let tableView = UITableView()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.addCell(type: CityAndDistrictTableViewCell.self)
         tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
-        tableView.addCell(type: CustomCityAndDistrictTableViewCell.self)
+        
         return tableView
-        
-        
     }()
+    
+    // MARK: - Controller Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getCity()
     }
     
+    // MARK: - Initializations
     override func initViews() {
         view.addSubview(stackView)
-        
         stackView.addArrangedSubviews(topView,searchField,citiesTableView)
-        addSubviews()
-        citiesTableView.delegate = self
-        citiesTableView.dataSource = self
+        topView.addSubviews(sectionNameLabel, dismissButton)
+        dismissButton.addTarget(self, action: #selector(didTapDismiss(_ :)), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.topAnchor,constant: 12),
@@ -59,26 +73,35 @@ class CitySelectionViewController : UIBaseViewController<BaseViewModel> {
         
             topView.heightAnchor.constraint(equalToConstant: 24),
             
-            searchField.heightAnchor.constraint(equalToConstant: 36),
-            
             sectionNameLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
             sectionNameLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
-
+            
             dismissButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
             dismissButton.widthAnchor.constraint(equalToConstant: 24),
             dismissButton.heightAnchor.constraint(equalToConstant: 24),
-            dismissButton.leadingAnchor.constraint(equalTo: sectionNameLabel.trailingAnchor, constant: 90)
+            dismissButton.leadingAnchor.constraint(equalTo: sectionNameLabel.trailingAnchor, constant: 90),
+            
+//            searchField.heightAnchor.constraint(equalToConstant: 36),
         ])
         
     }
     override func initVars() {
-        dummyDataCopy = dummyData
     }
-    private func addSubviews() {
-        topView.addSubview(sectionNameLabel)
-        topView.addSubview(dismissButton)
-        dismissButton.addTarget(self, action: #selector(didTapDismiss(_ :)), for: .touchUpInside)
+    
+    override func setText() {
+        
     }
+    
+    override func setBindings() {
+        let citySubscription = viewModel.observeCity()
+            .sink { [weak self] cities in
+                guard let self else { return }
+                citiesTableView.reloadData()
+            }
+        addCancellable(citySubscription)
+    }
+    
+    // MARK: - Functions
     @objc private func didTapDismiss(_ sender : UIButton) {
         self.dismiss(animated: true)
     }
@@ -86,22 +109,23 @@ class CitySelectionViewController : UIBaseViewController<BaseViewModel> {
 
 extension CitySelectionViewController : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dummyData.count
+        return viewModel.filteredCities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.getCell(type: CustomCityAndDistrictTableViewCell.self)
-        cell.setupCell(cityName: dummyData[indexPath.row],selectedCity: selectedCity!)
+        let cell = tableView.getCell(type: CityAndDistrictTableViewCell.self)
+        
+        let data = viewModel.filteredCities[indexPath.row]
+        
+        cell.setupCell(model: data, selectedID: viewModel.selectedID)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! CustomCityAndDistrictTableViewCell
+        let cell = tableView.cellForRow(at: indexPath) as! CityAndDistrictTableViewCell
         
-        cell.checkMark.image =  /*isCitySelected ?   nil :*/ UIImage(systemName: "checkmark")!
-//        isCitySelected.toggle()
-//        previousCell = indexPath
-        delegate?.updateCityTextField(selectedCity: cell.cityLabel.text!)
-        tableView.deselectRow(at: indexPath, animated: true)
+        cell.checkMark.image = UIImage(systemName: "checkmark")!
+        
+        delegate?.updateCityTextField(selectedCity: viewModel.filteredCities[indexPath.row])
         self.dismiss(animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -111,15 +135,11 @@ extension CitySelectionViewController : UITableViewDelegate,UITableViewDataSourc
 
 extension CitySelectionViewController : InputViewDelegate {
     func textFieldDidChangeSelection(_ textField: InputView, string: String) {
-        if string != ""{
-            dummyData = dummyDataCopy.filter { $0.lowercased().contains(string.lowercased()) }
-        }
-        else{
-            dummyData = dummyDataCopy
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+        viewModel.filterCities(text: string)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             self.citiesTableView.reloadData()
-        }
+//        }
         
     }
 }

@@ -20,6 +20,9 @@
 		B851CEF72C5A4B94007AD613 /* CustomerRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */; };
 		B851CEF92C5A4C20007AD613 /* CustomerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */; };
 		B851F2812C60B95500A27339 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2802C60B95500A27339 /* Profile.swift */; };
+		B851F28F2C61055100A27339 /* LocationRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F28E2C61055100A27339 /* LocationRepoProtocol.swift */; };
+		B851F2912C61057800A27339 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2902C61057800A27339 /* City.swift */; };
+		B851F2962C6109FD00A27339 /* LocationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2952C6109FD00A27339 /* LocationUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRepoProtocol.swift; sourceTree = "<group>"; };
 		B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerUseCase.swift; sourceTree = "<group>"; };
 		B851F2802C60B95500A27339 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		B851F28E2C61055100A27339 /* LocationRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepoProtocol.swift; sourceTree = "<group>"; };
+		B851F2902C61057800A27339 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		B851F2952C6109FD00A27339 /* LocationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,7 @@
 			children = (
 				B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */,
 				B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */,
+				B851F28E2C61055100A27339 /* LocationRepoProtocol.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -120,6 +127,7 @@
 			children = (
 				B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */,
 				B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */,
+				B851F2952C6109FD00A27339 /* LocationUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -130,6 +138,7 @@
 				B80BDA9E2C4E41E200DA8BB6 /* Test.swift */,
 				B851CEE82C5A37A7007AD613 /* Token.swift */,
 				B851F2802C60B95500A27339 /* Profile.swift */,
+				B851F2902C61057800A27339 /* City.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -220,10 +229,13 @@
 				B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */,
 				B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */,
 				B851CEF72C5A4B94007AD613 /* CustomerRepoProtocol.swift in Sources */,
+				B851F2912C61057800A27339 /* City.swift in Sources */,
 				B851CEF92C5A4C20007AD613 /* CustomerUseCase.swift in Sources */,
 				B80BDA8C2C4E40E700DA8BB6 /* BaseAsyncThrowsUseCase.swift in Sources */,
 				B80BDA932C4E411F00DA8BB6 /* UIError.swift in Sources */,
+				B851F2962C6109FD00A27339 /* LocationUseCase.swift in Sources */,
 				B846F7AE2C5269B3008E8407 /* RegisterUseCase.swift in Sources */,
+				B851F28F2C61055100A27339 /* LocationRepoProtocol.swift in Sources */,
 				B80BDA912C4E411700DA8BB6 /* UnauthorizedError.swift in Sources */,
 				B80BDA892C4E406A00DA8BB6 /* DomainDI.swift in Sources */,
 			);
@@ -365,7 +377,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = U243U99T75;
+				DEVELOPMENT_TEAM = KM75KTHJYL;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -404,7 +416,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = U243U99T75;
+				DEVELOPMENT_TEAM = KM75KTHJYL;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

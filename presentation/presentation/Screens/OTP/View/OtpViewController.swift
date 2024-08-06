@@ -154,7 +154,7 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             .sink { [weak self] profileData in
                 guard let self else { return }
                 if profileData.id == nil {
-                    pushNavigation(Router.getPersonalInformationVC())
+                    pushNavigation(Router.getPersonalInformationViewController())
                 } else {
                     let vc = Router.getTabbarController()
                     vc.modalTransitionStyle = .crossDissolve

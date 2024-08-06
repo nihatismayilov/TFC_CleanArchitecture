@@ -60,10 +60,10 @@ public class OtpViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] response in
                 guard let self else { return }
-                if response.isSuccess {
+                if response.isSuccess == true {
                     profileDataSubject.send(response)
                 } else {
-                    showError(message: response.message)
+                    showError(message: response.message.orEmpty)
                 }
             }
             .store(in: &cancellables)

@@ -29,8 +29,8 @@ public struct Profile {
     public let passportNumber: String?
     public let statusConfirmedIDCard: Int?
     
-    public let isSuccess: Bool
-    public let message: String
+    public let isSuccess: Bool?
+    public let message: String?
     
     public init(id: Int?, phoneNumber: String?, name: String, lastName: String?, nickName: String?, currentBalance: Double?, cityId: Int?, cityName: String?, regionId: Int?, regionName: String?, fileUrl: String?, locked: Bool?, birthDay: String?, status: Bool?, fireBaseId: String?, lotteryStatus: Int?, email: String?, passportFin: String?, passportNumber: String?, statusConfirmedIDCard: Int?, isSuccess: Bool, message: String) {
         self.id = id

@@ -68,6 +68,10 @@ public struct DataDIConfigurator {
             CustomerRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
         }
         
+        container.register(LocationRemoteDataSourceProtocol.self) {
+            LocationRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
+        }
+        
         // MARK: - Repo
 //        container.register(TestRepoProtocol.self) {
 //            TestRepo(
@@ -81,9 +85,15 @@ public struct DataDIConfigurator {
                 userDefaultsStorage: container.resolve(UserDefaultsStorageProtocol.self)!
             )
         }
-        
         container.register(CustomerRepoProtocol.self) {
-            CustomerRepo(remoteDataSourceProtocol: container.resolve(CustomerRemoteDataSourceProtocol.self)!)
+            CustomerRepo(
+                remoteDataSourceProtocol: container.resolve(CustomerRemoteDataSourceProtocol.self)!
+            )
+        }
+        container.register(LocationRepoProtocol.self) {
+            LocationRepo(
+                remoteDataSourceProtocol: container.resolve(LocationRemoteDataSourceProtocol.self)!
+            )
         }
     }
     

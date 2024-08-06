@@ -141,6 +141,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
         addCancellable(registerSubscription)
     }
     
+    // MARK: - Functions
     @objc func didTap(_ sender: UIButton) {
         switch sender {
         case closeButton:

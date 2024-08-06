@@ -269,9 +269,9 @@ extension String? {
 }
 
 protocol Request {
-    var endpoint: String { get }
-    
     var baseUrl: BaseURL { get }
+    
+    var endpoint: String { get }
     
     var method: HTTPMethod { get }
     
