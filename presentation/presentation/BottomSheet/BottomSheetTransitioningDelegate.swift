@@ -8,21 +8,35 @@
 import Foundation
 import UIKit
 
+enum BottomSheetHeight {
+    case automatic
+    case custom(height : CGFloat)
+}
+
 class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
-    var sheetHeight: CGFloat = 242
+    var sheetHeight: BottomSheetHeight
+    
+    init(sheetHeight: BottomSheetHeight) {
+        self.sheetHeight = sheetHeight
+    }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-            let presentationController = BottomSheetPresentationController(presentedViewController: presented, presenting: presenting)
-            presentationController.sheetHeight = sheetHeight
-            return presentationController
+        let presentationController = BottomSheetPresentationController(presentedViewController: presented, presenting: presenting)
+        presentationController.sheetHeight = switch sheetHeight {
+        case .automatic:
+            242
+        case .custom(let height):
+            height
+        }
+        return presentationController
     }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        return nil
-    }
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
-        return nil
-    }
+//    
+//    func animationController(forDismissed dismissed: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+//        return nil
+//    }
+//    
+//    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> (any UIViewControllerAnimatedTransitioning)? {
+//        return nil
+//    }
 }

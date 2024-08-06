@@ -7,7 +7,15 @@
 
 import UIKit
 
+
+
 class BottomSheetViewController: UIViewController {
+//    var height : BottomSheetHeight = .automatic
+    private var transition : UIViewControllerAnimatedTransitioning?
+    private var presenter : UIPresentationController = .init(
+        presentedViewController: UIViewController(),
+        presenting: UIViewController()
+    )
     
     private let topView = UIView(
         backgroundColor: .clear
@@ -74,3 +82,4 @@ class BottomSheetViewController: UIViewController {
         self.dismiss(animated: true)
     }
 }
+

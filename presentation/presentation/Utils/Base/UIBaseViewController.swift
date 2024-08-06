@@ -46,12 +46,25 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+<<<<<<< HEAD
+=======
+    }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+>>>>>>> sub-main
     }
     
     deinit {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
     }
+    
+    // MARK: - Handle BottomSheet presentation
+//    func presentAsBottomSheet(vc : UIViewController) {
+//        vc.transitioningDelegate = vc
+//    }
     
     // MARK: - Initializations
     private func setupBase() {
@@ -177,4 +190,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
             self.navigationController?.viewControllers.removeSubrange(0..<vcs.count-1)
         }
     }
+    
+    // MARK: - Conformance to TransitioningDelegate
+    
 }
