@@ -74,6 +74,11 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         self.cancellables.removeAll()
     }
     
+    // MARK: - Handle BottomSheet presentation
+//    func presentAsBottomSheet(vc : UIViewController) {
+//        vc.transitioningDelegate = vc
+//    }
+    
     // MARK: - Initializations
     private func setupBase() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnView))
@@ -182,4 +187,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
             self.navigationController?.viewControllers.removeSubrange(0..<vcs.count-1)
         }
     }
+    
+    // MARK: - Conformance to TransitioningDelegate
+    
 }

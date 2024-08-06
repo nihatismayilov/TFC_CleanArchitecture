@@ -6,24 +6,12 @@
 //
 
 import UIKit
-protocol UpdateCityTextField: AnyObject{
-    func updateCityTextField(selectedCity : String)
-}
-protocol UpdateDistrictTextField: AnyObject{
-    func updateDistrictTextField(selectedDistrict : String)
-}
 
-public class PersonalInformationVC: UIBaseViewController<BaseViewModel>, UpdateCityTextField,UpdateDistrictTextField {
-    func updateDistrictTextField(selectedDistrict: String) {
-        districtInputView.text = selectedDistrict
-    }
-    
-    func updateCityTextField(selectedCity: String) {
-        cityInputView.text = selectedCity
-    }
+
+public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
     
     // MARK: - UI Components
-    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
+    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate(sheetHeight: .automatic)
 
     private lazy var containerView : UIView = {
         let view = UIView(backgroundColor: .white, cornerRadius: 15)
@@ -218,5 +206,16 @@ extension PersonalInformationVC: InputViewDelegate {
                 bottomSheetVC.modalPresentationStyle = .custom
                 bottomSheetVC.transitioningDelegate = bottomSheetTransitioningDelegate
                 present(bottomSheetVC, animated: true, completion: nil)
+    }
+}
+
+extension PersonalInformationVC : UpdateCityTextField,UpdateDistrictTextField {
+    
+    func updateDistrictTextField(selectedDistrict: String) {
+        districtInputView.text = selectedDistrict
+    }
+    
+    func updateCityTextField(selectedCity: String) {
+        cityInputView.text = selectedCity
     }
 }

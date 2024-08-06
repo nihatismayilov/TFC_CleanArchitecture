@@ -7,13 +7,23 @@
 
 import UIKit
 
+protocol UpdateDistrictTextField: AnyObject{
+    func updateDistrictTextField(selectedDistrict : String)
+}
+
 class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
     private var dummyDataCopy : [String] = []
     private var dummyData : [String] = ["Yasamal","Sabuncu","Sebail","Buzovna","Goygol"]
     var selectedCity : String?
     weak var delegate : UpdateDistrictTextField?
     private var isCitySelected : Bool = false
-    private lazy var stackView  = UIStackView(axis: .vertical, alignment: .fill,distribution: .fill,spacing: 16)
+    
+    private lazy var stackView  = UIStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 16
+    )
     
     private let topView : UIView = {
         let view = UIView(backgroundColor: .clear)
@@ -21,10 +31,16 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
     }()
     
     private lazy var sectionNameLabel  = UILabel(
-        text: "Şəhər seçin", textColor: .primaryText, textAlignment: .center ,font: .systemFont(ofSize: 18,weight: .semibold)
+        text: "Şəhər seçin",
+        textColor: .primaryText,
+        textAlignment: .center ,
+        font: .systemFont(ofSize: 18,weight: .semibold)
     )
     
-    private lazy var dismissButton = UIButton(image: UIImage(systemName: "xmark"), tintColor: .black)
+    private lazy var dismissButton = UIButton(
+        image: UIImage(systemName: "xmark"),
+        tintColor: .black
+    )
     private lazy var searchField : InputView = {
         let view =  InputView()
         view.type = .search

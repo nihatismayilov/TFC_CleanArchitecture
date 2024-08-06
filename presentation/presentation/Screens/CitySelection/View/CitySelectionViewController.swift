@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+protocol UpdateCityTextField: AnyObject{
+    func updateCityTextField(selectedCity : String)
+}
 
 class CitySelectionViewController : UIBaseViewController<BaseViewModel> {
     private var dummyDataCopy : [String] = []
@@ -31,14 +34,14 @@ class CitySelectionViewController : UIBaseViewController<BaseViewModel> {
         view.delegate = self
         return view
     }()
+    
     private lazy var citiesTableView : UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
         tableView.addCell(type: CustomCityAndDistrictTableViewCell.self)
         return tableView
-        
-        
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -97,7 +100,7 @@ extension CitySelectionViewController : UITableViewDelegate,UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CustomCityAndDistrictTableViewCell
         
-        cell.checkMark.image =  /*isCitySelected ?   nil :*/ UIImage(systemName: "checkmark")!
+        cell.checkMark.image =  UIImage(systemName: "checkmark")!
 //        isCitySelected.toggle()
 //        previousCell = indexPath
         delegate?.updateCityTextField(selectedCity: cell.cityLabel.text!)

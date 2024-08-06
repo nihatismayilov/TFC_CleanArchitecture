@@ -343,7 +343,6 @@ class InputView: UIView {
             textField.isEnabled = true
             let toolbar = UIToolbar()
             toolbar.sizeToFit()
-                    
             // Create Done button
             let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
             let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -388,6 +387,7 @@ class InputView: UIView {
     @objc func donePressed() {
         endEditing(true)
     }
+    
 }
 
 extension InputView: UITextFieldDelegate {
@@ -428,4 +428,5 @@ extension InputView: UITextFieldDelegate {
         return delegate?.textFieldShouldReturn(self) ?? true
     }
 }
+
 
