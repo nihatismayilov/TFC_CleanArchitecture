@@ -20,4 +20,9 @@ class LocationRemoteDataSource: LocationRemoteDataSourceProtocol {
         let request = LocationRequest.city
         return dispatcher.execute(for: request)
     }
+    
+    func getRegion() -> AnyPublisher<LocationRemoteDTO, any Error> {
+        let request = LocationRequest.region
+        return dispatcher.execute(for: request)
+    }
 }

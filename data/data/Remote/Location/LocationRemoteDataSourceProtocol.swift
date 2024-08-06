@@ -10,4 +10,5 @@ import Combine
 
 protocol LocationRemoteDataSourceProtocol {
     func getCity() -> AnyPublisher<LocationRemoteDTO, Error>
+    func getRegion() -> AnyPublisher<LocationRemoteDTO, Error>
 }

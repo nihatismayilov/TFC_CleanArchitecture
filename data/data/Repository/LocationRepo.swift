@@ -24,4 +24,13 @@ class LocationRepo: LocationRepoProtocol {
             }
             .eraseToAnyPublisher()
     }
+    
+    func getRegion() -> AnyPublisher<Location, any Error> {
+        return remoteDataSourceProtocol.getRegion()
+            .receive(on: DispatchQueue.main)
+            .map { data in
+                return data.toDomain()
+            }
+            .eraseToAnyPublisher()
+    }
 }

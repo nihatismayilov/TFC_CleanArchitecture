@@ -10,13 +10,20 @@ import Alamofire
 
 enum LocationRequest: Request {
     case city
+    case region
     
     var baseUrl: BaseURL {
         .b2cBaseURL
     }
     
     var endpoint: String {
-        "city"
+        switch self {
+        case .city:
+            "city"
+        case .region:
+            "region"
+        }
+        
     }
     
     var method: HTTPMethod {

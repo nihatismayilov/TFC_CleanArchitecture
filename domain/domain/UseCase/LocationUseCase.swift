@@ -22,4 +22,8 @@ public class LocationUseCase: LocationUseCaseProtocol {
     public func getCity() -> AnyPublisher<Location, any Error> {
         return repo.getCity()
     }
+    
+    public func getRegion() -> AnyPublisher<Location, any Error> {
+        return repo.getRegion()
+    }
 }
