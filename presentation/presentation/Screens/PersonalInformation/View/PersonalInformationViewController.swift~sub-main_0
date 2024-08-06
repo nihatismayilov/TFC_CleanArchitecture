@@ -8,9 +8,13 @@
 import UIKit
 import domain
 
+protocol UpdateDistrictTextField: AnyObject{
+    func updateDistrictTextField(selectedDistrict : String)
+}
+
 public class PersonalInformationViewController: UIBaseViewController<PersonalInformationViewModel>, CitySelectionProtocol, UpdateDistrictTextField {
     // MARK: - Variables
-    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate(sheetHeight: .automatic)
+    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
     
     // MARK: - UI Components
     private lazy var scrollView: UIScrollView = {

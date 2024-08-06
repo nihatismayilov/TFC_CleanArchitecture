@@ -11,7 +11,7 @@ import domain
 public class PersonalInformationViewController: UIBaseViewController<PersonalInformationViewModel>, CitySelectionProtocol, UpdateDistrictTextField {
     // MARK: - Variables
     private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate(sheetHeight: .automatic)
-    
+     
     // MARK: - UI Components
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
