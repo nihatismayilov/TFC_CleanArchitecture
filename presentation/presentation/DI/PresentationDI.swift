@@ -23,14 +23,17 @@ public struct PresentationDIConfigurator {
         container.register(OtpViewController.self) {
             OtpViewController(vm: container.resolve(OtpViewModel.self)!)
         }
-        container.register(PersonalInformationVC.self) {
-            PersonalInformationVC(vm: container.resolve(BaseViewModel.self)!)
+        container.register(PersonalInformationViewController.self) {
+            PersonalInformationViewController(vm: container.resolve(PersonalInformationViewModel.self)!)
         }
         container.register(CitySelectionViewController.self) {
             CitySelectionViewController(vm: container.resolve(CitySelectionViewModel.self)!)
         }
         container.register(DistrictSelectionViewController.self) {
             DistrictSelectionViewController(vm: container.resolve(DistrictSelectionViewModel.self)!)
+        }
+        container.register(HomeViewController.self) {
+            HomeViewController(vm: container.resolve(BaseViewModel.self)!)
         }
         container.register(BottomSheetViewController.self) {
             BottomSheetViewController()
@@ -44,10 +47,16 @@ public struct PresentationDIConfigurator {
             return RegisterViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
         }
         container.register(OtpViewModel.self) {
-            return OtpViewModel(registerUseCase: container.resolve(RegisterUseCase.self)!)
+            return OtpViewModel(
+                registerUseCase: container.resolve(RegisterUseCase.self)!,
+                customerUseCase: container.resolve(CustomerUseCase.self)!
+            )
+        }
+        container.register(PersonalInformationViewModel.self) {
+            return PersonalInformationViewModel(customerUseCase: container.resolve(CustomerUseCase.self)!)
         }
         container.register(CitySelectionViewModel.self) {
-            return CitySelectionViewModel()
+            return CitySelectionViewModel(cityUseCase: container.resolve(LocationUseCase.self)!)
         }
         container.register(DistrictSelectionViewModel.self) {
             return DistrictSelectionViewModel()

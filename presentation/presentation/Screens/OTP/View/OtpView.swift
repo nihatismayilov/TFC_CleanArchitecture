@@ -2,24 +2,47 @@
 //  OtpView.swift
 //  presentation
 //
-//  Created by Nihad Ismayilov on 30.07.24.
+//  Created by Rufat Akbarov on 30.07.24.
 //
 
 import UIKit
 
 protocol CheckOtp{
     func checkOtp(countOfOtp : Int)
-    func handleWarningLabel()
 }
 
 class OTPView: UIView {
-    var isAfterWrongOtp: Bool = false
+    // MARK: - Variables
+    var wrongOtp: Bool = false {
+        didSet {
+            if wrongOtp {
+                displayError()
+            } else {
+                hideError()
+            }
+        }
+    }
     var delegate: CheckOtp?
     var otpString: String = ""
-    
     var textFields = [UITextField]()
     var lines = [UIView]()
     
+    // MARK: - UI Components
+    private lazy var stackView = UIStackView(
+        axis: .horizontal,
+        alignment: .fill,
+        distribution: .fillEqually,
+        spacing: 16
+    )
+    
+    private lazy var warningLabel = UILabel(
+        text: "Daxil etdiyiniz kod yalnışdır",
+        textColor: .red600,
+        textAlignment: .center,
+        font: .systemFont(ofSize: 12, weight: .medium)
+    )
+    
+    // MARK: - Initializations
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -30,8 +53,10 @@ class OTPView: UIView {
         setupView()
     }
     
+    // MARK: - Functions
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
+        addSubviews(stackView, warningLabel)
         
         for i in 0..<6 {
             let textField = createTextField()
@@ -39,24 +64,20 @@ class OTPView: UIView {
             textField.delegate = self
             textField.font = UIFont.systemFont(ofSize: 20, weight: .medium)
             textFields.append(textField)
+            stackView.addArrangedSubview(textField)
             let line = createLine()
             lines.append(line)
             addSubview(line)
         }
         // Layout the text fields and lines
-        let stackView = UIStackView(arrangedSubviews: textFields)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
-        stackView.spacing = 16
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stackView)
-        
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            warningLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            warningLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
         ])
         
         for (index, textField) in textFields.enumerated() {
@@ -72,11 +93,14 @@ class OTPView: UIView {
                 line.heightAnchor.constraint(equalToConstant: 4)
             ])
         }
+        
         textFields.first?.becomeFirstResponder()
+        warningLabel.isHidden = true
     }
     
     private func createTextField() -> UITextField {
         let textField = UITextField()
+        textField.tintColor = .red600
         textField.keyboardType = .numberPad
         textField.textAlignment = .center
         textField.borderStyle = .none
@@ -92,6 +116,20 @@ class OTPView: UIView {
     
     func getOTPCode() -> String {
         return textFields.compactMap { $0.text }.joined()
+    }
+    
+    private func displayError() {
+        warningLabel.isHidden = false
+        lines.enumerated().forEach { index, _ in
+            lines[index].backgroundColor = .red600
+        }
+        textFields.enumerated().forEach { index, field in
+            field.text = ""
+        }
+    }
+    
+    private func hideError() {
+        warningLabel.isHidden = true
     }
 }
 
@@ -131,13 +169,12 @@ extension OTPView : UITextFieldDelegate {
         guard let text = textField.text, text.count <= 1 else { return }
         
         if text.count == 1 {
-            if isAfterWrongOtp {
+            if wrongOtp {
                 if textField == textFields.first {
                     if getOTPCode().count == 1 {
                         lines.forEach { $0.backgroundColor = .tertiary }
                     }
-                    isAfterWrongOtp = true
-                    delegate?.handleWarningLabel()
+                    wrongOtp = false
                 }
             }
             

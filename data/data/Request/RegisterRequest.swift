@@ -12,7 +12,7 @@ enum RegisterRequest: Request {
     case register(params: [String: Any])
     case token(params: [String: Any])
     
-    var baseUrl: BaseURLTEST {
+    var baseUrl: BaseURL {
         switch self {
         default:
                 .b2cBaseURL

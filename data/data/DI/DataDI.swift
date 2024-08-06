@@ -23,6 +23,17 @@ public struct DataDIConfigurator {
             NetworkLogger(logger: container.resolve(Logger.self)!)
         }
         
+        // TODO: - CoreDataClient
+//        container.register(RealmClientProtocol.self) {
+//            runBlocking {
+//                await RealmClient()
+//            }
+//        }
+        
+        container.register(UserDefaultsStorageProtocol.self) {
+            return UserDefaultsStorage(logger: container.resolve(Logger.self)!)
+        }
+        
         // MARK: - Network
         container.register(BaseInterceptor.self, isSingleton: true) {
             BaseInterceptor()
@@ -35,16 +46,10 @@ public struct DataDIConfigurator {
                 ],
                 requestRetriers: [],
                 logger: container.resolve(Logger.self)!,
-                networkLogger: container.resolve(NetworkLogger.self)!
+                networkLogger: container.resolve(NetworkLogger.self)!,
+                userDefaultsStorage: container.resolve(UserDefaultsStorageProtocol.self)!
             )
         }
-        
-        // TODO: - CoreDataClient
-//        container.register(RealmClientProtocol.self) {
-//            runBlocking {
-//                await RealmClient()
-//            }
-//        }
         
         // MARK: - DataSource
 //        container.register(TestLocalDataSourceProtocol.self) {
@@ -59,6 +64,14 @@ public struct DataDIConfigurator {
             RegisterRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
         }
         
+        container.register(CustomerRemoteDataSourceProtocol.self) {
+            CustomerRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
+        }
+        
+        container.register(LocationRemoteDataSourceProtocol.self) {
+            LocationRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
+        }
+        
         // MARK: - Repo
 //        container.register(TestRepoProtocol.self) {
 //            TestRepo(
@@ -67,7 +80,20 @@ public struct DataDIConfigurator {
 //            )
 //        }
         container.register(RegisterRepoProtocol.self) {
-            RegisterRepo(remoteDataSourceProtocol: container.resolve(RegisterRemoteDataSourceProtocol.self)!)
+            RegisterRepo(
+                remoteDataSourceProtocol: container.resolve(RegisterRemoteDataSourceProtocol.self)!,
+                userDefaultsStorage: container.resolve(UserDefaultsStorageProtocol.self)!
+            )
+        }
+        container.register(CustomerRepoProtocol.self) {
+            CustomerRepo(
+                remoteDataSourceProtocol: container.resolve(CustomerRemoteDataSourceProtocol.self)!
+            )
+        }
+        container.register(LocationRepoProtocol.self) {
+            LocationRepo(
+                remoteDataSourceProtocol: container.resolve(LocationRemoteDataSourceProtocol.self)!
+            )
         }
     }
     

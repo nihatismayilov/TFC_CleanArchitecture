@@ -11,6 +11,10 @@ import domain
 class Router {
     private init() {}
     
+    static func getTabbarController() -> TabbarController {
+        return DIContainer.shared.resolve(TabbarController.self)!
+    }
+    
     static func getForceUpdateVC() -> ForceUpdateVC {
         return DIContainer.shared.resolve(ForceUpdateVC.self)!
     }
@@ -22,14 +26,19 @@ class Router {
         vc.viewModel.phoneNumber = phoneNumber
         return vc
     }
-    static func getPersonalInformationVC() -> PersonalInformationVC {
-        return DIContainer.shared.resolve(PersonalInformationVC.self)!
+    static func getPersonalInformationViewController() -> PersonalInformationViewController {
+        return DIContainer.shared.resolve(PersonalInformationViewController.self)!
     }
-    static func getCitySelectionVC() -> CitySelectionViewController {
-        return DIContainer.shared.resolve(CitySelectionViewController.self)!
+    static func getCitySelectionVC(selectedID: Int?) -> CitySelectionViewController {
+        let vc = DIContainer.shared.resolve(CitySelectionViewController.self)!
+        vc.viewModel.selectedID = selectedID
+        return vc
     }
     static func getDistrictSelectionVC() -> DistrictSelectionViewController {
         return DIContainer.shared.resolve(DistrictSelectionViewController.self)!
+    }
+    static func getHomeViewController() -> HomeViewController {
+        return DIContainer.shared.resolve(HomeViewController.self)!
     }
     static func getBottomSheetVC() -> BottomSheetViewController {
         return DIContainer.shared.resolve(BottomSheetViewController.self)!

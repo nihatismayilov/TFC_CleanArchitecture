@@ -8,8 +8,9 @@
 import Foundation
 
 struct TokenRemoteDTO: Decodable {
-    let refreshToken: String
-    let expiresAt: String
-    let token: String
-    let checkToken: String
+    let refreshToken: String?
+    let expiresAt: String?
+    let token: String?
+    let checkToken: String?
+    let message: String?
 }

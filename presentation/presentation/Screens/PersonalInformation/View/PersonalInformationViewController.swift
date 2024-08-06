@@ -6,17 +6,13 @@
 //
 
 import UIKit
+import domain
 
-
-public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
-    
-    // MARK: - UI Components
+public class PersonalInformationViewController: UIBaseViewController<PersonalInformationViewModel>, CitySelectionProtocol, UpdateDistrictTextField {
+    // MARK: - Variables
     private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate(sheetHeight: .automatic)
-
-    private lazy var containerView : UIView = {
-        let view = UIView(backgroundColor: .white, cornerRadius: 15)
-        return view
-    }()
+     
+    // MARK: - UI Components
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -24,35 +20,34 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         view.showsVerticalScrollIndicator = false
         return view
     }()
-    
     private lazy var scrollStackView = UIStackView(
         axis: .vertical,
         alignment: .fill,
         distribution: .equalSpacing,
         spacing: 32
     )
-    
-    private lazy var labelStackView = UIStackView(axis: .vertical, spacing: 8)
-    
+    private lazy var labelStackView = UIStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .equalCentering,
+        spacing: 8
+    )
     private lazy var titleLabel = UILabel(
         text: "Şəxsi məlumat",
         textColor: .primaryText,
         font: .systemFont(ofSize: 24, weight: .semibold)
     )
-    
     private lazy var descriptionLabel = UILabel(
         text: "Şəxsi profil məlumatlarını dolduraraq qeydiyyatı tamamlayın.",
         textColor: .secondaryText,
         font: .systemFont(ofSize: 14)
     )
-    
     private lazy var fieldStackView = UIStackView(
         axis: .vertical,
         alignment: .fill,
         distribution: .fillEqually,
         spacing: 24
     )
-    
     private lazy var nameInputView: InputView = {
         let view = InputView()
         view.type = .name
@@ -61,7 +56,6 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         
         return view
     }()
-    
     private lazy var surnameInputView: InputView = {
         let view = InputView()
         view.type = .name
@@ -70,7 +64,6 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         
         return view
     }()
-    
     private lazy var nicknameInputView: InputView = {
         let view = InputView()
         view.type = .name
@@ -79,7 +72,6 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         
         return view
     }()
-    
     private lazy var cityInputView: InputView = {
         let view = InputView()
         view.type = .dropdown
@@ -88,7 +80,6 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         
         return view
     }()
-    
     private lazy var districtInputView: InputView = {
         let view = InputView()
         view.type = .dropdown
@@ -97,7 +88,6 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         
         return view
     }()
-    
     private lazy var dobInputView: InputView = {
         let view = InputView()
         view.rightImage = .icInfo
@@ -107,13 +97,11 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         
         return view
     }()
-    
     private lazy var attentionLabel = UILabel(
         text: "Diqqət: Daxil etdiyiniz məlumatlar sonradan yalnız Müştəri Xidmətləri ilə əlaqə saxlanılaraq dəyişdirilə bilər",
         textColor: .secondaryText,
         font: .systemFont(ofSize: 14)
     )
-    
     private lazy var confirmButton = BaseButton(
         title: "Tamamla",
         tintColor: .neutral1,
@@ -128,7 +116,7 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
     
     // MARK: - Initializations
     override func initViews() {
-        navigationController?.navigationBar.isHidden = true
+        setNavigationButton()
         view.addSubviews(scrollView, attentionLabel, confirmButton)
         scrollView.addSubview(scrollStackView)
         scrollStackView.addArrangedSubviews(labelStackView, fieldStackView)
@@ -145,7 +133,7 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
             scrollStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             scrollStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             scrollStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            scrollStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollStackView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
             
             attentionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             attentionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
@@ -162,15 +150,36 @@ public class PersonalInformationVC: UIBaseViewController<BaseViewModel> {
         attentionLabel.attributedText = "Diqqət: Daxil etdiyiniz məlumatlar sonradan yalnız Müştəri Xidmətləri ilə əlaqə saxlanılaraq dəyişdirilə bilər".colorAttributedString(strings: ["Diqqət:"], color: .red600)
     }
     
+    private func setNavigationButton() {
+        navigationController?.navigationBar.isHidden = true
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left")!,
+            style: .plain,
+            target: self,
+            action: nil
+        )
+        button.tintColor = .primaryText
+        navigationItem.leftBarButtonItems = [button]
+    }
+    
+    // MARK: - Functions
+    func updateDistrictTextField(selectedDistrict: String) {
+        districtInputView.text = selectedDistrict
+    }
+    
+    func updateCityTextField(selectedCity: LocationData) {
+        viewModel.model.cityId = selectedCity.id
+        viewModel.model.cityName = selectedCity.name
+        cityInputView.text = viewModel.model.cityName ?? ""
+    }
 }
 
-extension PersonalInformationVC: InputViewDelegate {
+extension PersonalInformationViewController: InputViewDelegate {
     func didTapTextField(textField: InputView) {
         if textField == cityInputView {
-            let vc = Router.getCitySelectionVC()
+            let vc = Router.getCitySelectionVC(selectedID: viewModel.model.cityId)
             vc.delegate = self
-            vc.selectedCity = textField.text
-            self.present(vc, animated: true, completion: nil)
+            self.present(vc, animated: true)
         }
         
         else if textField == districtInputView {
@@ -203,19 +212,8 @@ extension PersonalInformationVC: InputViewDelegate {
     }
     func didTapRightIcon() {
         let bottomSheetVC = Router.getBottomSheetVC()
-                bottomSheetVC.modalPresentationStyle = .custom
-                bottomSheetVC.transitioningDelegate = bottomSheetTransitioningDelegate
-                present(bottomSheetVC, animated: true, completion: nil)
-    }
-}
-
-extension PersonalInformationVC : UpdateCityTextField,UpdateDistrictTextField {
-    
-    func updateDistrictTextField(selectedDistrict: String) {
-        districtInputView.text = selectedDistrict
-    }
-    
-    func updateCityTextField(selectedCity: String) {
-        cityInputView.text = selectedCity
+        bottomSheetVC.modalPresentationStyle = .custom
+        bottomSheetVC.transitioningDelegate = bottomSheetTransitioningDelegate
+        present(bottomSheetVC, animated: true, completion: nil)
     }
 }

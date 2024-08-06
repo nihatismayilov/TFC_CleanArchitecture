@@ -37,30 +37,6 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         initViews()
         initVars()
         //self.isPageInitialized = true
-        
-        let loadingSubscription = viewModel.observeLoading().sink { [weak self] isLoading in
-            guard let self else { return }
-            if isLoading {
-                startAnimating()
-            } else {
-                stopAnimating()
-            }
-        }
-        
-        let baseEffectSubscription = self.viewModel.observeBaseEffect().sink { [weak self] effect in
-            guard let self else { return }
-            observe(baseEffect: effect)
-        }
-        
-//        let errorSubscription = viewModel.observeError().sink { [weak self] message in
-//            guard let self else { return }
-//            promptAlert(title: "", content: message, actionTitle: "OK") {
-//                self.dismiss(animated: true)
-//            }
-//        }
-        self.addCancellable(loadingSubscription)
-        self.addCancellable(baseEffectSubscription)
-//        self.addCancellable(errorSubscription)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -70,8 +46,11 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.cancellables.forEach { $0.cancel() }
-        self.cancellables.removeAll()
+    }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
     }
     
     // MARK: - Handle BottomSheet presentation
@@ -81,10 +60,28 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
     // MARK: - Initializations
     private func setupBase() {
+        loadingView.frame = view.frame
+        
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnView))
         gesture.cancelsTouchesInView = false
         view.addGestureRecognizer(gesture)
         view.backgroundColor = .background
+        
+        let loadingSubscription = viewModel.observeLoading().sink { [weak self] isLoading in
+            guard let self else { return }
+            if isLoading {
+                startAnimating()
+            } else {
+                stopAnimating()
+            }
+        }
+        let baseEffectSubscription = self.viewModel.observeBaseEffect().sink { [weak self] effect in
+            guard let self else { return }
+            observe(baseEffect: effect)
+        }
+        
+        self.addCancellable(loadingSubscription)
+        self.addCancellable(baseEffectSubscription)
     }
     
     func setText() { }
@@ -123,8 +120,6 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
         
     func startAnimating() {
-        loadingView = LoadingView()
-        loadingView.frame = view.frame
         view.addSubview(loadingView)
         view.bringSubviewToFront(loadingView)
     }

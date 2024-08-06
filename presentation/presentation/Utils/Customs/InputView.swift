@@ -111,7 +111,7 @@ class InputView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .fill
-        stack.distribution = .equalSpacing
+        stack.distribution = .equalCentering
         stack.spacing = 4
         return stack
     }()
@@ -156,22 +156,19 @@ class InputView: UIView {
         tf.placeholder = "Placeholder"
         return tf
     }()
-    private lazy var leftIcon  : UIImageView = {
+    private lazy var leftIcon: UIImageView = {
         let imageView = UIImageView(image: UIImage.icSearch,
                                     tintColor: .secondaryText)
+        imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
         return imageView
-    
     }()
     private lazy var rightButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.isUserInteractionEnabled = false
         button.tintColor = .secondaryText
-//        button.contentVerticalAlignment = .center
-//        button.contentHorizontalAlignment = .center
-//        button.contentMode = .scaleAspectFit
         button.imageView?.contentMode = .scaleAspectFit
+        
         return button
     }()
     private lazy var phoneTitleLabel: UILabel = {
@@ -189,12 +186,8 @@ class InputView: UIView {
         return picker
     }()
     
-    private lazy var errorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        
-        return view
-    }()
+    private lazy var errorView = UIView(backgroundColor: .clear)
+    
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         errorView.addSubview(label)
@@ -234,10 +227,11 @@ class InputView: UIView {
             titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
             titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
             
-            leftIcon.widthAnchor.constraint(equalToConstant: 20),
-            leftIcon.heightAnchor.constraint(equalToConstant: 20),
+            leftIcon.widthAnchor.constraint(equalToConstant: 24),
+            leftIcon.heightAnchor.constraint(equalToConstant: 24),
             textField.leadingAnchor.constraint(equalTo: leftIcon.trailingAnchor,constant: 8),
             
+            textFieldBack.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 4),
             textFieldBack.heightAnchor.constraint(equalToConstant: 48),
             textStackView.centerYAnchor.constraint(equalTo: textFieldBack.centerYAnchor),
             textStackView.leadingAnchor.constraint(equalTo: textFieldBack.leadingAnchor, constant: 12),
@@ -269,9 +263,10 @@ class InputView: UIView {
         errorView.isHidden = text.isEmpty
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
             guard let self else {return}
-            textFieldBack.backgroundColor = UIColor.red600.withAlphaComponent(0.10)
+            textFieldBack.borderWidth = 1
             textFieldBack.borderColor = .red600
             titleLabel.textColor = .red600
+            layoutIfNeeded()
         }
     }
     func hideError() {
@@ -279,34 +274,36 @@ class InputView: UIView {
         errorView.isHidden = true
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
             guard let self else {return}
-            textFieldBack.backgroundColor = .secondaryBackground
             textFieldBack.borderColor = .secondaryBorder
             titleLabel.textColor = .secondaryText
+            layoutIfNeeded()
         }
     }
     
     private func becomeActive() {
         isActive = true
+        textFieldBack.borderColor = .primaryText
         UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
             guard let self else {return}
-            let colorProvider = UIColor { [unowned self] trait in
-                let trColor = UIColor.primaryText.resolvedColor(with: trait)
-                self.textFieldBack.layer.borderColor = trColor.cgColor
-                return trColor
-            }
-            tintColor = colorProvider
+//            let colorProvider = UIColor { [unowned self] trait in
+//                let trColor = UIColor.primaryText.resolvedColor(with: trait)
+//                self.textFieldBack.borderColor = trColor
+//                return trColor
+//            }
+//            tintColor = colorProvider
         }
     }
     private func becomeDeactive() {
         isActive = false
+        textFieldBack.borderColor = .secondaryBorder
         UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
             guard let self else {return}
-            let colorProvider = UIColor { trait in
-                let trColor = UIColor.secondaryBorder.resolvedColor(with: trait)
-                self.textFieldBack.layer.borderColor = trColor.cgColor
-                return trColor
-            }
-            tintColor = colorProvider
+//            let colorProvider = UIColor { trait in
+//                let trColor = UIColor.secondaryBorder.resolvedColor(with: trait)
+//                self.textFieldBack.borderColor = trColor
+//                return trColor
+//            }
+//            tintColor = colorProvider
         }
     }
     
@@ -365,6 +362,7 @@ class InputView: UIView {
             rightButton.setImage(UIImage(systemName: "manatsign"), for: .normal)
             phoneTitleLabel.isHidden = true
         case .search:
+            titleView.isHidden = true
             textField.isEnabled = true
             textField.keyboardType = .default
             leftIcon.isHidden = false

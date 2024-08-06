@@ -28,6 +28,18 @@
 		B846F7A62C526160008E8407 /* RegisterRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A52C526160008E8407 /* RegisterRemoteDataSource.swift */; };
 		B846F7A82C52642D008E8407 /* RegisterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A72C52642D008E8407 /* RegisterAPI.swift */; };
 		B846F7AA2C5267E6008E8407 /* RegisterRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B846F7A92C5267E6008E8407 /* RegisterRepo.swift */; };
+		B851CEEC2C5A3977007AD613 /* ProfileRemoteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEEB2C5A3977007AD613 /* ProfileRemoteDTO.swift */; };
+		B851CEEE2C5A3AF9007AD613 /* CustomerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEED2C5A3AF9007AD613 /* CustomerRequest.swift */; };
+		B851CEF12C5A4AD4007AD613 /* CustomerRemoteDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF02C5A4AD4007AD613 /* CustomerRemoteDataSourceProtocol.swift */; };
+		B851CEF32C5A4ADB007AD613 /* CustomerRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF22C5A4ADB007AD613 /* CustomerRemoteDataSource.swift */; };
+		B851CEF52C5A4B7D007AD613 /* CustomerRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851CEF42C5A4B7D007AD613 /* CustomerRepo.swift */; };
+		B851F27D2C609B2200A27339 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F27C2C609B2100A27339 /* UserDefaultsStorage.swift */; };
+		B851F27F2C609B2A00A27339 /* KeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F27E2C609B2A00A27339 /* KeychainStorage.swift */; };
+		B851F2842C6103DF00A27339 /* LocationRemoteDataSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2832C6103DF00A27339 /* LocationRemoteDataSourceProtocol.swift */; };
+		B851F2862C6103E700A27339 /* LocationRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2852C6103E700A27339 /* LocationRemoteDataSource.swift */; };
+		B851F2882C61041200A27339 /* LocationRemoteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2872C61041200A27339 /* LocationRemoteDTO.swift */; };
+		B851F28B2C6104BB00A27339 /* LocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F28A2C6104BB00A27339 /* LocationRequest.swift */; };
+		B851F28D2C61054300A27339 /* LocationRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F28C2C61054300A27339 /* LocationRepo.swift */; };
 		B85F8FA12C57A9710078F164 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F8FA02C57A9710078F164 /* RegisterRequest.swift */; };
 		B85F8FA42C57B0400078F164 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B85F8FA32C57B0400078F164 /* Alamofire */; };
 		B8A9E6532C59239A009D4B63 /* RegisterRemoteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9E6522C59239A009D4B63 /* RegisterRemoteDTO.swift */; };
@@ -69,6 +81,18 @@
 		B846F7A52C526160008E8407 /* RegisterRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRemoteDataSource.swift; sourceTree = "<group>"; };
 		B846F7A72C52642D008E8407 /* RegisterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAPI.swift; sourceTree = "<group>"; };
 		B846F7A92C5267E6008E8407 /* RegisterRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRepo.swift; sourceTree = "<group>"; };
+		B851CEEB2C5A3977007AD613 /* ProfileRemoteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRemoteDTO.swift; sourceTree = "<group>"; };
+		B851CEED2C5A3AF9007AD613 /* CustomerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRequest.swift; sourceTree = "<group>"; };
+		B851CEF02C5A4AD4007AD613 /* CustomerRemoteDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRemoteDataSourceProtocol.swift; sourceTree = "<group>"; };
+		B851CEF22C5A4ADB007AD613 /* CustomerRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRemoteDataSource.swift; sourceTree = "<group>"; };
+		B851CEF42C5A4B7D007AD613 /* CustomerRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerRepo.swift; sourceTree = "<group>"; };
+		B851F27C2C609B2100A27339 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
+		B851F27E2C609B2A00A27339 /* KeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStorage.swift; sourceTree = "<group>"; };
+		B851F2832C6103DF00A27339 /* LocationRemoteDataSourceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRemoteDataSourceProtocol.swift; sourceTree = "<group>"; };
+		B851F2852C6103E700A27339 /* LocationRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRemoteDataSource.swift; sourceTree = "<group>"; };
+		B851F2872C61041200A27339 /* LocationRemoteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRemoteDTO.swift; sourceTree = "<group>"; };
+		B851F28A2C6104BB00A27339 /* LocationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequest.swift; sourceTree = "<group>"; };
+		B851F28C2C61054300A27339 /* LocationRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepo.swift; sourceTree = "<group>"; };
 		B85F8FA02C57A9710078F164 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
 		B8A9E6522C59239A009D4B63 /* RegisterRemoteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRemoteDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				B846F7A92C5267E6008E8407 /* RegisterRepo.swift */,
+				B851CEF42C5A4B7D007AD613 /* CustomerRepo.swift */,
+				B851F28C2C61054300A27339 /* LocationRepo.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -150,6 +176,8 @@
 		B80BDAB02C4E451F00DA8BB6 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
+				B851F2822C6103C400A27339 /* Location */,
+				B851CEEF2C5A4AC4007AD613 /* Customer */,
 				B846F7A22C526107008E8407 /* Register */,
 			);
 			path = Remote;
@@ -185,6 +213,8 @@
 		B80BDAC82C4E6AB200DA8BB6 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				B851F2892C61041F00A27339 /* Location */,
+				B851CEEA2C5A396B007AD613 /* Customer */,
 				B8A9E6492C591301009D4B63 /* Register */,
 				B80BDACA2C4E6AC000DA8BB6 /* ErrorResponse.swift */,
 				B80BDACC2C4E6ACE00DA8BB6 /* EmptyParams.swift */,
@@ -204,6 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				B80BDAD62C4E6D7B00DA8BB6 /* CoreDataClient.swift */,
+				B851F27C2C609B2100A27339 /* UserDefaultsStorage.swift */,
+				B851F27E2C609B2A00A27339 /* KeychainStorage.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -227,10 +259,46 @@
 			path = Register;
 			sourceTree = "<group>";
 		};
+		B851CEEA2C5A396B007AD613 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				B851CEEB2C5A3977007AD613 /* ProfileRemoteDTO.swift */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		B851CEEF2C5A4AC4007AD613 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				B851CEF02C5A4AD4007AD613 /* CustomerRemoteDataSourceProtocol.swift */,
+				B851CEF22C5A4ADB007AD613 /* CustomerRemoteDataSource.swift */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		B851F2822C6103C400A27339 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				B851F2832C6103DF00A27339 /* LocationRemoteDataSourceProtocol.swift */,
+				B851F2852C6103E700A27339 /* LocationRemoteDataSource.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		B851F2892C61041F00A27339 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				B851F2872C61041200A27339 /* LocationRemoteDTO.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		B85F8F9F2C57A95F0078F164 /* Request */ = {
 			isa = PBXGroup;
 			children = (
 				B85F8FA02C57A9710078F164 /* RegisterRequest.swift */,
+				B851CEED2C5A3AF9007AD613 /* CustomerRequest.swift */,
+				B851F28A2C6104BB00A27339 /* LocationRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -331,22 +399,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				B846F7AA2C5267E6008E8407 /* RegisterRepo.swift in Sources */,
+				B851CEF12C5A4AD4007AD613 /* CustomerRemoteDataSourceProtocol.swift in Sources */,
 				B846F7A82C52642D008E8407 /* RegisterAPI.swift in Sources */,
+				B851F28B2C6104BB00A27339 /* LocationRequest.swift in Sources */,
 				B80BDABC2C4E69B100DA8BB6 /* TestLocalDataSource.swift in Sources */,
+				B851CEEE2C5A3AF9007AD613 /* CustomerRequest.swift in Sources */,
 				B85F8FA12C57A9710078F164 /* RegisterRequest.swift in Sources */,
 				B80BDADC2C4E6D9D00DA8BB6 /* LocalToDomainMappers.swift in Sources */,
 				B80BDAA62C4E425800DA8BB6 /* NetworkLogger.swift in Sources */,
+				B851F27F2C609B2A00A27339 /* KeychainStorage.swift in Sources */,
 				B80BDADA2C4E6D9300DA8BB6 /* RemoteToLocalMappers.swift in Sources */,
 				B846F7A42C526128008E8407 /* RegisterRemoteDataSourceProtocol.swift in Sources */,
+				B851CEF32C5A4ADB007AD613 /* CustomerRemoteDataSource.swift in Sources */,
+				B851F2882C61041200A27339 /* LocationRemoteDTO.swift in Sources */,
 				B80BDAC22C4E6A2700DA8BB6 /* NetworkDispatcher.swift in Sources */,
 				B846F7A62C526160008E8407 /* RegisterRemoteDataSource.swift in Sources */,
+				B851CEEC2C5A3977007AD613 /* ProfileRemoteDTO.swift in Sources */,
+				B851CEF52C5A4B7D007AD613 /* CustomerRepo.swift in Sources */,
 				B80BDABA2C4E69A200DA8BB6 /* TestLocalDataSourceProtocol.swift in Sources */,
 				B80BDAD72C4E6D7B00DA8BB6 /* CoreDataClient.swift in Sources */,
 				B80BDAA22C4E424700DA8BB6 /* Logger.swift in Sources */,
 				B80BDAC72C4E6A8E00DA8BB6 /* Configuration.swift in Sources */,
+				B851F2862C6103E700A27339 /* LocationRemoteDataSource.swift in Sources */,
 				B8A9E6532C59239A009D4B63 /* RegisterRemoteDTO.swift in Sources */,
+				B851F28D2C61054300A27339 /* LocationRepo.swift in Sources */,
 				B80BDAC02C4E6A1400DA8BB6 /* BaseInterceptor.swift in Sources */,
 				B80BDAD42C4E6C1900DA8BB6 /* DataDI.swift in Sources */,
+				B851F2842C6103DF00A27339 /* LocationRemoteDataSourceProtocol.swift in Sources */,
+				B851F27D2C609B2200A27339 /* UserDefaultsStorage.swift in Sources */,
 				B80BDAA42C4E425000DA8BB6 /* ConsoleLogHandler.swift in Sources */,
 				B80BDACD2C4E6ACE00DA8BB6 /* EmptyParams.swift in Sources */,
 				B80BDACB2C4E6AC000DA8BB6 /* ErrorResponse.swift in Sources */,
@@ -491,7 +571,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = U243U99T75;
+				DEVELOPMENT_TEAM = KM75KTHJYL;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -531,7 +611,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = U243U99T75;
+				DEVELOPMENT_TEAM = KM75KTHJYL;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

@@ -51,7 +51,7 @@ class DistrictSelectionViewController: UIBaseViewController<BaseViewModel> {
     private lazy var citiesTableView : UITableView = {
         let tableView = UITableView()
         tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
-        tableView.addCell(type: CustomCityAndDistrictTableViewCell.self)
+        tableView.addCell(type: CityAndDistrictTableViewCell.self)
         return tableView
     }()
     override func viewDidLoad() {
@@ -105,13 +105,13 @@ extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.getCell(type: CustomCityAndDistrictTableViewCell.self)
-        cell.setupCell(cityName: dummyData[indexPath.row],selectedCity: selectedCity!)
+        let cell = tableView.getCell(type: CityAndDistrictTableViewCell.self)
+//        cell.setupCell(model: dummyData[indexPath.row], selectedID: 1)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! CustomCityAndDistrictTableViewCell
+        let cell = tableView.cellForRow(at: indexPath) as! CityAndDistrictTableViewCell
         cell.checkMark.image =  UIImage(systemName: "checkmark")!
         delegate?.updateDistrictTextField(selectedDistrict: cell.cityLabel.text!)
         tableView.deselectRow(at: indexPath, animated: true)

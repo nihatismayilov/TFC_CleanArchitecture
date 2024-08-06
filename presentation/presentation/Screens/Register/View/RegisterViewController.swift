@@ -141,13 +141,13 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
         addCancellable(registerSubscription)
     }
     
+    // MARK: - Functions
     @objc func didTap(_ sender: UIButton) {
         switch sender {
         case closeButton:
             dismiss(animated: true)
         case sendButton:
             viewModel.register(by: phoneTextField.text)
-//            navigationController?.pushViewController(Router.getOtpVC(), animated: true)
         default: break
         }
     }

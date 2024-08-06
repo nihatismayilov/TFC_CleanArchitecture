@@ -16,14 +16,16 @@ protocol Dispatcher {
 
 class NetworkDispatcher: Dispatcher {
     private var cancellables: Set<AnyCancellable> = []
-    private let session: Session
+    private let session: Alamofire.Session
     private let logger: Logger
+    private let userDefaultsStorage: UserDefaultsStorageProtocol
     
     init(
         requestAdapter: [RequestAdapter],
         requestRetriers: [RequestRetrier],
         logger: Logger,
-        networkLogger: NetworkLogger
+        networkLogger: NetworkLogger,
+        userDefaultsStorage: UserDefaultsStorageProtocol
     ) {
         
         self.session = Session(
@@ -33,29 +35,30 @@ class NetworkDispatcher: Dispatcher {
             )
         )
         self.logger = logger
+        self.userDefaultsStorage = userDefaultsStorage
     }
     
     public func execute<Response: Decodable>(for request: Request) -> AnyPublisher<Response, Error> {
-            return Future<Response, Error> { [weak self] promise in
-                guard let self else {
-                    promise(.failure(NetworkErrors.unknownError(0)))
-                    return
-                }
-                
-                if !ConnectionChecker.isConnectedToNetwork() {
-                    promise(.failure(NetworkErrors.connection))
-                    return
-                }
-                
-                do {
-                    let urlRequest = try self.urlRequest(for: request)
-                    self.performRequest(urlRequest, promise: promise)
-                } catch {
-                    promise(.failure(error))
-                }
-                
-            }.eraseToAnyPublisher()
-        }
+        return Future<Response, Error> { [weak self] promise in
+            guard let self else {
+                promise(.failure(NetworkErrors.unknownError(0)))
+                return
+            }
+            
+            if !ConnectionChecker.isConnectedToNetwork() {
+                promise(.failure(NetworkErrors.connection))
+                return
+            }
+            
+            do {
+                let urlRequest = try self.urlRequest(for: request)
+                self.performRequest(urlRequest, promise: promise)
+            } catch {
+                promise(.failure(error))
+            }
+            
+        }.eraseToAnyPublisher()
+    }
     
     private func performRequest<Response: Decodable>(_ urlRequest: URLRequest, promise: @escaping (Result<Response, Error>) -> Void) {
         print("\nURLREQUEST: \((urlRequest.url?.absoluteString).orEmpty) \(urlRequest.httpMethod.orEmpty)\n")
@@ -63,19 +66,45 @@ class NetworkDispatcher: Dispatcher {
         session.request(urlRequest)
             .publishData()
             .tryMap { dataResponse in
-                if let httpURLResponse = dataResponse.response {
-                    try self.validate(httpURLResponse)
+                guard let statusCode = dataResponse.response?.statusCode else {
+                    throw NetworkErrors.messageError("Unknown error - could not get status code")
                 }
+                
                 if dataResponse.response?.statusCode == 204 {
                     return try JSON.encoder.encode(true)
                 }
                 
                 guard let data = dataResponse.data else {
-                    throw NetworkErrors.unknownError(dataResponse.response?.statusCode ?? 0)
+                    throw NetworkErrors.messageError("Unknown error - data could not be found")
+                }
+                print("DATA: \n", data.prettyPrintedJSONString ?? "")
+                
+                switch statusCode {
+                case 401:
+                    throw NetworkErrors.unauthorized
+                case 200...600:
+                    if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        guard let datas = try? JSONSerialization.data(withJSONObject: json, options: []) else {
+                            throw NetworkErrors.messageError("ERROR - CODE 2")
+                        }
+                        return datas
+                    } else if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                        if statusCode == 200 || statusCode == 201 {
+                            guard let datas = try? JSONSerialization.data(withJSONObject: json, options: []) else {
+                                throw NetworkErrors.messageError("ERROR - CODE 2")
+                            }
+                            return datas
+                        } else {
+                            throw NetworkErrors.unknownError(statusCode)
+                        }
+                    } else {
+                        throw NetworkErrors.unknownError(statusCode)
+                    }
+                default:
+                    throw NetworkErrors.unknownError(statusCode)
                 }
                 
-                print("DATA: \n", data.prettyPrintedJSONString ?? "")
-                return data
+//                return data
             }
             .decode(type: Response.self, decoder: JSON.decoder)
             .receive(on: DispatchQueue.main)
@@ -88,15 +117,6 @@ class NetworkDispatcher: Dispatcher {
             })
             .store(in: &cancellables)
     }
-
-        private func validate(_ response: HTTPURLResponse) throws {
-            print("RESPONSE CODE: \(response.statusCode)")
-            switch response.statusCode {
-            case 200...299: return
-            case 401: throw NetworkErrors.unauthorized
-            default: throw NetworkErrors.unknownError(response.statusCode)
-            }
-        }
         
         private func urlRequest(for request: Request) throws -> URLRequest {
             var fullURL = "\(request.baseUrl.rawValue)\(request.endpoint)"
@@ -130,9 +150,10 @@ class NetworkDispatcher: Dispatcher {
             }
             
 //            if request.hasHeader {
-            urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.addValue("x-requestid", forHTTPHeaderField: UUID().uuidString)
+            
 //            }
+            
+            setupHeader(urlRequest: &urlRequest)
             
             request.headers?.forEach { urlRequest.addValue($0.value, forHTTPHeaderField: $0.key) }
             
@@ -143,6 +164,36 @@ class NetworkDispatcher: Dispatcher {
             
             return urlRequest
         }
+    
+    private func setupHeader(urlRequest: inout URLRequest) {
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue(UUID().uuidString, forHTTPHeaderField: "x-requestid")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        urlRequest.addValue("iOS", forHTTPHeaderField: "Device-Name")
+        
+        let lang = userDefaultsStorage.getCachedString(key: .language)
+        switch  lang {
+        case "az":
+            urlRequest.addValue("aze", forHTTPHeaderField: "x-lang")
+            urlRequest.addValue("1", forHTTPHeaderField: "Accept-Language")
+        case "ru":
+            urlRequest.addValue("rus", forHTTPHeaderField: "x-lang")
+            urlRequest.addValue("3", forHTTPHeaderField: "Accept-Language")
+        case "en":
+            urlRequest.addValue("eng", forHTTPHeaderField: "x-lang")
+            urlRequest.addValue("2", forHTTPHeaderField: "Accept-Language")
+        default:
+            urlRequest.addValue("aze", forHTTPHeaderField: "x-lang")
+            urlRequest.addValue("1", forHTTPHeaderField: "Accept-Language")
+        }
+        
+        if let token = userDefaultsStorage.getCachedString(key: .token) {
+            urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        if let checkToken = userDefaultsStorage.getCachedString(key: .checkToken) {
+            urlRequest.addValue(checkToken, forHTTPHeaderField: "check-token")
+        }
+    }
 }
 
 enum NetworkErrors: Error, LocalizedError, Equatable {
@@ -218,9 +269,9 @@ extension String? {
 }
 
 protocol Request {
-    var endpoint: String { get }
+    var baseUrl: BaseURL { get }
     
-    var baseUrl: BaseURLTEST { get }
+    var endpoint: String { get }
     
     var method: HTTPMethod { get }
     
@@ -238,7 +289,7 @@ enum RequestParams {
     case url(_ : [String: Any]?, isQuery: Bool = true)
 }
 
-enum BaseURLTEST: String {
+enum BaseURL: String {
     case b2cBaseURL = "https://b2capicr.topaz.net.az/" // MARK: PROD
 //    case b2cBaseURL = "https://b2capicr.topaz.net.az/" // MARK: TEST
     
