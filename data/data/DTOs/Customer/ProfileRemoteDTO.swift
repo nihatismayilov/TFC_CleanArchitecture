@@ -10,7 +10,7 @@ import Foundation
 struct ProfileRemoteDTO: Decodable {
     let id: Int?
     let phoneNumber: String?
-    let name: String
+    let name: String?
     let lastName: String?
     let nickName: String?
     let currentBalance: Double?

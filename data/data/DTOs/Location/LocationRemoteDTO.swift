@@ -14,5 +14,11 @@ struct LocationRemoteDTO: Decodable {
     struct LocationData: Decodable {
         let id: Int?
         let name: String?
+        let regions: [RegionData]?
+        
+        struct RegionData: Decodable {
+            let id: Int?
+            let name: String?
+        }
     }
 }

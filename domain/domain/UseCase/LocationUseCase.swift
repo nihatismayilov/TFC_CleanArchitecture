@@ -10,7 +10,7 @@ import Combine
 
 protocol LocationUseCaseProtocol {
     func getCity() -> AnyPublisher<Location, Error>
-    func getRegion() -> AnyPublisher<Location, Error>
+    func getRegion(by id: Int?) -> AnyPublisher<Location, Error>
 }
 
 public class LocationUseCase: LocationUseCaseProtocol {
@@ -24,7 +24,7 @@ public class LocationUseCase: LocationUseCaseProtocol {
         return repo.getCity()
     }
     
-    public func getRegion() -> AnyPublisher<Location, any Error> {
-        return repo.getRegion()
+    public func getRegion(by id: Int?) -> AnyPublisher<Location, any Error> {
+        return repo.getRegion(by: id)
     }
 }

@@ -14,7 +14,7 @@ protocol CitySelectionProtocol: AnyObject{
 
 class CitySelectionViewController : UIBaseViewController<CitySelectionViewModel> {
     // MARK: - Variables
-    weak var delegate : CitySelectionProtocol?
+    weak var delegate: CitySelectionProtocol?
     
     // MARK: - UI Components
     private let stackView  = UIStackView(

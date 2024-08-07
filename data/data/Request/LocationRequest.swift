@@ -10,7 +10,7 @@ import Alamofire
 
 enum LocationRequest: Request {
     case city
-    case region
+    case region(id: Int?)
     
     var baseUrl: BaseURL {
         .b2cBaseURL
@@ -20,8 +20,12 @@ enum LocationRequest: Request {
         switch self {
         case .city:
             "city"
-        case .region:
-            "region"
+        case .region(let id):
+            if let id {
+                "region?id=\(id)"
+            } else {
+                "region/"
+            }
         }
         
     }

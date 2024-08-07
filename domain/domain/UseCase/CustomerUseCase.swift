@@ -10,6 +10,7 @@ import Combine
 
 protocol CustomerUseCaseProtocol {
     func getProfile() -> AnyPublisher<Profile, Error>
+    func updateProfile(model: UpdateProfileModel) -> AnyPublisher<Profile, Error>
 }
 
 public class CustomerUseCase: CustomerUseCaseProtocol {
@@ -21,5 +22,9 @@ public class CustomerUseCase: CustomerUseCaseProtocol {
     
     public func getProfile() -> AnyPublisher<Profile, any Error> {
         return repo.getProfile()
+    }
+    
+    public func updateProfile(model: UpdateProfileModel) -> AnyPublisher<Profile, Error> {
+        return repo.updateProfile(model: model)
     }
 }

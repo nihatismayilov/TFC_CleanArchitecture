@@ -20,6 +20,18 @@ public struct Location {
 public struct LocationData {
     public let id: Int?
     public let name: String?
+    public let regions: [RegionData]?
+    
+    public init(id: Int?, name: String?, regions: [RegionData]?) {
+        self.id = id
+        self.name = name
+        self.regions = regions
+    }
+}
+
+public struct RegionData {
+    public let id: Int?
+    public let name: String?
     
     public init(id: Int?, name: String?) {
         self.id = id

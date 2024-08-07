@@ -58,9 +58,15 @@ extension ProfileRemoteDTO {
     }
 }
 
+extension LocationRemoteDTO.LocationData.RegionData {
+    func toDomain() -> RegionData {
+        return RegionData(id: id, name: name)
+    }
+}
+
 extension LocationRemoteDTO.LocationData {
     func toDomain() -> LocationData {
-        return LocationData(id: id, name: name)
+        return LocationData(id: id, name: name, regions: regions.map({$0.map {$0.toDomain()}}))
     }
 }
 

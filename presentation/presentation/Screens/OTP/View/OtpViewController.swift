@@ -153,8 +153,10 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         let profileSubscription = viewModel.observeProfile()
             .sink { [weak self] profileData in
                 guard let self else { return }
-                if profileData.id == nil {
-                    pushNavigation(Router.getPersonalInformationViewController())
+                if profileData.name == nil {
+                let vc = Router.getPersonalInformationViewController()
+                vc.viewModel.model.id = profileData.id
+                    pushNavigation(vc)
                 } else {
                     let vc = Router.getTabbarController()
                     vc.modalTransitionStyle = .crossDissolve

@@ -10,4 +10,5 @@ import Combine
 
 public protocol CustomerRepoProtocol {
     func getProfile() -> AnyPublisher<Profile, any Error>
+    func updateProfile(model: UpdateProfileModel) -> AnyPublisher<Profile, any Error>
 }

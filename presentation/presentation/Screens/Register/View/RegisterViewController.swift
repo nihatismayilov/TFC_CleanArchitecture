@@ -32,7 +32,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
     private lazy var phoneNumberStackView = UIStackView(
         axis: .horizontal,
         alignment: .center,
-        distribution: .equalSpacing,
+        distribution: .fill,
         spacing: 6
     )
     private lazy var phoneHeaderLabel = UILabel(
@@ -47,7 +47,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
         adjustsFontSize: false
     )
     private lazy var errorLabel = UILabel(
-        text: "Daxil edilen indeks yanlisdir",
+        text: "Düzgün prefiksi daxil edin",
         textColor: .red600,
         textAlignment: .left,
         font: .systemFont(ofSize: 12, weight: .medium)
@@ -102,7 +102,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             
             phoneNumberStackView.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 36),
             phoneNumberStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            phoneNumberStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -12),
+            phoneNumberStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             
             errorLabel.topAnchor.constraint(equalTo: phoneNumberStackView.bottomAnchor, constant: 8),
             errorLabel.leadingAnchor.constraint(equalTo: phoneNumberStackView.leadingAnchor),

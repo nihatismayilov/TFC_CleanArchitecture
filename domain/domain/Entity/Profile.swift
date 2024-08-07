@@ -10,7 +10,7 @@ import Foundation
 public struct Profile {
     public let id: Int?
     public let phoneNumber: String?
-    public let name: String
+    public let name: String?
     public let lastName: String?
     public let nickName: String?
     public let currentBalance: Double?
@@ -32,7 +32,7 @@ public struct Profile {
     public let isSuccess: Bool?
     public let message: String?
     
-    public init(id: Int?, phoneNumber: String?, name: String, lastName: String?, nickName: String?, currentBalance: Double?, cityId: Int?, cityName: String?, regionId: Int?, regionName: String?, fileUrl: String?, locked: Bool?, birthDay: String?, status: Bool?, fireBaseId: String?, lotteryStatus: Int?, email: String?, passportFin: String?, passportNumber: String?, statusConfirmedIDCard: Int?, isSuccess: Bool, message: String) {
+    public init(id: Int?, phoneNumber: String?, name: String?, lastName: String?, nickName: String?, currentBalance: Double?, cityId: Int?, cityName: String?, regionId: Int?, regionName: String?, fileUrl: String?, locked: Bool?, birthDay: String?, status: Bool?, fireBaseId: String?, lotteryStatus: Int?, email: String?, passportFin: String?, passportNumber: String?, statusConfirmedIDCard: Int?, isSuccess: Bool, message: String) {
         self.id = id
         self.phoneNumber = phoneNumber
         self.name = name
@@ -55,5 +55,31 @@ public struct Profile {
         self.statusConfirmedIDCard = statusConfirmedIDCard
         self.isSuccess = isSuccess
         self.message = message
+    }
+}
+
+public struct UpdateProfileModel {
+    public var id: Int?
+    public var name: String?
+    public var lastName: String?
+    public var nickName: String?
+    public var cityId: Int?
+    public var cityName: String?
+    public var regionId: Int?
+    public var regionName: String?
+    public var fireBaseId: String?
+    public var birthday: String?
+    
+    public init(id: Int? = nil, name: String? = nil, lastName: String? = nil, nickName: String? = nil, cityId: Int? = nil, cityName: String? = nil, regionId: Int? = nil, regionName: String? = nil, fireBaseId: String? = nil, birthday: String? = nil) {
+        self.id = id
+        self.name = name
+        self.lastName = lastName
+        self.nickName = nickName
+        self.cityId = cityId
+        self.cityName = cityName
+        self.regionId = regionId
+        self.regionName = regionName
+        self.fireBaseId = fireBaseId
+        self.birthday = birthday
     }
 }

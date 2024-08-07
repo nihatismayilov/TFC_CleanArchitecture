@@ -9,31 +9,27 @@ import UIKit
 import domain
 
 protocol UpdateDistrictTextField: AnyObject{
-    func updateDistrictTextField(selectedRegion : LocationData)
+    func updateDistrictTextField(selectedRegion: RegionData)
 }
 
 class DistrictSelectionViewController: UIBaseViewController<DistrictSelectionViewModel> {
+    // MARK: - Variables
+    weak var delegate: UpdateDistrictTextField?
     
-    weak var delegate : UpdateDistrictTextField?
+    // MARK: - UI Components
     private lazy var stackView  = UIStackView(
         axis: .vertical,
         alignment: .fill,
         distribution: .fill,
         spacing: 16
     )
-    
-    private let topView : UIView = {
-        let view = UIView(backgroundColor: .clear)
-        return view
-    }()
-    
+    private let topView = UIView(backgroundColor: .clear)
     private lazy var sectionNameLabel  = UILabel(
         text: "Şəhər seçin",
         textColor: .primaryText,
         textAlignment: .center ,
         font: .systemFont(ofSize: 18,weight: .semibold)
     )
-    
     private lazy var dismissButton = UIButton(
         image: UIImage(systemName: "xmark"),
         tintColor: .black
@@ -44,49 +40,55 @@ class DistrictSelectionViewController: UIBaseViewController<DistrictSelectionVie
         view.delegate = self
         return view
     }()
-    
     private lazy var districtsTableView : UITableView = {
         let tableView = UITableView()
-        tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.addCell(type: CityAndDistrictTableViewCell.self)
+        tableView.separatorInset = UIEdgeInsets.init(top: 0, left: -12, bottom: 0, right: 0)
+        
         return tableView
     }()
+    
+    // MARK: - Controller Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getDistrict()
     }
     
+    // MARK: - Initializations
     override func initViews() {
         view.addSubview(stackView)
         
         stackView.addArrangedSubviews(topView,searchField,districtsTableView)
-        addSubviews()
-        districtsTableView.delegate = self
-        districtsTableView.dataSource = self
+        topView.addSubviews(sectionNameLabel, dismissButton)
+        dismissButton.addTarget(self, action: #selector(didTapDismiss(_ :)), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.topAnchor,constant: 12),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 12),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -12),
             stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        
-            topView.heightAnchor.constraint(equalToConstant: 24),
             
-            searchField.heightAnchor.constraint(equalToConstant: 36),
+            topView.heightAnchor.constraint(equalToConstant: 24),
             
             sectionNameLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
             sectionNameLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
-
+            
             dismissButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
             dismissButton.widthAnchor.constraint(equalToConstant: 24),
             dismissButton.heightAnchor.constraint(equalToConstant: 24),
             dismissButton.leadingAnchor.constraint(equalTo: sectionNameLabel.trailingAnchor, constant: 90)
         ])
-        
     }
+    
     override func initVars() {
-        
     }
+    
+    override func setText() {
+    }
+    
     override func setBindings() {
         let districtSubscription = viewModel.observeDistrict()
             .sink { [weak self] cities in
@@ -95,11 +97,8 @@ class DistrictSelectionViewController: UIBaseViewController<DistrictSelectionVie
             }
         addCancellable(districtSubscription)
     }
-    private func addSubviews() {
-        topView.addSubview(sectionNameLabel)
-        topView.addSubview(dismissButton)
-        dismissButton.addTarget(self, action: #selector(didTapDismiss(_ :)), for: .touchUpInside)
-    }
+    
+    // MARK: - Functions
     @objc private func didTapDismiss(_ sender : UIButton) {
         self.dismiss(animated: true)
     }
@@ -124,7 +123,6 @@ extension DistrictSelectionViewController : UITableViewDelegate,UITableViewDataS
         let cell = tableView.cellForRow(at: indexPath) as! CityAndDistrictTableViewCell
         cell.checkMark.image =  UIImage(systemName: "checkmark")!
         delegate?.updateDistrictTextField(selectedRegion: viewModel.filteredRegions[indexPath.row])
-        tableView.deselectRow(at: indexPath, animated: true)
         self.dismiss(animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

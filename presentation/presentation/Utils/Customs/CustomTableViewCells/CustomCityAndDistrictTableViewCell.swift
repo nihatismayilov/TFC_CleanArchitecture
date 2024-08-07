@@ -21,18 +21,17 @@ class CityAndDistrictTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
+        setupView()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+        setupView()
     }
     
-    func setupCell(model: LocationData, selectedID: Int?) {
+    private func setupView() {
         contentView.addSubviews(cityLabel, checkMark)
-        
-        cityLabel.text = model.name
-        checkMark.image = (model.id == selectedID) ? UIImage(systemName: "checkmark")! : nil
         
         NSLayoutConstraint.activate([
             cityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -45,6 +44,16 @@ class CityAndDistrictTableViewCell: UITableViewCell {
             checkMark.heightAnchor.constraint(equalToConstant: 20),
             checkMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+    
+    func setupCell(model: LocationData, selectedID: Int?) {
+        cityLabel.text = model.name
+        checkMark.image = (model.id == selectedID) ? UIImage(systemName: "checkmark")! : nil
+    }
+    
+    func setupCell(model: RegionData, selectedID: Int?) {
+        cityLabel.text = model.name
+        checkMark.image = (model.id == selectedID) ? UIImage(systemName: "checkmark")! : nil
     }
 
 }

@@ -26,4 +26,13 @@ class CustomerRepo: CustomerRepoProtocol {
             }
             .eraseToAnyPublisher()
     }
+    
+    func updateProfile(model: UpdateProfileModel) -> AnyPublisher<Profile, any Error> {
+        return remoteDataSourceProtocol.updateProfile(model: model)
+            .receive(on: DispatchQueue.main)
+            .map { data in
+                return data.toDomain()
+            }
+            .eraseToAnyPublisher()
+    }
 }

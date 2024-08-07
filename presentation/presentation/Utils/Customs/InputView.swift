@@ -7,10 +7,11 @@
 
 import UIKit
 
-enum InputViewType {
+enum InputViewType: Equatable {
     case name
+    case nickname
     case phone
-    case birthday
+    case birthday(minDate: Date?, maxDate: Date?)
     case dropdown
     case amount
     case search
@@ -66,14 +67,14 @@ class InputView: UIView {
         }
     }
     
-    @IBInspectable
-    var titleText: String? {
-        get {
-            titleLabel.text
-        } set {
-            titleLabel.text = newValue
-        }
-    }
+//    @IBInspectable
+//    var titleText: String? {
+//        get {
+//            titleLabel.text
+//        } set {
+//            titleLabel.text = newValue
+//        }
+//    }
     
     @IBInspectable
     var hasRightIcon: Bool {
@@ -115,20 +116,20 @@ class InputView: UIView {
         stack.spacing = 4
         return stack
     }()
-    private lazy var titleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        titleView.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .secondaryText
-        label.font = .systemFont(ofSize: 12)
-        label.text = "Title"
-        return label
-    }()
+//    private lazy var titleView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .clear
+//        return view
+//    }()
+//    private lazy var titleLabel: UILabel = {
+//        let label = UILabel()
+//        titleView.addSubview(label)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.textColor = .secondaryText
+//        label.font = .systemFont(ofSize: 12)
+//        label.text = "Title"
+//        return label
+//    }()
     private lazy var textFieldBack: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -214,7 +215,7 @@ class InputView: UIView {
     
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.addArrangedSubviews(titleView, textFieldBack, errorView)
+        mainStackView.addArrangedSubviews(/*titleView, */textFieldBack, errorView)
         textStackView.addArrangedSubviews(phoneTitleLabel, leftIcon,textField, rightButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
@@ -222,16 +223,16 @@ class InputView: UIView {
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
-            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+//            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
+//            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 12),
+//            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
+//            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
             
             leftIcon.widthAnchor.constraint(equalToConstant: 24),
             leftIcon.heightAnchor.constraint(equalToConstant: 24),
             textField.leadingAnchor.constraint(equalTo: leftIcon.trailingAnchor,constant: 8),
             
-            textFieldBack.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 4),
+//            textFieldBack.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 4),
             textFieldBack.heightAnchor.constraint(equalToConstant: 48),
             textStackView.centerYAnchor.constraint(equalTo: textFieldBack.centerYAnchor),
             textStackView.leadingAnchor.constraint(equalTo: textFieldBack.leadingAnchor, constant: 12),
@@ -259,14 +260,23 @@ class InputView: UIView {
     
     func showError(text: String) {
         hasError = true
+//        errorLabel.text = text
+//        errorView.isHidden = text.isEmpty
+//        UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
+//            guard let self else {return}
+//            textFieldBack.borderWidth = 1
+//            textFieldBack.borderColor = .red600
+//            titleLabel.textColor = .red600
+//            layoutIfNeeded()
+//        }
+        
         errorLabel.text = text
         errorView.isHidden = text.isEmpty
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
             guard let self else {return}
-            textFieldBack.borderWidth = 1
+            textFieldBack.backgroundColor = .red600.withAlphaComponent(0.1)
             textFieldBack.borderColor = .red600
-            titleLabel.textColor = .red600
-            layoutIfNeeded()
+//            titleLabel.textColor = .red600
         }
     }
     func hideError() {
@@ -274,37 +284,42 @@ class InputView: UIView {
         errorView.isHidden = true
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
             guard let self else {return}
+            textFieldBack.backgroundColor = .secondaryBackground
             textFieldBack.borderColor = .secondaryBorder
-            titleLabel.textColor = .secondaryText
+//            titleLabel.textColor = .secondaryText
             layoutIfNeeded()
         }
     }
     
     private func becomeActive() {
         isActive = true
-        textFieldBack.borderColor = .primaryText
-        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
-            guard let self else {return}
+        if hasError {
+            textFieldBack.borderColor = .red600
+        } else {
+            textFieldBack.borderColor = .primaryText
+        }
+//        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
+//            guard let self else {return}
 //            let colorProvider = UIColor { [unowned self] trait in
 //                let trColor = UIColor.primaryText.resolvedColor(with: trait)
 //                self.textFieldBack.borderColor = trColor
 //                return trColor
 //            }
 //            tintColor = colorProvider
-        }
+//        }
     }
     private func becomeDeactive() {
         isActive = false
         textFieldBack.borderColor = .secondaryBorder
-        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
-            guard let self else {return}
+//        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
+//            guard let self else {return}
 //            let colorProvider = UIColor { trait in
 //                let trColor = UIColor.secondaryBorder.resolvedColor(with: trait)
 //                self.textFieldBack.borderColor = trColor
 //                return trColor
 //            }
 //            tintColor = colorProvider
-        }
+//        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -331,12 +346,18 @@ class InputView: UIView {
             textField.textContentType = .name
             textField.keyboardType = .default
             phoneTitleLabel.isHidden = true
+        case .nickname:
+            textField.isEnabled = true
+            textField.textContentType = .name
+            textField.keyboardType = .default
+            phoneTitleLabel.isHidden = true
+            textField.autocapitalizationType = .none
         case .phone:
             textField.isEnabled = true
             textField.textContentType = .telephoneNumber
             textField.keyboardType = .numberPad
             phoneTitleLabel.isHidden = false
-        case .birthday:
+        case .birthday(let minDate, let maxDate):
             textField.isEnabled = true
             let toolbar = UIToolbar()
             toolbar.sizeToFit()
@@ -347,6 +368,12 @@ class InputView: UIView {
             // Assign toolbar to textField
             textField.inputAccessoryView = toolbar
             textField.inputView = datePicker
+            if let minDate {
+                datePicker.minimumDate = minDate
+            }
+            if let maxDate {
+                datePicker.maximumDate = maxDate
+            }
             phoneTitleLabel.isHidden = true
             rightButton.addTarget(self, action: #selector(rightIconTapped(_ :)), for: .touchUpInside)
         case .dropdown:
@@ -362,7 +389,7 @@ class InputView: UIView {
             rightButton.setImage(UIImage(systemName: "manatsign"), for: .normal)
             phoneTitleLabel.isHidden = true
         case .search:
-            titleView.isHidden = true
+//            titleView.isHidden = true
             textField.isEnabled = true
             textField.keyboardType = .default
             leftIcon.isHidden = false
@@ -380,7 +407,7 @@ class InputView: UIView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/YYYY"
         textField.text = dateFormatter.string(from: sender.date)
-//        delegate?.textFieldDidChangeSelection(self, string: textField.text!)
+        delegate?.textFieldDidChangeSelection(self, string: textField.text!)
     }
     @objc func donePressed() {
         endEditing(true)

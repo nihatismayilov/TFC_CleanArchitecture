@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 import Combine
+import domain
 
 class CustomerRemoteDataSource: CustomerRemoteDataSourceProtocol {
     private let dispatcher: Dispatcher
@@ -18,6 +19,11 @@ class CustomerRemoteDataSource: CustomerRemoteDataSourceProtocol {
     
     func getProfile() -> AnyPublisher<ProfileRemoteDTO, any Error> {
         let request = CustomerRequest.profile
+        return dispatcher.execute(for: request)
+    }
+    
+    func updateProfile(model: UpdateProfileModel) -> AnyPublisher<ProfileRemoteDTO, any Error> {
+        let request = CustomerRequest.updateProfile(model: model)
         return dispatcher.execute(for: request)
     }
 }

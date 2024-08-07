@@ -11,20 +11,20 @@ import domain
 
 class DistrictSelectionViewModel : BaseViewModel{
     let regionUseCase: LocationUseCase
-    var RegionDataSubject: CurrentValueSubject<[LocationData], Never> = .init([])
-    var filteredRegions = [LocationData]()
+    var regionDataSubject: CurrentValueSubject<[RegionData], Never> = .init([])
+    var filteredRegions = [RegionData]()
     var selectedID: Int?
+    var cityID: Int?
     private var isRegionSelected: Bool = false
     
-    public init(regionUseCase
-                : LocationUseCase) {
+    public init(regionUseCase: LocationUseCase) {
         self.regionUseCase = regionUseCase
     }
     
     func getDistrict() {
         showLoading()
         
-        regionUseCase.getRegion()
+        regionUseCase.getCity()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self else { return }
@@ -36,24 +36,28 @@ class DistrictSelectionViewModel : BaseViewModel{
                     showError(message: error.localizedDescription)
                     debugPrint(error.localizedDescription)
                 }
-            } receiveValue: { [weak self] DistrictData in
+            } receiveValue: { [weak self] cityData in
                 guard let self else { return }
-                filteredRegions = DistrictData.data ?? []
-                RegionDataSubject.send(DistrictData.data ?? [])
+                guard let cityID else {
+                    return
+                }
+                let districtData = cityData.data?.first(where: {$0.id == cityID})?.regions
+                filteredRegions = districtData ?? []
+                regionDataSubject.send(districtData ?? [])
             }
             .store(in: &cancellables)
     }
     
-    func observeDistrict() -> AnyPublisher<[LocationData], Never> {
-        RegionDataSubject.compactMap {$0}
+    func observeDistrict() -> AnyPublisher<[RegionData], Never> {
+        regionDataSubject.compactMap {$0}
             .eraseToAnyPublisher()
     }
     
     func filterDistricts(text: String?) {
         if let text, text != "" {
-            filteredRegions = RegionDataSubject.value.filter { $0.name?.lowercased().contains(text.lowercased()) ?? false }
+            filteredRegions = regionDataSubject.value.filter { $0.name?.lowercased().contains(text.lowercased()) ?? false }
         } else {
-            filteredRegions = RegionDataSubject.value
+            filteredRegions = regionDataSubject.value
         }
     }
 }

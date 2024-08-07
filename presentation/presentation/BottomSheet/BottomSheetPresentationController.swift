@@ -22,7 +22,7 @@ class BottomSheetPresentationController: UIPresentationController {
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissController))
-        dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDrag(_ :)))
+//        dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDrag(_ :)))
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.blurEffectView.isUserInteractionEnabled = true
         self.presentedView?.addGestureRecognizer(dragGesture)

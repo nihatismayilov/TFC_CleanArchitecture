@@ -74,9 +74,55 @@ extension String {
         
         return ranges
     }
+    
     func getTextWidth(with font : UIFont) -> CGFloat {
         let attribute = [NSAttributedString.Key.font : font]
         let width = self.size(withAttributes: attribute).width
         return width
     }
+    
+    func convertDate(to toFormat: String) -> Self {
+        let formatTypes: [DateFormats] = DateFormats.allCases
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "az_AZ")
+        let currentFormat = formatTypes.first { format in
+            formatter.dateFormat = format.rawValue
+            guard formatter.date(from: self) != nil else { return false }
+            return true
+        }
+        
+        guard !currentFormat.isNil else { return "-" }
+        guard let date = formatter.date(from: self) else { return "-" }
+        formatter.dateFormat = toFormat
+        
+        return formatter.string(from: date)
+    }
+    
+    func convertToDate() -> Date? {
+        let formatTypes: [DateFormats] = DateFormats.allCases
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "az_AZ")
+        let currentFormat = formatTypes.first { format in
+            formatter.dateFormat = format.rawValue
+            guard formatter.date(from: self) != nil else { return false }
+            return true
+        }
+        
+        guard !currentFormat.isNil else { return nil }
+        guard let date = formatter.date(from: self) else { return nil }
+        return date
+    }
+}
+
+enum DateFormats: String, CaseIterable {
+    case withSlashFormat = "dd/MM/yyyy"
+    case mainDateFormat = "yyyy-MM-dd"
+}
+
+private protocol AnyOptional {
+    var isNil: Bool { get }
+}
+
+extension Optional: AnyOptional {
+    var isNil: Bool { self == nil }
 }
