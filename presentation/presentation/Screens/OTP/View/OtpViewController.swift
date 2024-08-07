@@ -8,6 +8,9 @@
 import UIKit
 
 public class OtpViewController: UIBaseViewController<OtpViewModel> {
+    // MARK: - Contraint to be handled
+    private var bottomConstraintToHandle : NSLayoutConstraint?
+    
     // MARK: - Variables
     let seconds: Double = 120
     lazy var secondsLeft: Double = seconds
@@ -72,6 +75,7 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
+        keyboardShift(bottomConstraintToHandle!)
         startTimer()
     }
     
@@ -116,8 +120,10 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             confirmButton.heightAnchor.constraint(equalToConstant: 48),
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            
         ])
+        bottomConstraintToHandle = confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        bottomConstraintToHandle?.isActive = true
         
         resendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)

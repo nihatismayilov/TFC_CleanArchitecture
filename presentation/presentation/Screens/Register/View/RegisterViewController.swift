@@ -8,6 +8,8 @@
 import UIKit
 
 public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
+    // MARK: - Contraint to be handled
+    private var bottomConstraintToHandle : NSLayoutConstraint?
     // MARK: - UI Components
     private lazy var closeButton = BaseButton(
         image: UIImage(systemName: "xmark"),
@@ -72,6 +74,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
+        keyboardShift(bottomConstraintToHandle!)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -116,9 +119,13 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             sendButton.heightAnchor.constraint(equalToConstant: 48),
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            
         ])
         
+        bottomConstraintToHandle  =  sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        bottomConstraintToHandle?.isActive = true
+        
+        phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
         phoneTextField.delegate = self
         phoneTextField.keyboardType = .numberPad
