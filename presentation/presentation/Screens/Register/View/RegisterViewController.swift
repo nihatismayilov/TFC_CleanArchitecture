@@ -119,9 +119,9 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
         ])
         
-        phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
         phoneTextField.delegate = self
+        phoneTextField.keyboardType = .numberPad
         closeButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
     }
