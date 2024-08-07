@@ -11,14 +11,16 @@ import Combine
 open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     // MARK: - Variables
     private var cancellables: Set<AnyCancellable> = .init()
-    
-    //var isPageInitialized = false
-    
-    private var loadingView = LoadingView()
-    
     internal let viewModel: VM
     private  var bottomConstraintToHandle : NSLayoutConstraint!
     private  var initialBottomConstraintConstant : CGFloat!
+    
+    //var isPageInitialized = false
+    
+    // MARK: - UI Components
+    private var loadingView = LoadingView()
+    
+    // MARK: - Initializations
     init(vm: VM) {
         self.viewModel = vm
         super.init(nibName: nil, bundle: nil)
@@ -87,8 +89,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     func setText() { }
     
     func setBindings() { }
-        
-    // MARK: - Initializations
+    
     func initVars() { }
     
     func initViews() { }
@@ -101,13 +102,12 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
     // MARK: - Subscriptions
     @objc fileprivate func didTapOnView(_ sender: UITapGestureRecognizer){
         view.endEditing(true)
     }
     
-//    func observe(effect: Effect) { }
-//
     func observe(baseEffect: BaseEffect) {
         switch baseEffect {
         case .error(let title, let message):
@@ -119,14 +119,12 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
             }
         }
     }
-
-//    func observe(state: State) { }
     
     // MARK: - Observe Keyboard
     @objc func keyboardWillShow(notification: NSNotification) {
         if let constraint = bottomConstraintToHandle{
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                constraint.constant = -(keyboardSize.height + 10)
+                constraint.constant = -(keyboardSize.height)
                 UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
                     self.view.layoutIfNeeded()
                 }
@@ -213,5 +211,4 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
     
     // MARK: - Conformance to TransitioningDelegate
-    
 }
