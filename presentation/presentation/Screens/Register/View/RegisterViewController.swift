@@ -128,6 +128,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
         phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
         phoneTextField.delegate = self
+        phoneTextField.keyboardType = .numberPad
         closeButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
     }

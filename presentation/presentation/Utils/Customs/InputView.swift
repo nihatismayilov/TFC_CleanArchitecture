@@ -369,6 +369,7 @@ class InputView: UIView {
             textField.inputAccessoryView = toolbar
             textField.inputView = datePicker
             if let minDate {
+                
                 datePicker.minimumDate = minDate
             }
             if let maxDate {
