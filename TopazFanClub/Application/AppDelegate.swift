@@ -21,8 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DomainDIConfigurator.configure(container: DIContainer.shared)
         DataDIConfigurator.configure(container: DIContainer.shared)
         
-        let startVC = DIContainer.shared.resolve(TabbarController.self)!
-//        let startVC = DIContainer.shared.resolve(PersonalInformationVC.self)!
+//        let startVC = DIContainer.shared.resolve(TabbarController.self)!
+//        let startVC = DIContainer.shared.resolve(PersonalInformationViewController.self)!
+//        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
+        let startVC = DIContainer.shared.resolve(RegisterViewController.self)!
+//        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
         setupInitialPage(startVC)
         
         return true
@@ -30,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupInitialPage(_ vc: UIViewController) {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
-        self.window?.rootViewController = vc
+        let navVC = UINavigationController(rootViewController: vc)
+        self.window?.rootViewController = navVC
         self.window?.makeKeyAndVisible()
     }
 }

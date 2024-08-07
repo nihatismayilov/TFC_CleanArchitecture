@@ -11,16 +11,39 @@ import domain
 class Router {
     private init() {}
     
+    static func getTabbarController() -> TabbarController {
+        return DIContainer.shared.resolve(TabbarController.self)!
+    }
+    
     static func getForceUpdateVC() -> ForceUpdateVC {
         return DIContainer.shared.resolve(ForceUpdateVC.self)!
     }
-    static func getRegisterVC() -> RegisterVC {
-        return DIContainer.shared.resolve(RegisterVC.self)!
+    static func getRegisterVC() -> RegisterViewController {
+        return DIContainer.shared.resolve(RegisterViewController.self)!
     }
-    static func getOtpVC() -> OtpVC {
-        return DIContainer.shared.resolve(OtpVC.self)!
+    static func getOtpVC(phoneNumber: String) -> OtpViewController {
+        let vc = DIContainer.shared.resolve(OtpViewController.self)!
+        vc.viewModel.phoneNumber = phoneNumber
+        return vc
     }
-    static func getPersonalInformationVC() -> PersonalInformationVC {
-        return DIContainer.shared.resolve(PersonalInformationVC.self)!
+    static func getPersonalInformationViewController() -> PersonalInformationViewController {
+        return DIContainer.shared.resolve(PersonalInformationViewController.self)!
+    }
+    static func getCitySelectionVC(selectedID: Int?) -> CitySelectionViewController {
+        let vc = DIContainer.shared.resolve(CitySelectionViewController.self)!
+        vc.viewModel.selectedID = selectedID
+        return vc
+    }
+    static func getDistrictSelectionVC(selectedID : Int?, cityID: Int?) -> DistrictSelectionViewController {
+        let vc = DIContainer.shared.resolve(DistrictSelectionViewController.self)!
+        vc.viewModel.selectedID = selectedID
+        vc.viewModel.cityID = cityID
+        return vc
+    }
+    static func getHomeViewController() -> HomeViewController {
+        return DIContainer.shared.resolve(HomeViewController.self)!
+    }
+    static func getBottomSheetVC() -> BottomSheetViewController {
+        return DIContainer.shared.resolve(BottomSheetViewController.self)!
     }
 }

@@ -7,20 +7,20 @@
 
 import Foundation
 
-enum RegisterAPI: APIProtocol {
-    case register
-    
-    var baseUrl: BaseURL {
-        switch self {
-        case .register:
-                .b2cBaseURL
-        }
-    }
-    
-    var endpoint: String {
-        switch self {
-        case .register:
-            "customer/register"
-        }
-    }
-}
+//enum RegisterAPI: APIProtocol {
+//    case register
+//    
+//    var baseUrl: BaseURL {
+//        switch self {
+//        case .register:
+//                .b2cBaseURL
+//        }
+//    }
+//    
+//    var endpoint: String {
+//        switch self {
+//        case .register:
+//            "customer/register"
+//        }
+//    }
+//}

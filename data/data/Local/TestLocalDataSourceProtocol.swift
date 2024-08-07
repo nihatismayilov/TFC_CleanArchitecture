@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol TestLocalDataSourceProtocol {
-    func observeCards() -> AnyPublisher<[TestLocalDTO], Never>
-    func save(cards: [TestLocalDTO]) async throws
-}
+//protocol TestLocalDataSourceProtocol {
+//    func observeCards() -> AnyPublisher<[TestLocalDTO], Never>
+//    func save(cards: [TestLocalDTO]) async throws
+//}

@@ -45,6 +45,10 @@ class ForceUpdateVC: UIBaseViewController<BaseViewModel> {
     // MARK: - Controller Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
+        startAnimating()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.stopAnimating()
+        }
     }
     
     override func initViews() {

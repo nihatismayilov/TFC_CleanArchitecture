@@ -10,73 +10,44 @@ import Combine
 
 open class BaseViewModel {
     private let isLoadingState: CurrentValueSubject<Bool, Never> = .init(false)
+    private let baseEffectSubject: PassthroughSubject<BaseEffect, Never> = .init()
     
-//    private let stateSubject: CurrentValueSubject<State?, Never> = .init(nil)
-//    private let effectSubject: PassthroughSubject<Effect, Never> = .init()
+    var cancellables: Set<AnyCancellable> = .init()
     
-//    private let baseEffectSubject: PassthroughSubject<BaseEffect, Never> = .init()
-    
-    private var cancellables: Set<AnyCancellable> = .init()
-    
-    internal func setLoading(state: Bool) {
-        self.isLoadingState.send(state)
+    func showLoading() {
+        isLoadingState.send(true)
     }
     
-    internal func showLoading() {
-        self.isLoadingState.send(true)
+    func hideLoading() {
+        isLoadingState.send(false)
     }
     
-    internal func hideLoading() {
-        self.isLoadingState.send(false)
+    func postBaseEffect(baseEffect: BaseEffect) {
+        self.baseEffectSubject.send(baseEffect)
     }
     
-    open func observeLoading() -> AnyPublisher<Bool, Never> {
-        return self.isLoadingState.eraseToAnyPublisher()
+    func showError(title: String = "", message: String) {
+        baseEffectSubject.send(.error(title: title, message: message))
     }
     
-//    internal func postEffect(effect: Effect) {
-//        self.effectSubject.send(effect)
-//    }
+    func observeLoading() -> AnyPublisher<Bool, Never> {
+        return isLoadingState.eraseToAnyPublisher()
+    }
     
-//    internal func postBaseEffect(baseEffect: BaseEffect) {
-//        self.baseEffectSubject.send(baseEffect)
-//    }
-    
-//    internal func postState(state: State) {
-//        self.stateSubject.send(state)
-//    }
-    
-//    func observeEffect() -> AnyPublisher<Effect, Never> {
-//        return self.effectSubject.eraseToAnyPublisher()
-//    }
-    
-//    func observeBaseEffect() -> AnyPublisher<BaseEffect, Never> {
-//        return self.baseEffectSubject.eraseToAnyPublisher()
-//    }
-    
-//    func observeState() -> AnyPublisher<State, Never> {
-//        self.stateSubject.compactMap { $0 }
-//            .eraseToAnyPublisher()
-//    }
-    
-//    func getState() -> State? {
-//        return self.stateSubject.value
-//    }
+    func observeBaseEffect() -> AnyPublisher<BaseEffect, Never> {
+        return self.baseEffectSubject.eraseToAnyPublisher()
+    }
     
     func add(cancellable: AnyCancellable) {
-        cancellable.store(in: &self.cancellables)
+        cancellable.store(in: &cancellables)
     }
-    
-//    func show(error: Error) {
-//        self.postBaseEffect(baseEffect: .error(error))
-//    }
 
     deinit {
-        self.cancellables.forEach { $0.cancel() }
-        self.cancellables.removeAll()
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
     }
 }
 
 enum BaseEffect {
-    case error(Error)
+    case error(title: String = "", message: String)
 }

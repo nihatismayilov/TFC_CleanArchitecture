@@ -12,12 +12,13 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     // MARK: - Variables
     private var cancellables: Set<AnyCancellable> = .init()
     
-    var isPageInitialized = false
+    //var isPageInitialized = false
     
-//    private var progressView = ProgressView()
+    private var loadingView = LoadingView()
     
     internal let viewModel: VM
-    
+    private  var bottomConstraintToHandle : NSLayoutConstraint!
+    private  var initialBottomConstraintConstant : CGFloat!
     init(vm: VM) {
         self.viewModel = vm
         super.init(nibName: nil, bundle: nil)
@@ -31,57 +32,56 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         setupBase()
-        
-        self.setText()
+        setText()
         setBindings()
-        self.initViews()
-        self.initVars()
-        self.isPageInitialized = true
+        initViews()
+        initVars()
+        //self.isPageInitialized = true
     }
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.setText()
-
-//        let baseEffectSubscription = self.viewModel.observeBaseEffect().sink { effect in
-//            self.observe(baseEffect: effect)
-//        }
-        
-//        let effectSubscription = self.viewModel.observeEffect().sink { effect in
-//            self.observe(effect: effect)
-//        }
-
-//        let stateSubscription = self.viewModel.observeState().sink { state in
-//            self.observe(state: state)
-//        }
-
-        let loadingSubscription = self.viewModel.observeLoading().sink { isLoading in
-            if isLoading {
-//                self.startAnimating()
-            } else {
-//                self.stopAnimating()
-            }
-        }
-
-//        self.addCancellable(baseEffectSubscription)
-//        self.addCancellable(effectSubscription)
-//        self.addCancellable(stateSubscription)
-//        self.addCancellable(loadingSubscription)
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.cancellables.forEach { $0.cancel() }
-        self.cancellables.removeAll()
     }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+    }
+    
+    // MARK: - Handle BottomSheet presentation
+//    func presentAsBottomSheet(vc : UIViewController) {
+//        vc.transitioningDelegate = vc
+//    }
     
     // MARK: - Initializations
     private func setupBase() {
+        loadingView.frame = view.frame
+        
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapOnView))
         gesture.cancelsTouchesInView = false
         view.addGestureRecognizer(gesture)
         view.backgroundColor = .background
+        
+        let loadingSubscription = viewModel.observeLoading().sink { [weak self] isLoading in
+            guard let self else { return }
+            if isLoading {
+                startAnimating()
+            } else {
+                stopAnimating()
+            }
+        }
+        let baseEffectSubscription = self.viewModel.observeBaseEffect().sink { [weak self] effect in
+            guard let self else { return }
+            observe(baseEffect: effect)
+        }
+        
+        self.addCancellable(loadingSubscription)
+        self.addCancellable(baseEffectSubscription)
     }
     
     func setText() { }
@@ -93,6 +93,14 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
     func initViews() { }
     
+    
+    // MARK: - KeyboardObserver
+    func keyboardShift(_ constraint : NSLayoutConstraint) {
+        initialBottomConstraintConstant = constraint.constant
+        bottomConstraintToHandle = constraint
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     // MARK: - Subscriptions
     @objc fileprivate func didTapOnView(_ sender: UITapGestureRecognizer){
         view.endEditing(true)
@@ -100,20 +108,40 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
 //    func observe(effect: Effect) { }
 //
-//    func observe(baseEffect: BaseEffect) {
-//        switch baseEffect {
-//        case .error(let error):
-//            let uiError = error as? UIError ?? UIError(type: .unknown)
-//
-//            self.promptAlert(title: uiError.getTitle(),
-//                             content: uiError.getText(),
-//                             actionTitle: uiError.getActionBtn()) {
-//
-//            }
-//        }
-//    }
+    func observe(baseEffect: BaseEffect) {
+        switch baseEffect {
+        case .error(let title, let message):
+
+            self.promptAlert(title: title,
+                             content: message,
+                             actionTitle: "OK") {
+                self.dismiss(animated: true)
+            }
+        }
+    }
 
 //    func observe(state: State) { }
+    
+    // MARK: - Observe Keyboard
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let constraint = bottomConstraintToHandle{
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                constraint.constant = -(keyboardSize.height + 10)
+                UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let constraint = bottomConstraintToHandle{
+            constraint.constant = initialBottomConstraintConstant
+            UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
     
     // MARK: - UI
     func addCancellable(_ cancellable: AnyCancellable) {
@@ -121,17 +149,12 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
         
     func startAnimating() {
-//        self.progressView = ProgressView()
-//        addChild(self.progressView)
-//        self.progressView.view.frame = view.frame
-//        view.addSubview(self.progressView.view)
-//        self.progressView.didMove(toParent: self)
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
     }
 
     func stopAnimating() {
-//        self.progressView.willMove(toParent: nil)
-//        self.progressView.view.removeFromSuperview()
-//        self.progressView.removeFromParent()
+        loadingView.removeFromSuperview()
     }
     
     func promptAlert(title: String,
@@ -144,7 +167,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         let actionBtn = UIAlertAction(title: actionTitle, style: .default, handler: { action in
             onAction()
         })
-//        actionBtn.setValue(ColorName.mountainMeadow.color, forKey: "titleTextColor")
+        actionBtn.setValue(UIColor.red600, forKey: "titleTextColor")
 
         alert.addAction(actionBtn)
         self.present(alert, animated: true)
@@ -162,14 +185,14 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         let actionPositiveBtn = UIAlertAction(title: positiveActionTitle, style: .default, handler: { action in
             onPositiveAction()
         })
-//        actionPositiveBtn.setValue(ColorName.mountainMeadow.color, forKey: "titleTextColor")
+        actionPositiveBtn.setValue(UIColor.red600, forKey: "titleTextColor")
 
         alert.addAction(actionPositiveBtn)
         
         let actionNegativeBtn = UIAlertAction(title: negativeActionTitle, style: .cancel, handler: { action in
             onNegativeAction()
         })
-//        actionNegativeBtn.setValue(ColorName.mountainMeadow.color, forKey: "titleTextColor")
+        actionNegativeBtn.setValue(UIColor.red600, forKey: "titleTextColor")
 
         alert.addAction(actionNegativeBtn)
         
@@ -188,4 +211,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
             self.navigationController?.viewControllers.removeSubrange(0..<vcs.count-1)
         }
     }
+    
+    // MARK: - Conformance to TransitioningDelegate
+    
 }

@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import Combine
 
 protocol RegisterRemoteDataSourceProtocol {
-    func register(by phoneNumber: String) async throws -> Bool
+    func register(by phoneNumber: String) -> AnyPublisher<Bool, Error>
+    func token(by phoneNumber: String, otp: String) -> AnyPublisher<TokenRemoteDTO, Error>
 }

@@ -31,23 +31,31 @@ public class DIContainer: DIContainerProtocol {
     public func resolve<T>(_ type: T.Type) -> T? {
         let key = String(describing: type)
         if let singleton = singletons[key] as? T {
-            return singleton
-        }
+                    return singleton
+                }
         return registry[key]?() as? T
     }
 }
 
 public struct DomainDIConfigurator {
     public static func configure(container: DIContainer) {
-        container.register(SyncTestDataUseCase.self) {
-            SyncTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
-        }
-        container.register(ObserveTestDataUseCase.self) {
-            ObserveTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
-        }
+//        container.register(SyncTestDataUseCase.self) {
+//            SyncTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
+//        }
+//        container.register(ObserveTestDataUseCase.self) {
+//            ObserveTestDataUseCase(repo: container.resolve(TestRepoProtocol.self)!)
+//        }
         
         container.register(RegisterUseCase.self) {
             RegisterUseCase(repo: container.resolve(RegisterRepoProtocol.self)!)
+        }
+        
+        container.register(CustomerUseCase.self) {
+            CustomerUseCase(repo: container.resolve(CustomerRepoProtocol.self)!)
+        }
+        
+        container.register(LocationUseCase.self) {
+            LocationUseCase(repo: container.resolve(LocationRepoProtocol.self)!)
         }
     }
 }

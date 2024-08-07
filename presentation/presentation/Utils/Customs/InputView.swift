@@ -7,12 +7,14 @@
 
 import UIKit
 
-enum InputViewType {
+enum InputViewType: Equatable {
     case name
+    case nickname
     case phone
-    case birthday
+    case birthday(minDate: Date?, maxDate: Date?)
     case dropdown
     case amount
+    case search
     case number
 }
 
@@ -27,6 +29,7 @@ protocol InputViewDelegate: NSObject {
     func textFieldShouldClear(_ textField: InputView) -> Bool
     func textFieldShouldReturn(_ textField: InputView) -> Bool
     func didTapTextField(textField: InputView)
+    func didTapRightIcon()
 }
 
 extension InputViewDelegate {
@@ -40,6 +43,7 @@ extension InputViewDelegate {
     func textFieldShouldClear(_ textField: InputView) -> Bool {true}
     func textFieldShouldReturn(_ textField: InputView) -> Bool {true}
     func didTapTextField(textField: InputView) {}
+    func didTapRightIcon() {}
 }
 class InputView: UIView {
     // MARK: - Variables
@@ -63,14 +67,14 @@ class InputView: UIView {
         }
     }
     
-    @IBInspectable
-    var titleText: String? {
-        get {
-            titleLabel.text
-        } set {
-            titleLabel.text = newValue
-        }
-    }
+//    @IBInspectable
+//    var titleText: String? {
+//        get {
+//            titleLabel.text
+//        } set {
+//            titleLabel.text = newValue
+//        }
+//    }
     
     @IBInspectable
     var hasRightIcon: Bool {
@@ -108,24 +112,24 @@ class InputView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .fill
-        stack.distribution = .equalSpacing
+        stack.distribution = .equalCentering
         stack.spacing = 4
         return stack
     }()
-    private lazy var titleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }()
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        titleView.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .secondaryText
-        label.font = .systemFont(ofSize: 12)
-        label.text = "Title"
-        return label
-    }()
+//    private lazy var titleView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .clear
+//        return view
+//    }()
+//    private lazy var titleLabel: UILabel = {
+//        let label = UILabel()
+//        titleView.addSubview(label)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.textColor = .secondaryText
+//        label.font = .systemFont(ofSize: 12)
+//        label.text = "Title"
+//        return label
+//    }()
     private lazy var textFieldBack: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -153,11 +157,19 @@ class InputView: UIView {
         tf.placeholder = "Placeholder"
         return tf
     }()
+    private lazy var leftIcon: UIImageView = {
+        let imageView = UIImageView(image: UIImage.icSearch,
+                                    tintColor: .secondaryText)
+        imageView.contentMode = .scaleAspectFit
+        imageView.isHidden = true
+        return imageView
+    }()
     private lazy var rightButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isUserInteractionEnabled = false
         button.tintColor = .secondaryText
+        button.imageView?.contentMode = .scaleAspectFit
+        
         return button
     }()
     private lazy var phoneTitleLabel: UILabel = {
@@ -172,16 +184,11 @@ class InputView: UIView {
         picker.datePickerMode = .date
         picker.preferredDatePickerStyle = .wheels
         picker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        
         return picker
     }()
     
-    private lazy var errorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        
-        return view
-    }()
+    private lazy var errorView = UIView(backgroundColor: .clear)
+    
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         errorView.addSubview(label)
@@ -208,19 +215,24 @@ class InputView: UIView {
     
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
-        mainStackView.addArrangedSubviews(titleView, textFieldBack, errorView)
-        textStackView.addArrangedSubviews(phoneTitleLabel, textField, rightButton)
+        mainStackView.addArrangedSubviews(/*titleView, */textFieldBack, errorView)
+        textStackView.addArrangedSubviews(phoneTitleLabel, leftIcon,textField, rightButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
-            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
+//            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
+//            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 12),
+//            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -12),
+//            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
             
+            leftIcon.widthAnchor.constraint(equalToConstant: 24),
+            leftIcon.heightAnchor.constraint(equalToConstant: 24),
+            textField.leadingAnchor.constraint(equalTo: leftIcon.trailingAnchor,constant: 8),
+            
+//            textFieldBack.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 4),
             textFieldBack.heightAnchor.constraint(equalToConstant: 48),
             textStackView.centerYAnchor.constraint(equalTo: textFieldBack.centerYAnchor),
             textStackView.leadingAnchor.constraint(equalTo: textFieldBack.leadingAnchor, constant: 12),
@@ -242,16 +254,29 @@ class InputView: UIView {
     @objc func viewTapped(_ sender: UITapGestureRecognizer) {
         delegate?.didTapTextField(textField: self)
     }
+    @objc func rightIconTapped(_ sender : UIButton) {
+        delegate?.didTapRightIcon()
+    }
     
     func showError(text: String) {
         hasError = true
+//        errorLabel.text = text
+//        errorView.isHidden = text.isEmpty
+//        UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
+//            guard let self else {return}
+//            textFieldBack.borderWidth = 1
+//            textFieldBack.borderColor = .red600
+//            titleLabel.textColor = .red600
+//            layoutIfNeeded()
+//        }
+        
         errorLabel.text = text
         errorView.isHidden = text.isEmpty
         UIView.transition(with: self, duration: 0.25, options: [.beginFromCurrentState, .curveEaseInOut]) { [weak self] in
             guard let self else {return}
-            textFieldBack.backgroundColor = UIColor.red600.withAlphaComponent(0.10)
+            textFieldBack.backgroundColor = .red600.withAlphaComponent(0.1)
             textFieldBack.borderColor = .red600
-            titleLabel.textColor = .red600
+//            titleLabel.textColor = .red600
         }
     }
     func hideError() {
@@ -261,33 +286,40 @@ class InputView: UIView {
             guard let self else {return}
             textFieldBack.backgroundColor = .secondaryBackground
             textFieldBack.borderColor = .secondaryBorder
-            titleLabel.textColor = .secondaryText
+//            titleLabel.textColor = .secondaryText
+            layoutIfNeeded()
         }
     }
     
     private func becomeActive() {
         isActive = true
-        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
-            guard let self else {return}
-            let colorProvider = UIColor { [unowned self] trait in
-                let trColor = UIColor.primaryText.resolvedColor(with: trait)
-                self.textFieldBack.layer.borderColor = trColor.cgColor
-                return trColor
-            }
-            tintColor = colorProvider
+        if hasError {
+            textFieldBack.borderColor = .red600
+        } else {
+            textFieldBack.borderColor = .primaryText
         }
+//        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
+//            guard let self else {return}
+//            let colorProvider = UIColor { [unowned self] trait in
+//                let trColor = UIColor.primaryText.resolvedColor(with: trait)
+//                self.textFieldBack.borderColor = trColor
+//                return trColor
+//            }
+//            tintColor = colorProvider
+//        }
     }
     private func becomeDeactive() {
         isActive = false
-        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
-            guard let self else {return}
-            let colorProvider = UIColor { trait in
-                let trColor = UIColor.secondaryBorder.resolvedColor(with: trait)
-                self.textFieldBack.layer.borderColor = trColor.cgColor
-                return trColor
-            }
-            tintColor = colorProvider
-        }
+        textFieldBack.borderColor = .secondaryBorder
+//        UIView.transition(with: self, duration: 0.3, options: .beginFromCurrentState) { [weak self] in
+//            guard let self else {return}
+//            let colorProvider = UIColor { trait in
+//                let trColor = UIColor.secondaryBorder.resolvedColor(with: trait)
+//                self.textFieldBack.borderColor = trColor
+//                return trColor
+//            }
+//            tintColor = colorProvider
+//        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -314,26 +346,55 @@ class InputView: UIView {
             textField.textContentType = .name
             textField.keyboardType = .default
             phoneTitleLabel.isHidden = true
+        case .nickname:
+            textField.isEnabled = true
+            textField.textContentType = .name
+            textField.keyboardType = .default
+            phoneTitleLabel.isHidden = true
+            textField.autocapitalizationType = .none
         case .phone:
             textField.isEnabled = true
             textField.textContentType = .telephoneNumber
             textField.keyboardType = .numberPad
             phoneTitleLabel.isHidden = false
-        case .birthday:
+        case .birthday(let minDate, let maxDate):
             textField.isEnabled = true
+            let toolbar = UIToolbar()
+            toolbar.sizeToFit()
+            // Create Done button
+            let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            toolbar.setItems([flexSpace, doneButton], animated: true)
+            // Assign toolbar to textField
+            textField.inputAccessoryView = toolbar
             textField.inputView = datePicker
+            if let minDate {
+                datePicker.minimumDate = minDate
+            }
+            if let maxDate {
+                datePicker.maximumDate = maxDate
+            }
             phoneTitleLabel.isHidden = true
+            rightButton.addTarget(self, action: #selector(rightIconTapped(_ :)), for: .touchUpInside)
         case .dropdown:
             let tap = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
             textFieldBack.addGestureRecognizer(tap)
             textField.isEnabled = false
             rightButton.setImage(UIImage(systemName: "chevron.down")!, for: .normal)
             phoneTitleLabel.isHidden = true
+            rightButton.isEnabled = false
         case .amount:
             textField.isEnabled = true
             textField.keyboardType = .numberPad
             rightButton.setImage(UIImage(systemName: "manatsign"), for: .normal)
             phoneTitleLabel.isHidden = true
+        case .search:
+//            titleView.isHidden = true
+            textField.isEnabled = true
+            textField.keyboardType = .default
+            leftIcon.isHidden = false
+            phoneTitleLabel.isHidden = true
+            rightButton.isHidden = true
         case .number:
             textField.isEnabled = true
             textField.keyboardType = .numberPad
@@ -348,6 +409,10 @@ class InputView: UIView {
         textField.text = dateFormatter.string(from: sender.date)
         delegate?.textFieldDidChangeSelection(self, string: textField.text!)
     }
+    @objc func donePressed() {
+        endEditing(true)
+    }
+    
 }
 
 extension InputView: UITextFieldDelegate {
@@ -361,7 +426,7 @@ extension InputView: UITextFieldDelegate {
             delegate?.didTapTextField(textField: self)
             return
         }
-        hideError()
+//        hideError()
         delegate?.textFieldDidBeginEditing(self)
     }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
@@ -388,4 +453,5 @@ extension InputView: UITextFieldDelegate {
         return delegate?.textFieldShouldReturn(self) ?? true
     }
 }
+
 
