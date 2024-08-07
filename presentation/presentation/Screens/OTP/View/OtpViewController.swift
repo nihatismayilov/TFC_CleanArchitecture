@@ -10,6 +10,7 @@ import UIKit
 public class OtpViewController: UIBaseViewController<OtpViewModel> {
     // MARK: - Contraint to be handled
     private var bottomConstraintToHandle : NSLayoutConstraint?
+    
     // MARK: - Variables
     let seconds: Double = 120
     lazy var secondsLeft: Double = seconds
