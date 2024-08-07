@@ -75,7 +75,7 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
-        keyboardShift(bottomConstraintToHandle!)
+        
         startTimer()
     }
     
@@ -124,6 +124,8 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         ])
         bottomConstraintToHandle = confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         bottomConstraintToHandle?.isActive = true
+        guard let constraintToHandle = bottomConstraintToHandle else{return}
+        keyboardShift(constraintToHandle)
         
         resendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)

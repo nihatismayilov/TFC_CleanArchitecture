@@ -17,8 +17,8 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     private var loadingView = LoadingView()
     
     internal let viewModel: VM
-    private  var bottomConstraintToHandle : NSLayoutConstraint!
-    private  var initialBottomConstraintConstant : CGFloat!
+    private  var bottomConstraintToHandle : NSLayoutConstraint?
+    private  var initialBottomConstraintConstant : CGFloat?
     init(vm: VM) {
         self.viewModel = vm
         super.init(nibName: nil, bundle: nil)
@@ -135,8 +135,9 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
+        guard let constant = initialBottomConstraintConstant else {return}
         if let constraint = bottomConstraintToHandle{
-            constraint.constant = initialBottomConstraintConstant
+            constraint.constant = constant
             UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
                 self.view.layoutIfNeeded()
             }

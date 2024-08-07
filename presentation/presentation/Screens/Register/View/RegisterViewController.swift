@@ -74,7 +74,7 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
-        keyboardShift(bottomConstraintToHandle!)
+        
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -124,6 +124,8 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
         
         bottomConstraintToHandle  =  sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         bottomConstraintToHandle?.isActive = true
+        guard let constraintToHandle = bottomConstraintToHandle else{return}
+        keyboardShift(constraintToHandle)
         
         phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
