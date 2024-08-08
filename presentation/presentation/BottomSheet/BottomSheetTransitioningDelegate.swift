@@ -14,15 +14,17 @@ enum BottomSheetHeight {
 }
 
 class BottomSheetTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+//    var closePresentingVc = false
+    var sheetHeight: BottomSheetHeight = .automatic
     
-    var sheetHeight: BottomSheetHeight
-    
-    init(sheetHeight: BottomSheetHeight) {
+    init(sheetHeight: BottomSheetHeight = .automatic) {
         self.sheetHeight = sheetHeight
+//        self.closePresentingVc = closePresentingVc
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let presentationController = BottomSheetPresentationController(presentedViewController: presented, presenting: presenting)
+//        presentationController.closePresentingVc = closePresentingVc
         presentationController.sheetHeight = switch sheetHeight {
         case .automatic:
             242

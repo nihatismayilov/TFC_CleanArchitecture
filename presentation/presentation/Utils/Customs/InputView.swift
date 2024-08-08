@@ -187,7 +187,9 @@ class InputView: UIView {
         return picker
     }()
     
-    private lazy var errorView = UIView(backgroundColor: .clear)
+    private lazy var errorView = UIView(
+        backgroundColor: .clear
+    )
     
     private lazy var errorLabel: UILabel = {
         let label = UILabel()

@@ -7,8 +7,12 @@
 
 import UIKit
 
-public class OtpViewController: UIBaseViewController<OtpViewModel> {
+public class OtpViewController: UIBaseViewController<OtpViewModel> ,OtpErrorPopUpClosed{
+    
     // MARK: - Variables
+    private var bottomConstraint : NSLayoutConstraint?
+    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate(sheetHeight: .automatic)
+    //    private var countWrongOtpCase : Int = 0
     let seconds: Double = 120
     lazy var secondsLeft: Double = seconds
     var timer = Timer()
@@ -72,7 +76,9 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
+        guard let bottomConstraint else{return}
         startTimer()
+        observeKeyboard(constraint: bottomConstraint)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -116,9 +122,9 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             confirmButton.heightAnchor.constraint(equalToConstant: 48),
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
         ])
-        
+        bottomConstraint = confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        bottomConstraint?.isActive = true
         resendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
     }
@@ -134,9 +140,17 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
                 guard let self else { return }
                 if isSuccess {
                     viewModel.getProfile()
-//                    pushNavigation(Router.getPersonalInformationVC())
+                    //                    pushNavigation(Router.getPersonalInformationVC())
                 } else {
                     otpView.wrongOtp = true
+                    if viewModel.wrondOtpCase == 3 {
+                        viewModel.wrondOtpCase = 0
+                        let errorPopUpVc = Router.getOtpErrorVC()
+                        errorPopUpVc.delegate = self
+                        errorPopUpVc.modalPresentationStyle = .custom
+                        errorPopUpVc.transitioningDelegate = bottomSheetTransitioningDelegate
+                        present(errorPopUpVc, animated: true)
+                    }
                 }
             }
         addCancellable(tokenSubscription)
@@ -154,8 +168,8 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             .sink { [weak self] profileData in
                 guard let self else { return }
                 if profileData.name == nil {
-                let vc = Router.getPersonalInformationViewController()
-                vc.viewModel.model.id = profileData.id
+                    let vc = Router.getPersonalInformationViewController()
+                    vc.viewModel.model.id = profileData.id
                     pushNavigation(vc)
                 } else {
                     let vc = Router.getTabbarController()
@@ -213,13 +227,16 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
         default: break
         }
     }
+    func otpErrorPopUpClosed() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 extension OtpViewController: CheckOtp {
     func checkOtp(countOfOtp: Int) {
         confirmButton.isEnabled = (countOfOtp == 6)
         confirmButton.alpha = (countOfOtp == 6) ? 1 : 0.5
-//        if countOfOtp == 6 { keyboardWillHide() }
+        //        if countOfOtp == 6 { keyboardWillHide() }
         view.endEditing(true)
     }
 }

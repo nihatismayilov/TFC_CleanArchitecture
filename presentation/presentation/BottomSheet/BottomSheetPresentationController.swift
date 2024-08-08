@@ -10,9 +10,10 @@ import UIKit
 
 class BottomSheetPresentationController: UIPresentationController {
 //    var isDraggingUpwardAllowed : Bool = false
+//    var closePresentingVc = false
     private let blurEffectView: UIVisualEffectView!
     private var tapGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
-    var sheetHeight: CGFloat = 200
+    var sheetHeight  = 0.0
     private var dragGesture : UIPanGestureRecognizer = UIPanGestureRecognizer()
     private var initialTouch  = 0.0
     private var initialYpoint = 0.0
@@ -22,7 +23,7 @@ class BottomSheetPresentationController: UIPresentationController {
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissController))
-//        dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDrag(_ :)))
+        dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDrag(_ :)))
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.blurEffectView.isUserInteractionEnabled = true
         self.presentedView?.addGestureRecognizer(dragGesture)
@@ -31,13 +32,12 @@ class BottomSheetPresentationController: UIPresentationController {
     
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
-        guard let presentedView else {return}
-        presentedView.frame = CGRect(x: 0, y: (containerView?.bounds.height)! - sheetHeight, width: (containerView?.bounds.width)!, height: sheetHeight)
         self.blurEffectView.alpha = 0
         containerView?.addSubview(blurEffectView)
         presentedViewController.transitionCoordinator?.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) in
             self.blurEffectView.alpha = 0.8
         }, completion: { (UIViewControllerTransitionCoordinatorContext) in })
+//        self.setHeight()
     }
     //    override func presentationTransitionDidEnd(_ completed: Bool) {
     //        super.presentationTransitionDidEnd(completed)
@@ -57,7 +57,13 @@ class BottomSheetPresentationController: UIPresentationController {
         blurEffectView.removeGestureRecognizer(tapGestureRecognizer)
         
     }
-    
+    private func setHeight() {
+        guard let presentedView , let containerView else{return}
+        let targetSize = CGSize(width: containerView.bounds.width, height: sheetHeight)
+        let optimalHeight = presentedView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .dragThatCannotResizeScene).height
+        self.sheetHeight = optimalHeight
+        presentedView.frame = CGRect(x: 0, y: (containerView.bounds.height - sheetHeight), width: containerView.bounds.width, height: sheetHeight )
+    }
     //       override func containerViewWillLayoutSubviews() {
     //           super.containerViewWillLayoutSubviews()
     //           presentedView?.frame = CGRect(x: 0, y: (containerView?.bounds.height)! - sheetHeight, width: (containerView?.bounds.width)!, height: sheetHeight)
@@ -65,8 +71,11 @@ class BottomSheetPresentationController: UIPresentationController {
     
     override func containerViewDidLayoutSubviews() {
         super.containerViewDidLayoutSubviews()
+        guard let presentedView else{return}
         blurEffectView.frame = containerView!.bounds
-        presentedView?.frame = CGRect(x: 0, y: (containerView?.bounds.height)! - sheetHeight, width: (containerView?.bounds.width)!, height: sheetHeight)
+        presentedView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        presentedView.layer.cornerRadius = 15
+        self.setHeight()
     }
     
     @objc func handleDrag(_ sender : UIPanGestureRecognizer) {
@@ -78,16 +87,20 @@ class BottomSheetPresentationController: UIPresentationController {
             initialTouch = yOffset
             initialYpoint = presentedView.frame.origin.y
         case .changed :
+            if difference < 0 {
                 presentedView.frame.origin.y = initialYpoint - difference
                 print("difference >>> \(yOffset)")
-            
-        case .ended :
-            if /*difference < -100 */ yOffset >  containerView.frame.height * 0.9 {
-                presentedViewController.dismiss(animated: true)
             }
-            else if yOffset > containerView.bounds.height - self.sheetHeight {
-                UIView.animate(withDuration: 0.3) {
-                    presentedView.frame.origin.y = containerView.bounds.height - self.sheetHeight
+        case .ended :
+            if difference < -100 {
+//                if closePresentingVc {
+//                    presentingViewController.dismiss(animated: true)
+//                    presentedViewController.dismiss(animated: true)
+//                }else{
+                    presentedViewController.dismiss(animated: true)
+                }else  {
+                UIView.animate(withDuration: 0.3, delay: 0) {
+                    self.setHeight()
                 }
             }
         default :

@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let startVC = DIContainer.shared.resolve(TabbarController.self)!
 //        let startVC = DIContainer.shared.resolve(PersonalInformationViewController.self)!
 //        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
+//          let startVC = DIContainer.shared.resolve(OtpErrorViewController.self)!
         let startVC = DIContainer.shared.resolve(RegisterViewController.self)!
 //        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
         setupInitialPage(startVC)

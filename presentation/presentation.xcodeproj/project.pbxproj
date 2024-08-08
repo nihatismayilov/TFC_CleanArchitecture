@@ -10,6 +10,8 @@
 		1E214FF72C5FF94700CDED85 /* BottomSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */; };
 		1E214FF92C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */; };
 		1E214FFD2C5FFA0B00CDED85 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E214FFC2C5FFA0B00CDED85 /* BottomSheetViewController.swift */; };
+		1E4A86502C649B5400BB1086 /* OtpErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4A864F2C649B5400BB1086 /* OtpErrorViewController.swift */; };
+		1E4A86552C64BE8D00BB1086 /* UITapGestureRecognizer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4A86542C64BE8D00BB1086 /* UITapGestureRecognizer+Extensions.swift */; };
 		1E70685B2C5B664500366360 /* DistrictSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E70685A2C5B664500366360 /* DistrictSelectionViewController.swift */; };
 		1E70685D2C5B668500366360 /* DistrictSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E70685C2C5B668500366360 /* DistrictSelectionViewModel.swift */; };
 		1EA44F1E2C5A22B900BDA94C /* CitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA44F1D2C5A22B900BDA94C /* CitySelectionViewController.swift */; };
@@ -72,6 +74,8 @@
 		1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentationController.swift; sourceTree = "<group>"; };
 		1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitioningDelegate.swift; sourceTree = "<group>"; };
 		1E214FFC2C5FFA0B00CDED85 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		1E4A864F2C649B5400BB1086 /* OtpErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpErrorViewController.swift; sourceTree = "<group>"; };
+		1E4A86542C64BE8D00BB1086 /* UITapGestureRecognizer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+Extensions.swift"; sourceTree = "<group>"; };
 		1E70685A2C5B664500366360 /* DistrictSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictSelectionViewController.swift; sourceTree = "<group>"; };
 		1E70685C2C5B668500366360 /* DistrictSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictSelectionViewModel.swift; sourceTree = "<group>"; };
 		1EA44F1D2C5A22B900BDA94C /* CitySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySelectionViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 				1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */,
 				1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */,
 				1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */,
+				1E4A864F2C649B5400BB1086 /* OtpErrorViewController.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -424,6 +429,7 @@
 				B88CFDC62C4FC6E60079EECF /* UILabel+Extensions.swift */,
 				B88CFDC82C4FD5910079EECF /* UIButton+Extensions.swift */,
 				B86B509A2C512E090083A038 /* UITextField+Extensions.swift */,
+				1E4A86542C64BE8D00BB1086 /* UITapGestureRecognizer+Extensions.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -595,7 +601,9 @@
 				1E70685D2C5B668500366360 /* DistrictSelectionViewModel.swift in Sources */,
 				B8A9E6472C590E0A009D4B63 /* Double+Extensions.swift in Sources */,
 				B84136342C61E9CB0001E1D9 /* HomeViewController.swift in Sources */,
+				1E4A86502C649B5400BB1086 /* OtpErrorViewController.swift in Sources */,
 				B80BDAF52C4E82D600DA8BB6 /* PresentationDI.swift in Sources */,
+				1E4A86552C64BE8D00BB1086 /* UITapGestureRecognizer+Extensions.swift in Sources */,
 				B80BDAF22C4E7D5E00DA8BB6 /* InputView.swift in Sources */,
 				B80BDAF02C4E7BCB00DA8BB6 /* Localization+Extensions.swift in Sources */,
 				B88CFDC52C4FC3480079EECF /* UIViewController+Extensions.swift in Sources */,
