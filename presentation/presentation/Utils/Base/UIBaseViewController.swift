@@ -11,14 +11,14 @@ import Combine
 open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     // MARK: - Variables
     private var cancellables: Set<AnyCancellable> = .init()
-    
+    private var bottomConstraintToHandle : NSLayoutConstraint?
+    private var constraintConstant : CGFloat?
     //var isPageInitialized = false
     
     private var loadingView = LoadingView()
     
     internal let viewModel: VM
-    private  var bottomConstraintToHandle : NSLayoutConstraint!
-    private  var initialBottomConstraintConstant : CGFloat!
+    
     init(vm: VM) {
         self.viewModel = vm
         super.init(nibName: nil, bundle: nil)
@@ -32,6 +32,7 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         setupBase()
+        
         setText()
         setBindings()
         initViews()
@@ -53,11 +54,14 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         cancellables.removeAll()
     }
     
-    // MARK: - Handle BottomSheet presentation
-//    func presentAsBottomSheet(vc : UIViewController) {
-//        vc.transitioningDelegate = vc
-//    }
-    
+    // MARK: - Observe Keyboard
+    func observeKeyboard(constraint : NSLayoutConstraint) {
+        bottomConstraintToHandle = constraint
+        constraintConstant = constraint.constant
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     // MARK: - Initializations
     private func setupBase() {
         loadingView.frame = view.frame
@@ -93,14 +97,6 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     
     func initViews() { }
     
-    
-    // MARK: - KeyboardObserver
-    func keyboardShift(_ constraint : NSLayoutConstraint) {
-        initialBottomConstraintConstant = constraint.constant
-        bottomConstraintToHandle = constraint
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
     // MARK: - Subscriptions
     @objc fileprivate func didTapOnView(_ sender: UITapGestureRecognizer){
         view.endEditing(true)
@@ -121,27 +117,6 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     }
 
 //    func observe(state: State) { }
-    
-    // MARK: - Observe Keyboard
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let constraint = bottomConstraintToHandle{
-            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                constraint.constant = -(keyboardSize.height + 10)
-                UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
-                    self.view.layoutIfNeeded()
-                }
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let constraint = bottomConstraintToHandle{
-            constraint.constant = initialBottomConstraintConstant
-            UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
     
     // MARK: - UI
     func addCancellable(_ cancellable: AnyCancellable) {
@@ -201,6 +176,26 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         self.present(alert, animated: true)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let constraint = bottomConstraintToHandle{
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                constraint.constant = -keyboardSize.height
+                UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let constraint = bottomConstraintToHandle{
+            guard let constraintConstant else{return}
+            constraint.constant = constraintConstant
+            UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
     // MARK: - Navigation
     func pushNavigation(_ vc: UIViewController) {
         self.navigationController?.pushViewController(vc, animated: true)
