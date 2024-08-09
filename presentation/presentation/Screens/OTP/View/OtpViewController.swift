@@ -134,7 +134,6 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
                 guard let self else { return }
                 if isSuccess {
                     viewModel.getProfile()
-//                    pushNavigation(Router.getPersonalInformationVC())
                 } else {
                     otpView.wrongOtp = true
                 }
@@ -154,8 +153,8 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> {
             .sink { [weak self] profileData in
                 guard let self else { return }
                 if profileData.name == nil {
-                let vc = Router.getPersonalInformationViewController()
-                vc.viewModel.model.id = profileData.id
+                    let vc = Router.getPersonalInformationViewController()
+                    vc.viewModel.model.id = profileData.id
                     pushNavigation(vc)
                 } else {
                     let vc = Router.getTabbarController()

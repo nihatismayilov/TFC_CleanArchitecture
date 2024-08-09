@@ -57,5 +57,9 @@ public struct DomainDIConfigurator {
         container.register(LocationUseCase.self) {
             LocationUseCase(repo: container.resolve(LocationRepoProtocol.self)!)
         }
+        
+        container.register(StoryUseCase.self) {
+            StoryUseCase(repo: container.resolve(StoryRepoProtocol.self)!)
+        }
     }
 }
