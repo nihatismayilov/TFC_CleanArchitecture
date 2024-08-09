@@ -38,6 +38,9 @@ public struct PresentationDIConfigurator {
         container.register(BottomSheetViewController.self) {
             BottomSheetViewController()
         }
+        container.register(OtpErrorViewController.self) {
+            OtpErrorViewController()
+        }
         // MARK: - View Models
         container.register(BaseViewModel.self) {
             BaseViewModel()

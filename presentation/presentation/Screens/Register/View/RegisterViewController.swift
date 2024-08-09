@@ -8,8 +8,8 @@
 import UIKit
 
 public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
-    // MARK: - Contraint to be handled
-    private var bottomConstraintToHandle : NSLayoutConstraint?
+    // MARK: - Variable
+    private var bottomConstraint : NSLayoutConstraint?
     // MARK: - UI Components
     private lazy var closeButton = BaseButton(
         image: UIImage(systemName: "xmark"),
@@ -74,7 +74,8 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
-        keyboardShift(bottomConstraintToHandle!)
+        guard let bottomConstraint else{return}
+        observeKeyboard(constraint: bottomConstraint)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -92,6 +93,8 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             termsConditionsLabel,
             sendButton
         )
+        bottomConstraint = sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        guard let bottomConstraint else{return}
         labelStackView.addArrangedSubviews(titleLabel, descriptionLabel)
         phoneNumberStackView.addArrangedSubviews(phoneHeaderLabel, phoneTextField)
         
@@ -119,16 +122,12 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             sendButton.heightAnchor.constraint(equalToConstant: 48),
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            bottomConstraint
             
         ])
-        
-        bottomConstraintToHandle  =  sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
-        bottomConstraintToHandle?.isActive = true
-        
         phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
         phoneTextField.delegate = self
-        phoneTextField.keyboardType = .numberPad
         closeButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         sendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
     }

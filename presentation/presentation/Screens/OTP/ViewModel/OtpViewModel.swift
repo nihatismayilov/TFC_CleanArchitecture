@@ -16,6 +16,8 @@ public class OtpViewModel: BaseViewModel {
     var registerDataSubject: CurrentValueSubject<Bool?, Never> = .init(nil)
     var profileDataSubject: CurrentValueSubject<Profile?, Never> = .init(nil)
     var phoneNumber: String = "+994 XX XXX XX XX"
+    var wrongOtpCase = 0
+    private let bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate(sheetHeight: .automatic)
     
     public init(registerUseCase: RegisterUseCase, customerUseCase: CustomerUseCase) {
         self.registerUseCase = registerUseCase
@@ -39,7 +41,11 @@ public class OtpViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] response in
                 guard let self else { return }
+                if !response.isSuccess {
+                    wrongOtpCase += 1
+                }
                 tokenDataSubject.send(response.isSuccess)
+                
             }
             .store(in: &cancellables)
     }
