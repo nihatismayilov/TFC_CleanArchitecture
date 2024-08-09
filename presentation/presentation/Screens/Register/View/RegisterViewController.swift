@@ -93,6 +93,8 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             termsConditionsLabel,
             sendButton
         )
+        bottomConstraint = sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        guard let bottomConstraint else{return}
         labelStackView.addArrangedSubviews(titleLabel, descriptionLabel)
         phoneNumberStackView.addArrangedSubviews(phoneHeaderLabel, phoneTextField)
         
@@ -120,10 +122,9 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             sendButton.heightAnchor.constraint(equalToConstant: 48),
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            bottomConstraint
             
         ])
-        bottomConstraint = sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
-        bottomConstraint?.isActive = true
         phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
         phoneTextField.delegate = self

@@ -27,7 +27,7 @@ class BottomSheetAnimatedTransitioning : NSObject, UIViewControllerAnimatedTrans
         }
         if let presented = transitionContext.view(forKey: .from) {
             UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: [.beginFromCurrentState, .curveEaseOut]) {
-                presented.frame.origin.y = presenter.frame.origin.y + 5
+                presented.frame.origin.y = presenter.frame.origin.y 
             } completion: { _ in
                 presented.removeFromSuperview()
                 transitionContext.completeTransition(true)

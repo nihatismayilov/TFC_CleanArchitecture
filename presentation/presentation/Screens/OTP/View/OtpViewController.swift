@@ -89,7 +89,7 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> ,OtpErrorPopU
     // MARK: - Initializations
     override func initViews() {
         setNavigationButton()
-        
+       
         view.addSubviews(
             labelStackView,
             resendStack,
@@ -97,6 +97,8 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> ,OtpErrorPopU
             termsConditionsLabel,
             confirmButton
         )
+        bottomConstraint = confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        guard let bottomConstraint else{return}
         labelStackView.addArrangedSubviews(titleLabel, descriptionLabel)
         resendStack.addArrangedSubviews(resendLabel, resendButton)
         
@@ -122,9 +124,9 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> ,OtpErrorPopU
             confirmButton.heightAnchor.constraint(equalToConstant: 48),
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            bottomConstraint
         ])
-        bottomConstraint = confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
-        bottomConstraint?.isActive = true
+        
         resendButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTap), for: .touchUpInside)
     }
@@ -143,8 +145,8 @@ public class OtpViewController: UIBaseViewController<OtpViewModel> ,OtpErrorPopU
                     //                    pushNavigation(Router.getPersonalInformationVC())
                 } else {
                     otpView.wrongOtp = true
-                    if viewModel.wrondOtpCase == 3 {
-                        viewModel.wrondOtpCase = 0
+                    if viewModel.wrongOtpCase == 3 {
+                        viewModel.wrongOtpCase = 0
                         let errorPopUpVc = Router.getOtpErrorVC()
                         errorPopUpVc.delegate = self
                         errorPopUpVc.modalPresentationStyle = .custom
