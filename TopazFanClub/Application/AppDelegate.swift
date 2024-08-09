@@ -21,11 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DomainDIConfigurator.configure(container: DIContainer.shared)
         DataDIConfigurator.configure(container: DIContainer.shared)
         
-//        let startVC = DIContainer.shared.resolve(TabbarController.self)!
+        let startVC = DIContainer.shared.resolve(TabbarController.self)!
 //        let startVC = DIContainer.shared.resolve(PersonalInformationViewController.self)!
 //        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
-        let startVC = DIContainer.shared.resolve(RegisterViewController.self)!
+//        let startVC = DIContainer.shared.resolve(RegisterViewController.self)!
 //        let startVC = DIContainer.shared.resolve(OtpViewController.self)!
+//        let startVC = DIContainer.shared.resolve(StoryViewController.self)!
         setupInitialPage(startVC)
         
         return true

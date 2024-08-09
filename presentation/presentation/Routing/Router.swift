@@ -43,6 +43,13 @@ class Router {
     static func getHomeViewController() -> HomeViewController {
         return DIContainer.shared.resolve(HomeViewController.self)!
     }
+    static func getStoryViewController(currentIndex: Int) -> StoryViewController {
+        let vc = DIContainer.shared.resolve(StoryViewController.self)!
+        vc.currentIndex = currentIndex
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .fullScreen
+        return vc
+    }
     static func getBottomSheetVC() -> BottomSheetViewController {
         return DIContainer.shared.resolve(BottomSheetViewController.self)!
     }

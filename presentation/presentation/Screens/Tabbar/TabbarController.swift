@@ -40,6 +40,7 @@ public class TabbarController: UITabBarController {
                 tabbarViews[x].centerYAnchor.constraint(equalTo: tabBar.centerYAnchor),
                 tabbarViews[x].widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/CGFloat(tabbarViews.count)),
                 tabbarViews[x].heightAnchor.constraint(equalTo: tabBar.heightAnchor),
+                tabbarViews[x].bottomAnchor.constraint(equalTo: tabBar.bottomAnchor, constant: -8),
             ])
             if x == 0 {
                 tabbarViews[x].leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true

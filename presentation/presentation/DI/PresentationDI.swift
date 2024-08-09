@@ -33,7 +33,10 @@ public struct PresentationDIConfigurator {
             DistrictSelectionViewController(vm: container.resolve(DistrictSelectionViewModel.self)!)
         }
         container.register(HomeViewController.self) {
-            HomeViewController(vm: container.resolve(BaseViewModel.self)!)
+            HomeViewController(vm: container.resolve(HomeViewModel.self)!)
+        }
+        container.register(StoryViewController.self) {
+            StoryViewController(vm: container.resolve(StoryViewModel.self)!)
         }
         container.register(BottomSheetViewController.self) {
             BottomSheetViewController()
@@ -63,6 +66,12 @@ public struct PresentationDIConfigurator {
         }
         container.register(DistrictSelectionViewModel.self) {
             return DistrictSelectionViewModel(regionUseCase: container.resolve(LocationUseCase.self)!)
+        }
+        container.register(HomeViewModel.self) {
+            return HomeViewModel(storyUseCase: container.resolve(StoryUseCase.self)!)
+        }
+        container.register(StoryViewModel.self) {
+            return StoryViewModel(storyUseCase: container.resolve(StoryUseCase.self)!)
         }
     }
 }

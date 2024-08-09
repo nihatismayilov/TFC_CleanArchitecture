@@ -75,3 +75,22 @@ extension LocationRemoteDTO {
         return Location(data: data.map({$0.map {$0.toDomain()}}), totalCount: totalCount)
     }
 }
+
+extension [StoryRemoteDTO] {
+    func toDomain() -> [StoryData] {
+        return self.map { data in
+            return StoryData(
+                id: data.id,
+                title: data.title,
+                fileURL: data.fileURL,
+                redirectURL: data.redirectURL,
+                priority: data.priority,
+                startDate: data.startDate,
+                endDate: data.endDate,
+                isRead: data.isRead,
+                isSuccess: data.id != nil,
+                message: data.message
+            )
+        }
+    }
+}

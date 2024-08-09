@@ -72,6 +72,10 @@ public struct DataDIConfigurator {
             LocationRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
         }
         
+        container.register(StoryRemoteDataSourceProtocol.self) {
+            StoryRemoteDataSource(dispatcher: container.resolve(Dispatcher.self)!)
+        }
+        
         // MARK: - Repo
 //        container.register(TestRepoProtocol.self) {
 //            TestRepo(
@@ -93,6 +97,11 @@ public struct DataDIConfigurator {
         container.register(LocationRepoProtocol.self) {
             LocationRepo(
                 remoteDataSourceProtocol: container.resolve(LocationRemoteDataSourceProtocol.self)!
+            )
+        }
+        container.register(StoryRepoProtocol.self) {
+            StoryRepo(
+                remoteDataSourceProtocol: container.resolve(StoryRemoteDataSourceProtocol.self)!
             )
         }
     }

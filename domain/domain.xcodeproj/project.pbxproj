@@ -23,6 +23,9 @@
 		B851F28F2C61055100A27339 /* LocationRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F28E2C61055100A27339 /* LocationRepoProtocol.swift */; };
 		B851F2912C61057800A27339 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2902C61057800A27339 /* City.swift */; };
 		B851F2962C6109FD00A27339 /* LocationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B851F2952C6109FD00A27339 /* LocationUseCase.swift */; };
+		B85211652C65F011009DFBBE /* StoryRepoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85211642C65F011009DFBBE /* StoryRepoProtocol.swift */; };
+		B85211672C65F037009DFBBE /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85211662C65F037009DFBBE /* Story.swift */; };
+		B852116E2C65F340009DFBBE /* StoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852116D2C65F340009DFBBE /* StoryUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +46,9 @@
 		B851F28E2C61055100A27339 /* LocationRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepoProtocol.swift; sourceTree = "<group>"; };
 		B851F2902C61057800A27339 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		B851F2952C6109FD00A27339 /* LocationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUseCase.swift; sourceTree = "<group>"; };
+		B85211642C65F011009DFBBE /* StoryRepoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryRepoProtocol.swift; sourceTree = "<group>"; };
+		B85211662C65F037009DFBBE /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
+		B852116D2C65F340009DFBBE /* StoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +124,7 @@
 				B846F7AB2C526808008E8407 /* RegisterRepoProtocol.swift */,
 				B851CEF62C5A4B94007AD613 /* CustomerRepoProtocol.swift */,
 				B851F28E2C61055100A27339 /* LocationRepoProtocol.swift */,
+				B85211642C65F011009DFBBE /* StoryRepoProtocol.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -128,6 +135,7 @@
 				B846F7AD2C5269B3008E8407 /* RegisterUseCase.swift */,
 				B851CEF82C5A4C20007AD613 /* CustomerUseCase.swift */,
 				B851F2952C6109FD00A27339 /* LocationUseCase.swift */,
+				B852116D2C65F340009DFBBE /* StoryUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -139,6 +147,7 @@
 				B851CEE82C5A37A7007AD613 /* Token.swift */,
 				B851F2802C60B95500A27339 /* Profile.swift */,
 				B851F2902C61057800A27339 /* City.swift */,
+				B85211662C65F037009DFBBE /* Story.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -226,7 +235,9 @@
 				B851CEE92C5A37A7007AD613 /* Token.swift in Sources */,
 				B851F2812C60B95500A27339 /* Profile.swift in Sources */,
 				B80BDA8E2C4E40F100DA8BB6 /* BaseObservableUseCase.swift in Sources */,
+				B85211672C65F037009DFBBE /* Story.swift in Sources */,
 				B846F7AC2C526808008E8407 /* RegisterRepoProtocol.swift in Sources */,
+				B852116E2C65F340009DFBBE /* StoryUseCase.swift in Sources */,
 				B80BDA9F2C4E41E200DA8BB6 /* Test.swift in Sources */,
 				B851CEF72C5A4B94007AD613 /* CustomerRepoProtocol.swift in Sources */,
 				B851F2912C61057800A27339 /* City.swift in Sources */,
@@ -234,6 +245,7 @@
 				B80BDA8C2C4E40E700DA8BB6 /* BaseAsyncThrowsUseCase.swift in Sources */,
 				B80BDA932C4E411F00DA8BB6 /* UIError.swift in Sources */,
 				B851F2962C6109FD00A27339 /* LocationUseCase.swift in Sources */,
+				B85211652C65F011009DFBBE /* StoryRepoProtocol.swift in Sources */,
 				B846F7AE2C5269B3008E8407 /* RegisterUseCase.swift in Sources */,
 				B851F28F2C61055100A27339 /* LocationRepoProtocol.swift in Sources */,
 				B80BDA912C4E411700DA8BB6 /* UnauthorizedError.swift in Sources */,
