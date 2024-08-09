@@ -8,6 +8,8 @@
 import UIKit
 
 public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
+    // MARK: - Variable
+    private var bottomConstraint : NSLayoutConstraint?
     // MARK: - UI Components
     private lazy var closeButton = BaseButton(
         image: UIImage(systemName: "xmark"),
@@ -72,6 +74,8 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
     // MARK: - Controller Delegates
     public override func viewDidLoad() {
         super.viewDidLoad()
+        guard let bottomConstraint else{return}
+        observeKeyboard(constraint: bottomConstraint)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +93,8 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             termsConditionsLabel,
             sendButton
         )
+        bottomConstraint = sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        guard let bottomConstraint else{return}
         labelStackView.addArrangedSubviews(titleLabel, descriptionLabel)
         phoneNumberStackView.addArrangedSubviews(phoneHeaderLabel, phoneTextField)
         
@@ -116,9 +122,9 @@ public class RegisterViewController: UIBaseViewController<RegisterViewModel> {
             sendButton.heightAnchor.constraint(equalToConstant: 48),
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            bottomConstraint
+            
         ])
-        
         phoneTextField.keyboardType = .numberPad
         errorLabel.isHidden = true
         phoneTextField.delegate = self

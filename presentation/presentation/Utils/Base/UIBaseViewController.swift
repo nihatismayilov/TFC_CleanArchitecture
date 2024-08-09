@@ -11,7 +11,8 @@ import Combine
 open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
     // MARK: - Variables
     private var cancellables: Set<AnyCancellable> = .init()
-    
+    private var bottomConstraintToHandle : NSLayoutConstraint?
+    private var constraintConstant : CGFloat?
     //var isPageInitialized = false
     
     private var loadingView = LoadingView()
@@ -53,11 +54,14 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         cancellables.removeAll()
     }
     
-    // MARK: - Handle BottomSheet presentation
-//    func presentAsBottomSheet(vc : UIViewController) {
-//        vc.transitioningDelegate = vc
-//    }
-    
+    // MARK: - Observe Keyboard
+    func observeKeyboard(constraint : NSLayoutConstraint) {
+        bottomConstraintToHandle = constraint
+        constraintConstant = constraint.constant
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     // MARK: - Initializations
     private func setupBase() {
         loadingView.frame = view.frame
@@ -172,6 +176,26 @@ open class UIBaseViewController<VM: BaseViewModel>: UIViewController {
         self.present(alert, animated: true)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let constraint = bottomConstraintToHandle{
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                constraint.constant = -keyboardSize.height
+                UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let constraint = bottomConstraintToHandle{
+            guard let constraintConstant else{return}
+            constraint.constant = constraintConstant
+            UIView.transition(with: view, duration: 0.5, options: .beginFromCurrentState) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
     // MARK: - Navigation
     func pushNavigation(_ vc: UIViewController) {
         self.navigationController?.pushViewController(vc, animated: true)

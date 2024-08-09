@@ -16,6 +16,7 @@
 		1EA44F202C5A2FA100BDA94C /* CitySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA44F1F2C5A2FA100BDA94C /* CitySelectionViewModel.swift */; };
 		1EA44F232C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA44F222C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift */; };
 		1ECBFA6A2C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */; };
+		1EDDFA782C65EFCD000BE131 /* OtpErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDDFA772C65EFCD000BE131 /* OtpErrorViewController.swift */; };
 		B80BDA0D2C4E3E5B00DA8BB6 /* presentation.h in Headers */ = {isa = PBXBuildFile; fileRef = B80BDA0C2C4E3E5B00DA8BB6 /* presentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B80BDADF2C4E773000DA8BB6 /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80BDADE2C4E773000DA8BB6 /* TestVC.swift */; };
 		B80BDAEC2C4E7AE400DA8BB6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B80BDAEA2C4E7AE400DA8BB6 /* Localizable.strings */; };
@@ -86,6 +87,7 @@
 		1EA44F1F2C5A2FA100BDA94C /* CitySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CitySelectionViewModel.swift; path = presentation/Screens/CitySelection/ViewModel/CitySelectionViewModel.swift; sourceTree = SOURCE_ROOT; };
 		1EA44F222C5A697400BDA94C /* CustomCityAndDistrictTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityAndDistrictTableViewCell.swift; sourceTree = "<group>"; };
 		1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetAnimatedTransitioning.swift; sourceTree = "<group>"; };
+		1EDDFA772C65EFCD000BE131 /* OtpErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpErrorViewController.swift; sourceTree = "<group>"; };
 		B80BDA092C4E3E5B00DA8BB6 /* presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80BDA0C2C4E3E5B00DA8BB6 /* presentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = presentation.h; sourceTree = "<group>"; };
 		B80BDADE2C4E773000DA8BB6 /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				1E214FF82C5FF9AA00CDED85 /* BottomSheetTransitioningDelegate.swift */,
 				1E214FF62C5FF94700CDED85 /* BottomSheetPresentationController.swift */,
 				1ECBFA692C609E4100C68A50 /* BottomSheetAnimatedTransitioning.swift */,
+				1EDDFA772C65EFCD000BE131 /* OtpErrorViewController.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -617,7 +620,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					B80BDA082C4E3E5B00DA8BB6 = {
 						CreatedOnToolsVersion = 15.3;
@@ -679,6 +682,7 @@
 				1E70685D2C5B668500366360 /* DistrictSelectionViewModel.swift in Sources */,
 				B8A9E6472C590E0A009D4B63 /* Double+Extensions.swift in Sources */,
 				B84136342C61E9CB0001E1D9 /* HomeViewController.swift in Sources */,
+				1EDDFA782C65EFCD000BE131 /* OtpErrorViewController.swift in Sources */,
 				B80BDAF52C4E82D600DA8BB6 /* PresentationDI.swift in Sources */,
 				B80BDAF22C4E7D5E00DA8BB6 /* InputView.swift in Sources */,
 				B80BDAF02C4E7BCB00DA8BB6 /* Localization+Extensions.swift in Sources */,

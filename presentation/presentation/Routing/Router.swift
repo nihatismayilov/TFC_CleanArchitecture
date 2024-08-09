@@ -53,4 +53,7 @@ class Router {
     static func getBottomSheetVC() -> BottomSheetViewController {
         return DIContainer.shared.resolve(BottomSheetViewController.self)!
     }
+    static func getOtpErrorVC() -> OtpErrorViewController {
+        return DIContainer.shared.resolve(OtpErrorViewController.self)!
+    }
 }

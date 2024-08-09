@@ -91,7 +91,10 @@ public class PersonalInformationViewController: UIBaseViewController<PersonalInf
     private lazy var dobInputView: InputView = {
         let view = InputView()
         view.rightImage = .icInfo
-        view.type = .birthday(minDate: nil, maxDate: Date())
+        
+        var dateComponent = DateComponents()
+        dateComponent.year = -18
+        view.type = .birthday(minDate: nil, maxDate: Calendar.current.date(byAdding: dateComponent, to: Date()))
         view.delegate = self
         view.placeHolder = "GG/AA/İİİİ"
         
