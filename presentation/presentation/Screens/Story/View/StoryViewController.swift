@@ -67,9 +67,9 @@ public class StoryViewController: UIBaseViewController<StoryViewModel> {
     // MARK: - Functions
     @objc func appWillEnterForeground() {
         if let cell = collectionView.cellForItem(at: IndexPath(item: currentIndex, section: 0)) as? StoryCollectionViewCell {
-            if cell.isImageLoaded {
+//            if cell.isImageLoaded {
                 cell.resetOrSetPlayer()
-            }
+//            }
         }
     }
 }
@@ -103,9 +103,9 @@ extension StoryViewController: UICollectionViewDelegate, UICollectionViewDataSou
             self.currentIndex = nextIndex
             let nextCell = collectionView.getCertainCell(type: StoryCollectionViewCell.self, index: currentIndex)
             previousCell.stopAndRemove()
-            if nextCell.isImageLoaded {
+//            if nextCell.isImageLoaded {
                 nextCell.resetOrSetPlayer()
-            }
+//            }
         }
     }
     
@@ -131,9 +131,9 @@ extension StoryViewController: StoryCollectionViewCellDelegate {
             self.currentIndex += index
             if let nextCell = self.collectionView.cellForItem(at: IndexPath(row: self.currentIndex, section: 0)) as? StoryCollectionViewCell {
                 cell.stopAndRemove()
-                if nextCell.isImageLoaded {
+//                if nextCell.isImageLoaded {
                     nextCell.resetOrSetPlayer()
-                }
+//                }
                 self.view.isUserInteractionEnabled = true
             } else {
                 self.dismiss(animated: true)
@@ -162,9 +162,9 @@ extension StoryViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             let cell = self.collectionView.getCertainCell(type: StoryCollectionViewCell.self, index: self.currentIndex)
-            if cell.isImageLoaded {
+//            if cell.isImageLoaded {
                 cell.resetOrSetPlayer()
-            }
+//            }
         })
     }
 }

@@ -16,7 +16,6 @@ protocol StoryCollectionViewCellDelegate: NSObject {
 
 class StoryCollectionViewCell: UICollectionViewCell {
     // MARK: - Variables
-    var isImageLoaded: Bool = false
     var navigationLink: String = ""
     weak var delegate: StoryCollectionViewCellDelegate?
     private var isPlaying = true {
@@ -98,12 +97,12 @@ class StoryCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        isImageLoaded = false
+//        isImageLoaded = false
     }
     
     // MARK: - Functions
     private func setup() {
-        isImageLoaded = false
+//        isImageLoaded = false
         contentView.addSubviews(barView, topStackView, imageView, linkStackView)
         topStackView.addArrangedSubviews(titleStackView, closeButton)
         titleStackView.addArrangedSubviews(titleImageBackView, storyTitleLabel)
@@ -153,13 +152,13 @@ class StoryCollectionViewCell: UICollectionViewCell {
         if let url = URL(string: data?.fileURL ?? "") {
             titleImageView.loadImage(with: url)
             imageView.loadImage(with: url)
-            isImageLoaded = true
+//            isImageLoaded = true
         }
         storyTitleLabel.text = data?.title
         navigationLink = data?.redirectURL ?? ""
-        if isImageLoaded, !barView.isAnimating {
-            barView.reset()
-        }
+//        if isImageLoaded, !barView.isAnimating {
+//            barView.reset()
+//        }
     }
     
     @objc func didTap(_ sender: UIButton) {
